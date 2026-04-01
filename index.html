@@ -10,20 +10,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-       (function(){
-          emailjs.init("xqlwWZCuWoC3VEz8F"); // Public Key của Duy
-       })();
-    </script>
-
     <style>
         :root { 
             --p: #ff0077; --s: #ffcc00; --bg: #f8f9fa; 
             --card: #ffffff; --text: #333;
             --grad: linear-gradient(90deg, #ff00cc, #3333ff, #ff00cc);
         }
-        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; transition: all 0.2s ease; }
         
         body { 
             margin: 0; background: #f0f2f5; color: var(--text); min-height: 100vh;
@@ -37,59 +30,63 @@
             display: flex; justify-content: space-between; 
             align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 15px rgba(0,0,0,0.1);
         }
-        .logo { font-size: 22px; font-weight: 900; color: #ff0077; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        .logo { font-size: 22px; font-weight: 900; color: #ff0077; text-transform: uppercase; letter-spacing: 1px; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-        .alert-run { background: #fff; padding: 10px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ff0077; animation: rgb-border 3s infinite linear; font-weight: bold; }
-        @keyframes rgb-border {
-            0% { border-color: #ff0000; } 33% { border-color: #00ff00; } 66% { border-color: #0000ff; } 100% { border-color: #ff0000; }
-        }
+        .alert-run { background: #fff; padding: 12px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ff0077; font-weight: bold; overflow: hidden; }
 
-        /* Introduction Blocks */
-        .intro-box { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 5px solid var(--p); font-size: 14px; line-height: 1.6; }
+        .intro-box { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 5px solid var(--p); font-size: 14px; line-height: 1.6; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .intro-box h4 { margin: 0 0 5px 0; color: var(--p); display: flex; align-items: center; gap: 5px; }
 
-        .section-title { text-align: center; color: #222; margin-top: 40px; font-weight: 900; position: relative; }
-        .section-title::after { content: ''; display: block; width: 50px; height: 4px; background: var(--p); margin: 8px auto; border-radius: 10px; }
+        .section-title { text-align: center; color: #222; margin-top: 40px; font-weight: 900; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--grad); margin: 8px auto; border-radius: 10px; }
 
-        .box-recharge, .wheel-container, .card, .hist-table { 
-            background: var(--card); border-radius: 20px; transition: 0.3s; margin-bottom: 30px;
+        .box-recharge, .wheel-container, .card, .hist-table, .commit-box { 
+            background: var(--card); border-radius: 20px; margin-bottom: 30px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee;
         }
-        .card { padding: 25px; text-align: center; position: relative; overflow: hidden; height: 100%; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255,0,119,0.15); border-color: var(--p); }
+        
+        .card { padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(255,0,119,0.15); border-color: var(--p); }
         
         .price-tag { background: var(--grad); color: #fff; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; display: inline-block; }
 
-        .wheel-container { padding: 30px; text-align: center; background: #fff; }
-        .wheel-wrap { position: relative; width: 280px; height: 280px; margin: 20px auto; border: 8px solid #333; border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+        .wheel-container { padding: 30px; text-align: center; }
+        .wheel-wrap { position: relative; width: 280px; height: 280px; margin: 20px auto; border: 8px solid #333; border-radius: 50%; overflow: visible; }
         .wheel-main {
             width: 100%; height: 100%; border-radius: 50%;
             position: relative; overflow: hidden; transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
             background: conic-gradient(
-                #ff66aa 0 60deg, #555 60deg 120deg, #ffcc00 120deg 180deg, 
-                #ff66aa 180deg 240deg, #555 240deg 300deg, #ffcc00 300deg 360deg
+                #ff66aa 0 60deg, #333 60deg 120deg, #ffcc00 120deg 180deg, 
+                #ff66aa 180deg 240deg, #333 240deg 300deg, #ffcc00 300deg 360deg
             );
         }
         .wheel-pointer { 
             width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; 
-            border-top: 30px solid #ff0077; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); z-index: 10; 
+            border-top: 30px solid #ff0077; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); z-index: 10; 
         }
 
-        .btn { background: var(--grad); color: #fff; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .btn:hover { opacity: 0.9; transform: scale(1.02); }
+        .btn { background: var(--grad); color: #fff; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; cursor: pointer; border-bottom: 3px solid rgba(0,0,0,0.2); }
+        .btn:hover { filter: brightness(1.1); transform: scale(1.02); }
+        .btn:active { transform: scale(0.98); border-bottom: none; margin-top: 3px; }
 
-        #history-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; }
-        .modal-content { background: #fff; width: 95%; max-width: 800px; max-height: 85vh; border-radius: 20px; padding: 25px; overflow-y: auto; }
+        #history-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: #fff; width: 95%; max-width: 800px; max-height: 85vh; border-radius: 25px; padding: 25px; overflow-y: auto; position: relative; }
 
-        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #f9f9f9; border: 1px solid #ddd; border-radius: 10px; outline: none; }
-        
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #f9f9f9; border: 1px solid #ddd; border-radius: 10px; font-size: 15px; }
+        input:focus { border-color: var(--p); background: #fff; }
+
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { background: #f4f4f4; padding: 12px; border-bottom: 2px solid #eee; }
+        th { background: #f4f4f4; padding: 12px; border-bottom: 2px solid #eee; text-align: center; }
         td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 14px; }
 
-        #auth-layer { position: fixed; inset: 0; background: #fff; z-index: 2000; display: flex; align-items: center; justify-content: center; }
+        .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+        .status-wait { background: #fff3cd; color: #856404; }
+        .status-success { background: #d4edda; color: #155724; }
+        .status-fail { background: #f8d7da; color: #721c24; }
+
+        #auth-layer { position: fixed; inset: 0; background: #f0f2f5; z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: #fff; padding: 40px; border-radius: 25px; width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid #eee; }
 
         #toast {
@@ -97,10 +94,46 @@
             padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             z-index: 9999; display: none; animation: slideIn 0.5s ease-out;
         }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        .commit-box { padding: 25px; border-top: 5px solid #2ecc71; }
+        .commit-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-weight: 600; }
+        .commit-item span { font-size: 20px; }
+
+        /* Messenger Button CSS */
+        .fb-messenger-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #0084ff;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 132, 255, 0.4);
+            cursor: pointer;
+            animation: pulse-blue 2s infinite;
+        }
+        .fb-messenger-btn svg { width: 30px; height: 30px; fill: white; }
+        @keyframes pulse-blue {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 132, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(0, 132, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 132, 255, 0); }
+        }
+
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         
         @media (max-width: 768px) {
-            .mobile-stack { grid-template-columns: 1fr !important; }
+            .mobile-stack { display: block !important; }
+            .mobile-stack > div { margin-bottom: 20px; }
+            header { padding: 10px 3%; }
+            .logo { font-size: 18px; }
+            .fb-messenger-btn { bottom: 15px; right: 15px; width: 50px; height: 50px; }
         }
     </style>
 </head>
@@ -108,36 +141,36 @@
 
 <header>
     <div class="logo">💎 CỤT TAY LUXURY</div>
-    <div style="display:flex; gap:10px; align-items:center;">
-        <div id="u-bal" style="color:#2ecc71; font-weight:bold; background:#eafaf1; padding:5px 15px; border-radius:10px;">0đ</div>
-        <button onclick="toggleHistory(true)" style="background:#3498db; color:#fff; border:none; padding:5px 12px; border-radius:10px; cursor:pointer; font-weight:bold;">LS</button>
-        <button onclick="auth.signOut()" style="background:#e74c3c; color:#fff; border:none; padding:5px 12px; border-radius:10px; cursor:pointer; font-weight:bold;">X</button>
+    <div style="display:flex; gap:8px; align-items:center;">
+        <div id="u-bal" style="color:#2ecc71; font-weight:bold; background:#eafaf1; padding:6px 12px; border-radius:10px; font-size: 14px;">0đ</div>
+        <button onclick="toggleHistory(true)" style="background:#3498db; color:#fff; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:bold; font-size:12px;">LỊCH SỬ</button>
+        <button onclick="auth.signOut()" style="background:#e74c3c; color:#fff; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:bold; font-size:12px;">THOÁT</button>
     </div>
 </header>
 
 <div class="container">
     <center>
-        <div class="admin-wrap" style="position:relative; display:inline-block; margin-bottom:20px;">
-            <button id="adm-btn" style="display:none; padding:12px 30px; border-radius:50px; background:#222; color:#fff; border:2px solid var(--p); cursor:pointer; font-weight:bold; font-size:16px;" onclick="document.getElementById('admin-panel').style.display='block'">⚙️ QUẢN TRỊ VIÊN</button>
-            <div id="admin-badge" style="position:absolute; top:-8px; right:-8px; background:red; color:white; font-size:13px; font-weight:bold; width:24px; height:24px; display:none; align-items:center; justify-content:center; border-radius:50%; border:2px solid white; box-shadow:0 2px 8px rgba(0,0,0,0.3); animation:pulse 1.5s infinite;">0</div>
+        <div id="adm-wrap" style="display:none; margin-bottom:20px;">
+            <button id="adm-btn" style="padding:12px 30px; border-radius:50px; background:#222; color:#fff; border:2px solid var(--p); cursor:pointer; font-weight:bold; position:relative;" onclick="document.getElementById('admin-panel').style.display='block'">
+                ⚙️ QUẢN TRỊ VIÊN
+                <div id="admin-badge" style="position:absolute; top:-8px; right:-8px; background:red; color:white; font-size:12px; width:22px; height:22px; display:none; align-items:center; justify-content:center; border-radius:50%; border:2px solid white; animation:pulse 1.5s infinite;">0</div>
+            </button>
         </div>
     </center>
 
-    <div class="alert-run"><marquee>🎁 KHUYẾN MÃI: Nạp thẻ nhận ngay X2 giá trị cho tài khoản mới! Túi mù Blox Fruit siêu cấp đã cập bến!</marquee></div>
+    <div class="alert-run"><marquee scrollamount="5">🎁 KHUYẾN MÃI: Nạp thẻ nhận ngay X2 giá trị cho tài khoản mới! Hệ thống tự động 100% - Uy tín tạo niềm tin!</marquee></div>
 
     <div class="mobile-stack" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        
         <div>
             <div class="intro-box">
                 <h4>💳 NẠP THẺ TỰ ĐỘNG</h4>
-                Hệ thống nạp thẻ tự động 24/7. Hỗ trợ tất cả các nhà mạng và thẻ game (Garena, Zing). Lưu ý: Vui lòng nhập đúng Mệnh giá để tránh mất thẻ.
+                Nhận thẻ Viettel, Mobi, Vina, Zing, Garena. Duyệt nhanh trong 1-3 phút. <b>Lưu ý:</b> Chọn sai mệnh giá sẽ mất thẻ!
             </div>
             <div class="box-recharge" style="padding:20px;">
                 <select id="card-net">
                     <option value="VIETTEL">VIETTEL</option>
                     <option value="MOBIFONE">MOBIFONE</option>
                     <option value="VINAPHONE">VINAPHONE</option>
-                    <option value="VIETNAMOBILE">VIETNAMOBILE</option>
                     <option value="ZING">ZING (VINAGAME)</option>
                     <option value="GARENA">GARENA</option>
                 </select>
@@ -158,35 +191,43 @@
         <div>
             <div class="intro-box">
                 <h4>🎡 VÒNG QUAY MAY MẮN</h4>
-                Chỉ với 20k/lượt, bạn có cơ hội trúng Acc Blox Fruit siêu phẩm có God Human hoặc Melee V2. Tỷ lệ trúng cực cao, thử ngay vận may của mình!
+                Chỉ <b>20,000đ</b> một lượt quay. Cơ hội trúng Acc có God Human, Melee V2 cực cao. Trúng là nhận ngay thông tin!
             </div>
             <div class="wheel-container">
                 <div class="wheel-wrap">
                     <div class="wheel-pointer"></div>
                     <div id="wheel" class="wheel-main"></div>
                 </div>
-                <button class="btn" onclick="spinWheel()" style="margin-top:15px; width:100%">🔥 THỬ VẬN MAY (20K) 🔥</button>
+                <button id="spin-btn" class="btn" onclick="spinWheel()" style="margin-top:15px; width:100%">🔥 THỬ VẬN MAY (20K) 🔥</button>
             </div>
         </div>
     </div>
 
-    <div class="intro-box" style="margin-top:20px;">
-        <h4>🛍️ KHÁM PHÁ TÚI MÙ BLOX FRUIT</h4>
-        Túi mù là dịch vụ bán tài khoản ngẫu nhiên theo từng phân khúc. Giá càng cao, tỉ lệ sở hữu vật phẩm quý (Kitsune, Mochi, Soul Guitar) càng lớn. Tài khoản được gửi ngay lập tức sau khi thanh toán thành công!
+    <h2 class="section-title">DANH SÁCH TÚI MÙ BLOX FRUIT</h2>
+    <div class="grid" id="shop-grid"></div>
+
+    <h2 class="section-title">CAM KẾT CỦA CHÚNG TÔI</h2>
+    <div class="commit-box">
+        <div class="commit-item"><span>✅</span> 100% Tài khoản đúng mô tả, sạch thông tin.</div>
+        <div class="commit-item"><span>🛡️</span> Bảo hành đổi trả nếu lỗi từ phía hệ thống.</div>
+        <div class="commit-item"><span>⚡</span> Giao dịch tự động, nhận nick sau 1 giây.</div>
     </div>
-    
-    <h2 class="section-title">DANH SÁCH TÚI MÙ</h2>
-    <div class="grid" id="shop-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:20px;"></div>
 </div>
 
-<div id="toast">✅ Đã gửi thẻ! Vui lòng chờ 1-3p để Admin duyệt.</div>
+<a href="https://www.facebook.com/share/1EHvSd95A4/" target="_blank" class="fb-messenger-btn" title="Hỗ trợ qua Messenger">
+    <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.463 5.494 3.75 7.184V22l3.414-1.875c.86.239 1.777.369 2.736.369 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.091 12.19l-2.5-2.673-4.886 2.672 5.375-5.716 2.568 2.673 4.818-2.672-5.375 5.716z"/>
+    </svg>
+</a>
+
+<div id="toast">✅ Đã gửi thẻ thành công!</div>
 
 <div id="history-modal">
     <div class="modal-content">
-        <button onclick="toggleHistory(false)" style="float:right; border:none; background:red; color:#fff; border-radius:5px; cursor:pointer; padding: 5px 10px;">ĐÓNG</button>
-        <h3 style="color:var(--p)">📜 LỊCH SỬ GIAO DỊCH</h3>
-        <p style="font-size: 12px; color: #666;">* Lưu ý: Tài khoản bạn mua sẽ hiện ở cột "Nội Dung".</p>
-        <div class="hist-table">
+        <button onclick="toggleHistory(false)" style="float:right; border:none; background:#e74c3c; color:#fff; border-radius:8px; cursor:pointer; padding: 6px 12px; font-weight:bold;">ĐÓNG</button>
+        <h3 style="color:var(--p); margin-top:0;">📜 LỊCH SỬ GIAO DỊCH</h3>
+        <p style="font-size: 12px; color: #888;">* Lưu ý: Nick bạn mua sẽ nằm ở cột "Nội Dung".</p>
+        <div style="overflow-x: auto;">
             <table>
                 <thead><tr><th>LOẠI</th><th>NỘI DUNG</th><th>GIÁ</th><th>TRẠNG THÁI</th></tr></thead>
                 <tbody id="hist-body"></tbody>
@@ -197,25 +238,25 @@
 
 <div id="auth-layer">
     <div class="login-box">
-        <h2 style="color:var(--p); text-align:center;">CỤT TAY SHOP</h2>
-        <div style="display:flex; margin-bottom:20px; background:#f0f0f0; border-radius:10px; padding:5px;">
+        <h2 style="color:var(--p); text-align:center; margin-bottom:30px;">CỤT TAY SHOP</h2>
+        <div style="display:flex; margin-bottom:20px; background:#f0f0f0; border-radius:12px; padding:5px;">
             <div id="tab-login" style="flex:1; text-align:center; cursor:pointer; font-weight:bold; color:var(--p); padding:10px;" onclick="toggleAuthMode(true)">ĐĂNG NHẬP</div>
             <div id="tab-reg" style="flex:1; text-align:center; cursor:pointer; font-weight:bold; color:#888; padding:10px;" onclick="toggleAuthMode(false)">ĐĂNG KÝ</div>
         </div>
         <input type="email" id="email" placeholder="Email của bạn">
         <input type="password" id="pass" placeholder="Mật khẩu (>6 ký tự)">
-        <button id="auth-btn" class="btn" style="width:100%" onclick="handleAuth()">ĐĂNG NHẬP NGAY</button>
+        <button id="auth-btn" class="btn" style="width:100%; margin-top:10px;" onclick="handleAuth()">ĐĂNG NHẬP NGAY</button>
     </div>
 </div>
 
 <div id="admin-panel" style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:3000; display:none; padding:20px; overflow-y:auto; color:#fff;">
-    <div style="max-width:800px; margin:0 auto; background:#222; padding:30px; border-radius:20px; border:1px solid #444;">
-        <button onclick="document.getElementById('admin-panel').style.display='none'" style="float:right; background:red; color:white; border:none; padding:5px 15px; border-radius:5px; cursor:pointer;">ĐÓNG</button>
-        <h3 style="color:var(--s)">BẢNG ĐIỀU KHIỂN ADMIN</h3>
+    <div style="max-width:800px; margin:0 auto; background:#1a1a1a; padding:30px; border-radius:25px; border:1px solid #333;">
+        <button onclick="document.getElementById('admin-panel').style.display='none'" style="float:right; background:#e74c3c; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">ĐÓNG</button>
+        <h3 style="color:var(--s); margin-top:0;">BẢNG ĐIỀU KHIỂN QUẢN TRỊ</h3>
         <div id="admin-pending-list" style="margin-top:20px;"></div>
-        <hr style="border:0.5px solid #444; margin:20px 0;">
-        <h4 style="color:var(--p)">📥 NẠP THÊM TÀI KHOẢN VÀO KHO</h4>
-        <select id="adm-p" style="background:#333; color:white;">
+        <hr style="border:0.5px solid #333; margin:25px 0;">
+        <h4 style="color:var(--p)">📥 THÊM NICK VÀO KHO</h4>
+        <select id="adm-p" style="background:#252525; color:white; border:1px solid #444;">
             <option value="WHEEL_ACC">🎡 Kho Vòng Quay</option>
             <option value="9000">📦 Kho Túi 9k</option>
             <option value="19000">🍱 Kho Túi 19k</option>
@@ -223,8 +264,8 @@
             <option value="99000">💎 Kho Túi 99k</option>
             <option value="499000">🔱 Kho Túi 499k</option>
         </select>
-        <textarea id="adm-list" rows="6" placeholder="Định dạng: user|pass (Mỗi dòng 1 nick)" style="background:#333; color:white;"></textarea>
-        <button class="btn" style="width:100%; background: #27ae60;" onclick="admAddStock()">LƯU KHO</button>
+        <textarea id="adm-list" rows="5" placeholder="Định dạng: user|pass (Mỗi dòng 1 nick)" style="background:#252525; color:white; border:1px solid #444;"></textarea>
+        <button class="btn" style="width:100%; background: #27ae60;" onclick="admAddStock()">LƯU VÀO KHO</button>
     </div>
 </div>
 
@@ -244,14 +285,14 @@
     const auth = firebase.auth(), db = firebase.database();
 
     const PRODUCTS = {
-        "9000": { n: "Túi Mù Tập Sự", d: "Lv 700+, Trái ngẫu nhiên.", i: "📦" },
-        "19000": { n: "Túi Mù Sea 2", d: "Đã mở khóa tộc, Sea 2 cực mượt.", i: "🍱" },
-        "49000": { n: "Túi Mù Sea 3", d: "100% Sea 3, tỷ lệ Soul Guitar.", i: "⚔️" },
-        "99000": { n: "Túi Mù VIP", d: "God Human, Melee V2, Max Lv.", i: "💎" },
-        "499000": { n: "TÚI MÙ THẦN THOẠI", d: "Leopard, Kitsune vĩnh viễn.", i: "🔱" }
+        "9000": { n: "Túi Mù Tập Sự", d: "Lv 700+ (Sea 1), sở hữu trái ngẫu nhiên để farm.", i: "📦" },
+        "19000": { n: "Túi Mù Sea 2", d: "Tài khoản đã sang Sea 2, mở khóa kỹ năng cơ bản.", i: "🍱" },
+        "49000": { n: "Túi Mù Sea 3", d: "100% Sea 3, tỉ lệ có Soul Guitar hoặc CDK.", i: "⚔️" },
+        "99000": { n: "Túi Mù VIP", d: "Max Level, có God Human, Melee V2, nhiều trái hiếm.", i: "💎" },
+        "499000": { n: "TÚI MÙ THẦN THOẠI", d: "Siêu phẩm: Tỉ lệ cực cao Leopard, Kitsune hoặc trái VV.", i: "🔱" }
     };
 
-    // --- AUTH ---
+    // --- AUTH LOGIC ---
     let isLoginMode = true;
     function toggleAuthMode(mode) {
         isLoginMode = mode;
@@ -262,51 +303,54 @@
 
     function handleAuth() {
         const e = document.getElementById('email').value, p = document.getElementById('pass').value;
-        if(!e || p.length < 6) return alert("Nhập đủ Email và Mật khẩu > 6 ký tự!");
-        if(isLoginMode) auth.signInWithEmailAndPassword(e, p).catch(err => alert("Lỗi: " + err.message));
-        else auth.createUserWithEmailAndPassword(e, p).then(r => db.ref('users/' + r.user.uid).set({ email: e, balance: 0 }));
+        if(!e || p.length < 6) return alert("Vui lòng nhập đủ Email và Mật khẩu > 6 ký tự!");
+        
+        if(isLoginMode) {
+            auth.signInWithEmailAndPassword(e, p).catch(err => alert("Lỗi đăng nhập: " + err.message));
+        } else {
+            auth.createUserWithEmailAndPassword(e, p).then(r => {
+                db.ref('users/' + r.user.uid).set({ email: e, balance: 0 });
+            }).catch(err => alert("Lỗi đăng ký: " + err.message));
+        }
     }
 
     auth.onAuthStateChanged(u => {
         if(u) {
             document.getElementById('auth-layer').style.display = 'none';
             db.ref('users/' + u.uid).on('value', s => {
-                document.getElementById('u-bal').innerText = (s.val()?.balance || 0).toLocaleString() + "đ";
+                const bal = s.val()?.balance || 0;
+                document.getElementById('u-bal').innerText = bal.toLocaleString() + "đ";
             });
             if(u.email === "levananhduy09@gmail.com") {
-                document.getElementById('adm-btn').style.display = 'block';
+                document.getElementById('adm-wrap').style.display = 'block';
                 listenAdmin();
             }
             renderShop(); loadHistory(u.uid); loadAdmin();
-        } else { document.getElementById('auth-layer').style.display = 'flex'; }
+        } else { 
+            document.getElementById('auth-layer').style.display = 'flex'; 
+        }
     });
 
-    // --- SUBMIT CARD (ĐÃ FIX) ---
+    // --- CARD SYSTEM ---
     function submitCard() {
         const u = auth.currentUser;
-        const net = document.getElementById('card-net').value, val = document.getElementById('card-val').value;
-        const pin = document.getElementById('card-pin').value, seri = document.getElementById('card-seri').value;
+        const net = document.getElementById('card-net').value;
+        const val = document.getElementById('card-val').value;
+        const pin = document.getElementById('card-pin').value;
+        const seri = document.getElementById('card-seri').value;
         if(!pin || !seri) return alert("Vui lòng nhập đầy đủ Mã thẻ và Seri!");
         
         const ref = db.ref('histories/' + u.uid).push();
-        const data = { id: ref.key, uid: u.uid, email: u.email, type: "NẠP THẺ", content: `${net} | P:${pin} | S:${seri}`, price: parseInt(val), status: "Chờ duyệt" };
+        const data = { 
+            id: ref.key, uid: u.uid, email: u.email, 
+            type: "NẠP THẺ", content: `${net} - Mệnh giá: ${parseInt(val).toLocaleString()}đ (PIN: ${pin} | SERI: ${seri})`, 
+            price: parseInt(val), status: "Chờ duyệt", time: Date.now() 
+        };
         
         ref.set(data); 
         db.ref('admin_pending/' + ref.key).set(data);
         
-        // Gửi thông báo về Gmail qua EmailJS
-        const templateParams = {
-            "email": u.email, 
-            "card_info": `${net} (PIN: ${pin} | SERI: ${seri})`,
-            "price": (val && !isNaN(val)) ? parseInt(val).toLocaleString() + "đ" : "0đ"
-        };
-
-        emailjs.send('service_n4rreek', 'template_b6x1nle', templateParams)
-            .then(() => console.log('Đã báo cho Admin qua Gmail!'))
-            .catch((err) => console.log('EmailJS Error: ', err));
-        
-        document.getElementById('toast').style.display = 'block';
-        setTimeout(() => document.getElementById('toast').style.display = 'none', 5000);
+        showToast("✅ Đã gửi thẻ! Admin sẽ duyệt sau ít phút.");
         document.getElementById('card-pin').value = '';
         document.getElementById('card-seri').value = '';
     }
@@ -319,12 +363,16 @@
             for(let p in PRODUCTS) {
                 const count = stock[p] ? Object.keys(stock[p]).length : 0;
                 grid.innerHTML += `<div class="card">
-                    <div class="price-tag">${parseInt(p).toLocaleString()}đ</div>
-                    <div style="font-size:40px;">${PRODUCTS[p].i}</div>
-                    <h4 style="margin:10px 0;">${PRODUCTS[p].n}</h4>
-                    <p style="font-size:13px; color:#666; min-height:40px;">${PRODUCTS[p].d}</p>
-                    <p>Trong kho: <b style="color:var(--p)">${count}</b></p>
-                    <button class="btn" style="width:100%" onclick="buy('${p}')">MUA NGAY</button>
+                    <div>
+                        <div class="price-tag">${parseInt(p).toLocaleString()}đ</div>
+                        <div style="font-size:50px; margin:10px 0;">${PRODUCTS[p].i}</div>
+                        <h4 style="margin:5px 0; font-size:18px;">${PRODUCTS[p].n}</h4>
+                        <p style="font-size:13px; color:#666; min-height:40px;">${PRODUCTS[p].d}</p>
+                        <p style="font-size:14px;">Còn lại: <b style="color:var(--p)">${count}</b></p>
+                    </div>
+                    <button class="btn" style="width:100%" onclick="buy('${p}')" ${count === 0 ? 'disabled style="filter:grayscale(1)"' : ''}>
+                        ${count === 0 ? 'HẾT HÀNG' : 'MUA NGAY'}
+                    </button>
                 </div>`;
             }
         });
@@ -332,66 +380,74 @@
 
     function buy(p) {
         const u = auth.currentUser;
+        if(!confirm(`Xác nhận mua ${PRODUCTS[p].n} với giá ${parseInt(p).toLocaleString()}đ?`)) return;
+
         db.ref('users/' + u.uid).once('value', s => {
             const bal = s.val().balance || 0;
-            if(bal < parseInt(p)) return alert("Số dư không đủ! Hãy nạp thêm thẻ.");
+            const price = parseInt(p);
+            if(bal < price) return alert("Số dư không đủ! Vui lòng nạp thêm thẻ.");
+
             db.ref('inventory/' + p).limitToFirst(1).once('value', inv => {
-                if(!inv.exists()) return alert("Sản phẩm này hiện đang hết hàng!");
+                if(!inv.exists()) return alert("Sản phẩm này vừa hết hàng!");
+                
                 const key = Object.keys(inv.val())[0], acc = inv.val()[key];
+                
                 db.ref('inventory/' + p + '/' + key).remove().then(() => {
-                    db.ref('users/' + u.uid).update({ balance: bal - parseInt(p) });
-                    db.ref('histories/' + u.uid).push({ type: "MUA TÚI", content: "Acc: " + acc, price: parseInt(p), status: "Thành công" });
-                    alert("Mua thành công! Tài khoản: " + acc + "\nBạn có thể xem lại trong Lịch Sử.");
+                    db.ref('users/' + u.uid).update({ balance: bal - price });
+                    db.ref('histories/' + u.uid).push({ 
+                        type: "MUA TÚI", content: "Nick: " + acc, 
+                        price: price, status: "Thành công", time: Date.now() 
+                    });
+                    alert("MUA THÀNH CÔNG!\nThông tin: " + acc);
                 });
             });
         });
     }
 
-    function loadHistory(uid) {
-        db.ref('histories/' + uid).on('value', s => {
-            const b = document.getElementById('hist-body'); b.innerHTML = '';
-            if(s.exists()) Object.keys(s.val()).reverse().forEach(k => {
-                const h = s.val()[k];
-                const price = (h.price && !isNaN(h.price)) ? h.price.toLocaleString() : "0";
-                b.innerHTML += `<tr><td>${h.type}</td><td>${h.content}</td><td>${price}đ</td><td>${h.status}</td></tr>`;
-            });
-        });
-    }
-
+    // --- WHEEL SYSTEM ---
+    let isSpinning = false;
     function spinWheel() {
+        if(isSpinning) return;
         const u = auth.currentUser;
+        
         db.ref('users/' + u.uid).once('value', s => {
             const bal = s.val()?.balance || 0;
-            if (bal < 20000) return alert("Bạn cần 20k trong tài khoản để quay!");
+            if (bal < 20000) return alert("Bạn cần tối thiểu 20,000đ để quay!");
+            
+            isSpinning = true;
+            document.getElementById('spin-btn').disabled = true;
             
             db.ref('users/' + u.uid).update({ balance: bal - 20000 });
-            const deg = 3600 + Math.random() * 3600;
-            document.getElementById('wheel').style.transform = `rotate(${deg}deg)`;
+            
+            const randomDeg = Math.floor(Math.random() * 360) + 3600; 
+            document.getElementById('wheel').style.transform = `rotate(${randomDeg}deg)`;
             
             setTimeout(() => {
-                const rand = Math.random() * 100;
-                if (rand < 50) { // 50% trượt
-                    db.ref('histories/' + u.uid).push({ type: "VÒNG QUAY", content: "Chúc may mắn lần sau", price: 20000, status: "Hụt" });
-                    alert("Thật đáng tiếc, bạn chưa trúng rồi!");
-                } else {
+                const winChance = Math.random() * 100;
+                if (winChance < 40) { 
                     db.ref('inventory/WHEEL_ACC').limitToFirst(1).once('value', inv => {
                         if (inv.exists()) {
                             const key = Object.keys(inv.val())[0], acc = inv.val()[key];
                             db.ref('inventory/WHEEL_ACC/' + key).remove().then(() => {
-                                db.ref('histories/' + u.uid).push({ type: "VÒNG QUAY", content: "Trúng: " + acc, price: 20000, status: "Thành công" });
-                                alert("CHÚC MỪNG! Bạn đã trúng Acc: " + acc);
+                                db.ref('histories/' + u.uid).push({ type: "VÒNG QUAY", content: "Trúng Nick: " + acc, price: 20000, status: "Thành công", time: Date.now() });
+                                alert("CHÚC MỪNG! Bạn đã trúng: " + acc);
                             });
-                        } else { 
-                            db.ref('users/' + u.uid).update({ balance: bal }); // Hoàn tiền nếu hết acc
-                            alert("Kho quà quay hiện đang hết, hệ thống đã hoàn lại 20k!"); 
+                        } else {
+                            db.ref('users/' + u.uid).update({ balance: bal }); 
+                            alert("Kho quà hết sạch, shop đã hoàn lại 20,000đ cho bạn!");
                         }
                     });
+                } else {
+                    db.ref('histories/' + u.uid).push({ type: "VÒNG QUAY", content: "Chúc may mắn lần sau", price: 20000, status: "Không trúng", time: Date.now() });
+                    alert("Kém may mắn rồi! Chúc bạn trúng ở lần quay sau.");
                 }
+                isSpinning = false;
+                document.getElementById('spin-btn').disabled = false;
             }, 5000);
         });
     }
 
-    // --- ADMIN SYSTEM ---
+    // --- ADMIN LOGIC ---
     function listenAdmin() {
         db.ref('admin_pending').on('value', snap => {
             const count = snap.numChildren();
@@ -403,26 +459,29 @@
 
     function loadAdmin() {
         db.ref('admin_pending').on('value', s => {
-            const div = document.getElementById('admin-pending-list'); div.innerHTML = '<h4>Thẻ chờ duyệt:</h4>';
+            const div = document.getElementById('admin-pending-list'); 
+            div.innerHTML = '<h4 style="margin-bottom:15px;">Thẻ đang chờ duyệt:</h4>';
+            if(!s.exists()) div.innerHTML += '<p style="color:#888">Hiện không có thẻ nào cần duyệt.</p>';
             s.forEach(c => {
                 const i = c.val();
-                div.innerHTML += `<div style="background:#333; padding:15px; margin-bottom:10px; border-radius:10px; border:1px solid #444;">
-                    <b>${i.email}</b> <br> Mệnh giá: ${i.price.toLocaleString()}đ <br> 
-                    <code style="color:var(--s)">${i.content}</code> <br><br>
-                    <button style="background:green; color:white; border:none; padding:5px 15px; border-radius:5px;" onclick="approve('${i.uid}','${i.id}',${i.price})">Duyệt Thẻ</button>
-                    <button style="background:orange; color:white; border:none; padding:5px 15px; border-radius:5px;" onclick="reject('${i.uid}','${i.id}')">Thẻ Sai</button>
+                div.innerHTML += `<div style="background:#252525; padding:15px; margin-bottom:10px; border-radius:15px; border-left:4px solid var(--s);">
+                    <small>${i.email}</small> <br> 
+                    <b style="color:var(--s)">${i.price.toLocaleString()}đ</b> <br>
+                    <code style="display:block; background:#000; padding:8px; margin:8px 0; border-radius:5px; font-size:12px;">${i.content}</code>
+                    <div style="display:flex; gap:10px;">
+                        <button style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; flex:1; font-weight:bold;" onclick="approve('${i.uid}','${i.id}',${i.price})">DUYỆT</button>
+                        <button style="background:#e67e22; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; flex:1; font-weight:bold;" onclick="reject('${i.uid}','${i.id}')">SAI THẺ</button>
+                    </div>
                 </div>`;
             });
         });
     }
 
     function approve(uid, hid, amt) {
-        db.ref('users/' + uid).once('value', s => {
-            db.ref('users/' + uid).update({ balance: (s.val().balance || 0) + amt });
-            db.ref('histories/' + uid + '/' + hid).update({ status: "Thành công" });
-            db.ref('admin_pending/' + hid).remove();
-            alert("Đã cộng tiền cho khách!");
-        });
+        db.ref('users/' + uid + '/balance').transaction(current => (current || 0) + amt);
+        db.ref('histories/' + uid + '/' + hid).update({ status: "Thành công" });
+        db.ref('admin_pending/' + hid).remove();
+        alert("Đã duyệt thẻ!");
     }
 
     function reject(uid, hid) {
@@ -432,11 +491,46 @@
     }
 
     function admAddStock() {
-        const p = document.getElementById('adm-p').value, list = document.getElementById('adm-list').value.split('\n');
+        const p = document.getElementById('adm-p').value;
+        const list = document.getElementById('adm-list').value.split('\n');
         let count = 0;
-        list.forEach(a => { if(a.trim()) { db.ref('inventory/' + p).push(a.trim()); count++; } });
-        alert(`Đã thêm thành công ${count} tài khoản vào kho!`);
+        list.forEach(a => { 
+            if(a.trim()) { 
+                db.ref('inventory/' + p).push(a.trim()); 
+                count++; 
+            } 
+        });
+        alert(`Đã thêm ${count} nick vào ${p}`);
         document.getElementById('adm-list').value = '';
+    }
+
+    // --- UTILS ---
+    function loadHistory(uid) {
+        db.ref('histories/' + uid).on('value', s => {
+            const b = document.getElementById('hist-body'); b.innerHTML = '';
+            if(s.exists()) {
+                const data = [];
+                s.forEach(child => { data.push(child.val()); });
+                data.reverse().forEach(h => {
+                    const statusClass = h.status === 'Thành công' ? 'status-success' : (h.status === 'Chờ duyệt' ? 'status-wait' : 'status-fail');
+                    b.innerHTML += `<tr>
+                        <td><b>${h.type}</b></td>
+                        <td style="max-width:200px; word-wrap:break-word;">${h.content}</td>
+                        <td>${(h.price || 0).toLocaleString()}đ</td>
+                        <td><span class="status-badge ${statusClass}">${h.status}</span></td>
+                    </tr>`;
+                });
+            } else {
+                b.innerHTML = '<tr><td colspan="4">Bạn chưa có giao dịch nào.</td></tr>';
+            }
+        });
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 4000);
     }
 
     function toggleHistory(show) { document.getElementById('history-modal').style.display = show ? 'flex' : 'none'; }
