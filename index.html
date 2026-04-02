@@ -104,8 +104,31 @@
         #auth-layer { position: fixed; inset: 0; background: #f0f2f5; z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .login-box { background: #fff; padding: 30px; border-radius: 25px; width: 90%; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
         
-        #toast { position: fixed; top: 80px; right: 20px; background: #333; color: white; padding: 15px 25px; border-radius: 10px; z-index: 9999; display: none; animation: slideIn 0.3s ease; border-left: 5px solid var(--p); }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+       #toast{
+position:fixed;
+top:90px;
+right:20px;
+min-width:260px;
+padding:15px 20px;
+border-radius:14px;
+color:white;
+font-weight:bold;
+z-index:9999;
+display:none;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+animation:toastIn .35s ease;
+backdrop-filter:blur(10px);
+}
+
+.toast-success{background:linear-gradient(135deg,#00c853,#2ecc71);}
+.toast-error{background:linear-gradient(135deg,#ff1744,#e74c3c);}
+.toast-warning{background:linear-gradient(135deg,#ff9100,#f39c12);}
+.toast-info{background:linear-gradient(135deg,#2979ff,#3498db);}
+
+@keyframes toastIn{
+from{transform:translateX(120%);opacity:0}
+to{transform:translateX(0);opacity:1}
+}
 
         .fb-messenger-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: #0084ff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0, 132, 255, 0.4); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
@@ -365,7 +388,7 @@
         };
         ref.set(data).then(() => {
             db.ref('histories/' + u.uid + '/' + ref.key).set(data);
-            showToast("✅ Đã gửi thẻ! Vui lòng đợi Admin duyệt.");
+            showToast("Đã gửi thẻ! Vui lòng đợi Admin duyệt.","success");
             document.getElementById('card-pin').value = ''; document.getElementById('card-seri').value = '';
             btn.disabled = false;
         });
@@ -409,7 +432,7 @@
                     };
                     db.ref('histories/' + u.uid).push().set(log);
                     db.ref('all_sales').push().set(log);
-                    alert("GIAO DỊCH THÀNH CÔNG!\nThông tin tài khoản: " + acc);
+                    showResult("🎉 MUA THÀNH CÔNG","Tài khoản: "+acc);
                 });
             });
         });
@@ -438,20 +461,29 @@
                         const key = Object.keys(inv.val())[0], acc = inv.val()[key];
                         db.ref('inventory/WHEEL_ACC/' + key).remove();
                         logData.content = "Trúng Nick: " + acc; logData.status = "Thành công";
-                        alert("CHÚC MỪNG! Bạn đã trúng Acc: " + acc);
+                        showResult("🎡 QUAY TRÚNG","Acc: "+acc);
                     } else {
                         logData.content = "Không trúng (Hết quà)"; logData.status = "Hết hàng";
                         alert("Rất tiếc! Quà trong kho đã hết, vui lòng báo Admin.");
                     }
-                    db.ref('histories/' + u.uid).push().set(logData);
-                    db.ref('all_sales').push().set(logData);
-                    isSpinning = false; 
-                    document.getElementById('spin-btn').disabled = false;
-                    document.getElementById('wheel').style.transform = `rotate(0deg)`; // Reset nhẹ
-                });
-            }, 5000);
-        });
-    }
+db.ref('histories/' + u.uid).push().set(logData);
+db.ref('all_sales').push().set(logData);
+
+isSpinning = false; 
+document.getElementById('spin-btn').disabled = false;
+
+// reset mượt không giật
+const wheel = document.getElementById('wheel');
+wheel.style.transition = "none";
+wheel.style.transform = "rotate(0deg)";
+setTimeout(() => {
+    wheel.style.transition = "transform 5s cubic-bezier(0.15,0,0.15,1)";
+}, 50);
+
+});
+}, 5000);
+});
+}
 
     // --- ADMIN SYSTEM ---
     function switchAdminTab(tab) {
@@ -495,13 +527,13 @@
         db.ref('users/' + uid + '/balance').transaction(c => (c || 0) + amt);
         db.ref('histories/' + uid + '/' + id).update({ status: "Thành công" });
         db.ref('admin_pending/' + id).remove();
-        showToast("Đã cộng " + amt.toLocaleString() + "đ cho khách.");
+        showToast("Đã cộng " + amt.toLocaleString() + "đ cho khách.","success");
     }
 
     function reject(uid, id) {
         db.ref('histories/' + uid + '/' + id).update({ status: "Thất bại" });
         db.ref('admin_pending/' + id).remove();
-        showToast("Đã từ chối thẻ sai.");
+        showToast("Đã từ chối thẻ sai.","warning");
     }
 
     function admAddStock() {
@@ -549,11 +581,70 @@
         });
     }
 
-    function showToast(msg) {
-        const t = document.getElementById('toast'); t.innerText = msg; t.style.display = 'block';
-        setTimeout(() => t.style.display = 'none', 3500);
-    }
-    function toggleHistory(show) { document.getElementById('history-modal').style.display = show ? 'flex' : 'none'; }
+    function showToast(msg,type="info") {
+    const t = document.getElementById('toast');
+
+    t.className="";
+    t.classList.add("toast-"+type);
+
+    let icon="🔔";
+    if(type==="success") icon="✅";
+    if(type==="error") icon="❌";
+    if(type==="warning") icon="⚠️";
+
+    t.innerHTML = icon+" "+msg;
+    t.style.display="block";
+
+    setTimeout(()=>{
+        t.style.display="none";
+    },3500);
+}
+
+// thêm 2 cái này ngay dưới 👇
+function showResult(title,content){
+    let order = "OD" + Date.now().toString().slice(-6);
+
+    let tk = content.split("|")[0] || "";
+    let mk = content.split("|")[1] || "";
+
+    document.getElementById("resultTitle").innerText = title;
+
+    document.getElementById("resultContent").innerHTML = `
+    <div style="text-align:left;font-size:14px">
+        🧾 <b>Mã đơn:</b> ${order}<br><br>
+
+        👤 <b>Tài khoản:</b>
+        <div style="display:flex;gap:5px;margin:5px 0">
+            <input id="tkcopy" value="${tk}" readonly style="flex:1">
+            <button onclick="copyText('tkcopy')" class="btn">Copy</button>
+        </div>
+
+        🔑 <b>Mật khẩu:</b>
+        <div style="display:flex;gap:5px;margin:5px 0">
+            <input id="mkcopy" value="${mk}" readonly style="flex:1">
+            <button onclick="copyText('mkcopy')" class="btn">Copy</button>
+        </div>
+    </div>
+    `;
+
+    document.getElementById("resultBox").style.display = "flex";
+}
+
+function closeResult(){
+    document.getElementById("resultBox").style.display = "none";
+}
+
+function copyText(id){
+    let copy = document.getElementById(id);
+    copy.select();
+    document.execCommand("copy");
+    showToast("Đã copy","success");
+}
+
+function toggleHistory(show) {
+    document.getElementById('history-modal').style.display = show ? 'flex' : 'none';
+}
+
 </script>
 <footer style="background: #1a1a1a; color: #fff; padding: 40px 0 20px; margin-top: 50px; border-top: 4px solid var(--p);">
     <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
@@ -601,6 +692,12 @@
         Copyright © 2026 <b>CUT TAY LUXURY</b>. Designed by Le Van Anh Duy .
     </div>
 </footer>
-
+<div id="resultBox" style="position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; z-index:99999;">
+    <div style="background:white; padding:25px; border-radius:20px; width:90%; max-width:420px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.3); animation:popIn .3s ease;">
+        <h3 id="resultTitle" style="color:#ff0077;margin-top:0;">🎉 THÀNH CÔNG</h3>
+        <div id="resultContent" style="background:#f5f5f5;padding:15px;border-radius:10px;margin:15px 0;font-family:monospace;"></div>
+        <button onclick="closeResult()" class="btn" style="width:100%;">OK</button>
+    </div>
+</div>
 </body>
 </html>
