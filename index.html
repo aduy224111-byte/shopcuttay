@@ -3,701 +3,716 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CụT Tay Luxury - Shop Acc Blox Fruit Uy Tín</title>
-    
+    <title>DuyAh VNX • License Manager</title>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { 
-            --p: #ff0077; --s: #ffcc00; --bg: #f8f9fa; 
-            --card: #ffffff; --text: #333;
-            --grad: linear-gradient(135deg, #ff00cc, #3333ff);
-            --neon: 0 0 15px rgba(255, 0, 119, 0.3);
+        :root {
+            --p: #ff0077;
+            --s: #ffcc00;
+            --bg: #0a0a0f;
+            --card: #111122;
+            --card-border: #2a1a4a;
+            --text: #e0e0ff;
+            --text-muted: #8888aa;
+            --neon-pink: #ff2d75;
+            --neon-blue: #00d4ff;
+            --neon-green: #00ff88;
+            --neon-purple: #a855f7;
         }
-        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; transition: all 0.3s ease; }
-        
-        body { 
-            margin: 0; background: #f0f2f5; color: var(--text); min-height: 100vh;
-            background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
-            background-size: 20px 20px;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+            background: radial-gradient(circle at 20% 30%, rgba(96, 165, 250, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.15), transparent 50%),
+                        var(--bg);
+            color: var(--text);
+            min-height: 100vh;
         }
+        .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
 
-        header { 
-            padding: 10px 5%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-            border-bottom: 3px solid transparent; border-image: var(--grad) 1;
-            display: flex; justify-content: space-between; 
-            align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0;
+            width: 270px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(30px);
+            border-right: 1px solid var(--card-border);
+            padding: 30px 20px;
+            z-index: 100;
+            box-shadow: 5px 0 50px rgba(96, 165, 250, 0.15);
         }
-        .logo { font-size: 18px; font-weight: 900; color: #ff0077; text-transform: uppercase; letter-spacing: 1px; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
-
-        .alert-run { background: #fff; padding: 10px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #ff0077; font-weight: bold; overflow: hidden; box-shadow: var(--neon); }
-
-        .mobile-stack { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .mobile-stack { grid-template-columns: 1fr; } .logo { font-size: 14px; } }
-
-        .intro-box { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 5px solid var(--p); font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .intro-box h4 { margin: 0 0 5px 0; color: var(--p); display: flex; align-items: center; gap: 8px; }
-
-        .section-title { text-align: center; color: #222; margin: 30px 0 20px; font-weight: 900; font-size: 22px; text-transform: uppercase; position: relative; }
-        .section-title::after { content: ''; display: block; width: 50px; height: 4px; background: var(--p); margin: 8px auto; border-radius: 2px; }
-
-        .box-recharge, .wheel-container, .card, .commit-box { 
-            background: var(--card); border-radius: 20px; margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee;
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 45px;
         }
-        
-        .card { padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; overflow: hidden; }
-        .card::before { content: "HOT"; position: absolute; top: 10px; right: -25px; background: #ffcc00; color: #000; padding: 2px 30px; font-size: 10px; font-weight: bold; transform: rotate(45deg); z-index: 1; }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(255, 0, 119, 0.2); border-color: var(--p); }
-        
-        .price-tag { background: var(--grad); color: #fff; padding: 6px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; display: inline-block; font-size: 14px; }
-
-        .wheel-container { padding: 20px; text-align: center; background: radial-gradient(circle, #fff 0%, #f9f9f9 100%); }
-        .wheel-wrap { 
-            position: relative; width: 280px; height: 280px; margin: 10px auto; 
-            border: 8px solid #333; border-radius: 50%; 
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        .logo-d {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #60a5fa, #c026d3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 0 40px rgba(96, 165, 250, 0.6);
         }
-        .wheel-main {
-            width: 100%; height: 100%; border-radius: 50%;
-            transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
-            background: conic-gradient(
-                #ff66aa 0deg 60deg, #333 60deg 120deg, 
-                #ffcc00 120deg 180deg, #ff66aa 180deg 240deg, 
-                #333 240deg 300deg, #ffcc00 300deg 360deg
-            );
+        .sidebar-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .wheel-wrap::after {
-            content: "GO"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; background: white; border-radius: 50%; z-index: 12;
-            display: flex; align-items: center; justify-content: center; font-weight: 900;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3); border: 4px solid #333;
+        .menu button {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
         }
-        .wheel-pointer { 
-            width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; 
-            border-top: 30px solid #ff0077; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); z-index: 20;
+        .menu button:hover {
+            transform: translateX(6px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
         }
+        .menu button i { font-size: 1.1rem; width: 24px; color: var(--neon-blue); }
 
-        .btn { background: var(--grad); color: #fff; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; cursor: pointer; }
-        .btn:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-2px); }
-        .btn:disabled { filter: grayscale(1); cursor: not-allowed; }
+        /* ===== MAIN ===== */
+        .main {
+            margin-left: 270px;
+            padding: 30px 40px;
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-info .email { color: var(--text-muted); font-size: 0.9rem; }
+        .user-info .badge {
+            background: var(--neon-pink);
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #fff;
+        }
+        .btn-logout {
+            background: #ef4444;
+            border: none;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .btn-logout:hover { background: #dc2626; transform: scale(1.02); }
 
-        /* Modal & UI */
-        #history-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); padding: 10px; }
-        .modal-content { background: #fff; width: 100%; max-width: 800px; max-height: 85vh; border-radius: 20px; padding: 20px; overflow-y: auto; }
-        
-        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #f9f9f9; border: 1px solid #ddd; border-radius: 10px; outline: none; font-size: 14px; }
-        input:focus { border-color: var(--p); background: #fff; }
-        
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th, td { padding: 12px 8px; border-bottom: 1px solid #eee; text-align: center; }
-        .status-badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
-        .status-wait { background: #fff3cd; color: #856404; }
-        .status-success { background: #d4edda; color: #155724; }
-        .status-fail { background: #f8d7da; color: #721c24; }
+        /* ===== STATS ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px 20px;
+            transition: 0.3s;
+        }
+        .stat-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); }
+        .stat-card h4 { color: var(--text-muted); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card p { font-size: 1.8rem; font-weight: 700; background: linear-gradient(90deg, #60a5fa, #c026d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        #auth-layer { position: fixed; inset: 0; background: #f0f2f5; z-index: 2000; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: #fff; padding: 30px; border-radius: 25px; width: 90%; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
-        
-       #toast{
-position:fixed;
-top:90px;
-right:20px;
-min-width:260px;
-padding:15px 20px;
-border-radius:14px;
-color:white;
-font-weight:bold;
-z-index:9999;
-display:none;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-animation:toastIn .35s ease;
-backdrop-filter:blur(10px);
-}
+        /* ===== TOOLBAR ===== */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: linear-gradient(135deg, #60a5fa, #c026d3); color: #fff; }
+        .btn-success { background: var(--neon-green); color: #000; }
+        .btn-danger { background: #ef4444; color: #fff; }
+        .btn-warning { background: var(--s); color: #000; }
+        .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
+        .search-input {
+            padding: 10px 18px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            color: #fff;
+            width: 220px;
+            font-size: 0.85rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.15); }
 
-.toast-success{background:linear-gradient(135deg,#00c853,#2ecc71);}
-.toast-error{background:linear-gradient(135deg,#ff1744,#e74c3c);}
-.toast-warning{background:linear-gradient(135deg,#ff9100,#f39c12);}
-.toast-info{background:linear-gradient(135deg,#2979ff,#3498db);}
+        /* ===== TABLE ===== */
+        .table-wrap {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: auto;
+            padding: 0 5px;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 800px; }
+        th { padding: 14px 12px; text-align: left; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
+        td { padding: 12px; border-bottom: 1px solid rgba(42, 26, 74, 0.4); }
+        tr:hover td { background: rgba(42, 26, 74, 0.2); }
+        .status {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-unused { background: #f59e0b; color: #000; }
+        .status-used { background: var(--neon-green); color: #000; }
+        .status-banned { background: #ef4444; color: #fff; }
+        .status-expired { background: #6b7280; color: #fff; }
+        .key-text { color: var(--neon-pink); font-weight: 600; letter-spacing: 0.5px; }
+        .action-btn {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 2px;
+            transition: 0.2s;
+        }
+        .action-btn:hover { transform: scale(1.05); }
 
-@keyframes toastIn{
-from{transform:translateX(120%);opacity:0}
-to{transform:translateX(0);opacity:1}
-}
+        /* ===== LOGIN ===== */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 4, 10, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+        .login-box {
+            width: 440px;
+            padding: 50px 40px;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.98);
+            border-radius: 28px;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.15);
+            animation: loginSlide 0.6s ease-out;
+        }
+        @keyframes loginSlide {
+            0% { opacity: 0; transform: scale(0.9) translateY(-30px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .login-box .logo-big {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #60a5fa, #c026d3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 900;
+            color: #fff;
+            margin: 0 auto 18px;
+            box-shadow: 0 0 50px rgba(96, 165, 250, 0.4);
+        }
+        .login-box h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .login-box p { color: var(--text-muted); margin-bottom: 25px; font-size: 0.95rem; }
+        .login-box input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(2, 6, 23, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 18px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .login-box input:focus { border-color: var(--neon-blue); box-shadow: 0 0 25px rgba(0, 212, 255, 0.15); }
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 35px rgba(96, 165, 250, 0.3);
+        }
+        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(96, 165, 250, 0.4); }
+        .login-box .hint {
+            margin-top: 14px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .login-box .hint b { color: var(--neon-pink); }
 
-        .fb-messenger-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: #0084ff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0, 132, 255, 0.4); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; }
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 35px 30px;
+            width: 100%;
+            max-width: 480px;
+            animation: modalIn 0.3s ease-out;
+        }
+        @keyframes modalIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
+        .modal-content h2 {
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            background: rgba(2, 6, 23, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .modal-content input:focus, .modal-content select:focus { border-color: var(--neon-blue); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
+        .modal-actions .btn { flex: 1; justify-content: center; }
 
-        /* Admin Styles */
-        .admin-tab-btn { background: #333; color: #fff; border: none; padding: 10px 15px; cursor: pointer; border-radius: 8px; margin: 2px; font-size: 12px; }
-        .admin-tab-active { background: var(--p); }
-        .stock-item { background: #222; padding: 10px; margin-bottom: 5px; border-radius: 8px; display: flex; justify-content: space-between; font-size: 12px; }
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 24px;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            color: #fff;
+            font-weight: 600;
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 40px rgba(96, 165, 250, 0.4);
+            animation: toastIn 0.4s ease-out;
+        }
+        .toast.error { background: #ef4444; }
+        .toast.success { background: var(--neon-green); color: #000; }
+        @keyframes toastIn { 0% { transform: translateX(120%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar { width: 200px; padding: 20px 14px; }
+            .sidebar-title { font-size: 1.2rem; }
+            .main { margin-left: 200px; padding: 20px; }
+            .title { font-size: 1.5rem; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .login-box { width: 95%; padding: 30px 20px; }
+        }
+        @media (max-width: 600px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">💎 CỤT TAY LUXURY</div>
-    <div style="display:flex; gap:8px; align-items: center;">
-        <div id="u-bal" style="color:#2ecc71; font-weight:bold; background:#eafaf1; padding:6px 12px; border-radius:10px; font-size: 13px;">0đ</div>
-        <button onclick="toggleHistory(true)" style="background:#3498db; color:#fff; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:bold; font-size:11px;">LỊCH SỬ</button>
-        <button onclick="auth.signOut()" style="background:#e74c3c; color:#fff; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:bold; font-size:11px;">THOÁT</button>
-    </div>
-</header>
-
-<div class="container">
-    <center>
-        <div id="adm-wrap" style="display:none; margin-bottom:20px;">
-            <button class="btn" style="background:#222; border:2px solid var(--p); position:relative; padding: 10px 20px;" onclick="document.getElementById('admin-panel').style.display='block'">
-                ⚙️ HỆ THỐNG QUẢN TRỊ
-                <div id="admin-badge" style="position:absolute; top:-10px; right:-10px; background:red; color:white; font-size:11px; width:22px; height:22px; display:none; align-items:center; justify-content:center; border-radius:50%; border:2px solid white; font-weight:bold;">0</div>
-            </button>
-        </div>
-    </center>
-
-    <div class="alert-run"><marquee scrollamount="6">🚀 CHÀO MỪNG ĐẾN VỚI CỤT TAY SHOP - HỆ THỐNG BÁN ACC TỰ ĐỘNG AN TOÀN 100% - NẠP THẺ KHÔNG CHIẾT KHẤU!</marquee></div>
-
-    <div class="mobile-stack">
-        <div>
-            <div class="intro-box">
-                <h4>💳 NẠP THẺ CÀO</h4>
-                Hệ thống duyệt tự động từ 1-3 phút.
-            </div>
-            <div class="box-recharge" style="padding:20px;">
-                <select id="card-net">
-                    <option value="VIETTEL">VIETTEL</option>
-                    <option value="MOBIFONE">MOBIFONE</option>
-                    <option value="VINAPHONE">VINAPHONE</option>
-                    <option value="ZING">ZING</option>
-                    <option value="GARENA">GARENA</option>
-                </select>
-                <select id="card-val">
-                    <option value="10000">10,000đ</option>
-                    <option value="20000">20,000đ</option>
-                    <option value="50000">50,000đ</option>
-                    <option value="100000">100,000đ</option>
-                    <option value="200000">200,000đ</option>
-                    <option value="500000">500,000đ</option>
-                </select>
-                <input type="text" id="card-pin" placeholder="Mã số thẻ (PIN)">
-                <input type="text" id="card-seri" placeholder="Số Seri thẻ">
-                <button id="recharge-btn" class="btn" style="width:100%; margin-top:10px;" onclick="submitCard()">GỬI THẺ NGAY</button>
-            </div>
-        </div>
-
-        <div>
-            <div class="intro-box">
-                <h4>🎡 VÒNG QUAY SIÊU CẤP</h4>
-                <b>20,000đ</b> / lượt - Tỉ lệ trúng Acc cực cao!
-            </div>
-            <div class="wheel-container">
-                <div class="wheel-wrap">
-                    <div class="wheel-pointer"></div>
-                    <div id="wheel" class="wheel-main"></div>
-                </div>
-                <button id="spin-btn" class="btn" onclick="spinWheel()" style="margin-top:15px; width:100%; font-size:18px; letter-spacing:1px;">🔥 QUAY NGAY 🔥</button>
-            </div>
-        </div>
-    </div>
-
-    <h2 class="section-title">📦 DANH SÁCH TÚI MÙ BLOX FRUIT</h2>
-    <div class="grid" id="shop-grid"></div>
-
-    <div class="commit-box" style="margin-top:30px; padding:20px;">
-        <h3 style="margin-top:0; color:#2ecc71;">✅ CHÍNH SÁCH CỬA HÀNG</h3>
-        <p style="font-size:14px; line-height:1.6; color:#666;">
-            • <b>Đổi trả:</b> Bảo hành 100% nếu nick sai mật khẩu hoặc bị khóa.<br>
-            • <b>Hỗ trợ:</b> Liên hệ Admin qua Messenger nếu gặp vấn đề về nạp thẻ.<br>
-            • <b>An toàn:</b> Mọi giao dịch đều được lưu vết tại lịch sử mua hàng.
-        </p>
+<!-- ====== LOGIN ====== -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <div class="logo-big">D</div>
+        <h1>DuyAh VNX</h1>
+        <p>🔐 License Management System</p>
+        <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
+        <button class="login-btn" onclick="login()">ĐĂNG NHẬP</button>
+        <!-- ĐÃ XÓA DÒNG HIỂN THỊ MẬT KHẨU -->
     </div>
 </div>
 
-<a href="https://www.facebook.com/share/1EHvSd95A4/" target="_blank" class="fb-messenger-btn">
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.463 5.494 3.75 7.184V22l3.414-1.875c.86.239 1.777.369 2.736.369 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.091 12.19l-2.5-2.673-4.886 2.672 5.375-5.716 2.568 2.673 4.818-2.672-5.375 5.716z"/></svg>
-</a>
+<!-- ====== MAIN ====== -->
+<div class="container" id="mainApp" style="display:none;">
 
-<div id="toast">Thông báo!</div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-d">D</div>
+            <div class="sidebar-title">DuyAh VNX</div>
+        </div>
+        <div class="menu">
+            <button onclick="openCreate()"><i class="fas fa-key"></i> Tạo Key Mới</button>
+            <button onclick="exportKeys()"><i class="fas fa-file-export"></i> Xuất Keys</button>
+            <button onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
+            <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</button>
+        </div>
+    </div>
 
-<div id="history-modal">
-    <div class="modal-content">
-        <button onclick="toggleHistory(false)" style="float:right; background:#e74c3c; color:#fff; border:none; padding:5px 12px; border-radius:5px; cursor:pointer; font-weight:bold;">X</button>
-        <h3 style="color:var(--p); margin-top:0;">📜 LỊCH SỬ GIAO DỊCH</h3>
-        <div style="overflow-x: auto;">
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        <div class="topbar">
+            <div class="title">📊 Bảng Điều Khiển</div>
+            <div class="user-info">
+                <span class="email" id="userEmail">Admin</span>
+                <span class="badge">ADMIN</span>
+                <button class="btn-logout" onclick="logout()">Thoát</button>
+            </div>
+        </div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card"><h4>Tổng Key</h4><p id="total">0</p></div>
+            <div class="stat-card"><h4>Đã Dùng</h4><p id="used">0</p></div>
+            <div class="stat-card"><h4>Chưa Dùng</h4><p id="unused">0</p></div>
+            <div class="stat-card"><h4>Bị Ban</h4><p id="banned">0</p></div>
+            <div class="stat-card"><h4>Hết Hạn</h4><p id="expired">0</p></div>
+        </div>
+
+        <div class="toolbar">
+            <button class="btn btn-primary" onclick="openCreate()"><i class="fas fa-plus"></i> Tạo Key</button>
+            <button class="btn btn-success" onclick="exportKeys()"><i class="fas fa-download"></i> Xuất Keys</button>
+            <button class="btn btn-danger" onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
+            <input class="search-input" type="text" id="search" placeholder="🔍 Tìm key..." oninput="searchKey()">
+        </div>
+
+        <div class="table-wrap">
             <table>
-                <thead><tr style="background:#f8f9fa;"><th>LOẠI</th><th>NỘI DUNG</th><th>GIÁ</th><th>TRẠNG THÁI</th></tr></thead>
-                <tbody id="hist-body"></tbody>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>License Key</th>
+                        <th>Thời Hạn</th>
+                        <th>Còn Lại</th>
+                        <th>Máy</th>
+                        <th>Trạng Thái</th>
+                        <th>Ghi Chú</th>
+                        <th>Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody id="keysTable"></tbody>
             </table>
         </div>
     </div>
 </div>
 
-<div id="auth-layer">
-    <div class="login-box">
-        <h2 style="color:var(--p); text-align:center; margin-bottom:5px;">CỤT TAY SHOP</h2>
-        <p style="text-align:center; font-size:12px; color:#888; margin-bottom:20px;">Vui lòng đăng nhập để tiếp tục</p>
-        <div style="display:flex; margin-bottom:20px; background:#f0f0f0; border-radius:12px; padding:5px;">
-            <div id="tab-login" style="flex:1; text-align:center; cursor:pointer; font-weight:bold; padding:10px; color:var(--p);" onclick="toggleAuthMode(true)">ĐĂNG NHẬP</div>
-            <div id="tab-reg" style="flex:1; text-align:center; cursor:pointer; font-weight:bold; padding:10px; color:#888;" onclick="toggleAuthMode(false)">ĐĂNG KÝ</div>
-        </div>
-        <input type="email" id="email" placeholder="Email (ví dụ: abc@gmail.com)">
-        <input type="password" id="pass" placeholder="Mật khẩu (>6 ký tự)">
-        <button id="auth-btn" class="btn" style="width:100%; margin-top:10px;" onclick="handleAuth()">ĐĂNG NHẬP NGAY</button>
-    </div>
-</div>
-
-<div id="admin-panel" style="position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:3000; display:none; padding:15px; overflow-y:auto; color:#fff;">
-    <div style="max-width:900px; margin:0 auto; background:#1a1a1a; padding:20px; border-radius:20px; border:1px solid #333;">
-        <button onclick="document.getElementById('admin-panel').style.display='none'" style="float:right; background:#e74c3c; color:white; border:none; padding:8px 15px; border-radius:8px; font-weight:bold;">ĐÓNG PANEL</button>
-        <h3 style="color:var(--s)">🛠 QUẢN TRỊ HỆ THỐNG</h3>
-        <hr border="0" style="border-top:1px solid #333; margin:20px 0;">
-        
-        <div style="margin-bottom: 20px; display:flex; flex-wrap:wrap;">
-            <button id="btn-tab-pending" class="admin-tab-btn admin-tab-active" onclick="switchAdminTab('pending')">THẺ CHỜ DUYỆT</button>
-            <button id="btn-tab-stock" class="admin-tab-btn" onclick="switchAdminTab('stock')">QUẢN LÝ KHO</button>
-            <button id="btn-tab-history" class="admin-tab-btn" onclick="switchAdminTab('history')">DOANH THU</button>
-        </div>
-
-        <div id="tab-admin-pending">
-            <div id="admin-pending-list">Đang tải dữ liệu...</div>
-        </div>
-
-        <div id="tab-admin-stock" style="display:none;">
-            <h4 style="color:var(--p)">📥 THÊM NICK MỚI</h4>
-            <select id="adm-p" style="background:#222; color:#fff; border-color:#444;">
-                <option value="WHEEL_ACC">🎡 Kho Vòng Quay (20k)</option>
-                <option value="2000">🌱 Kho Túi 2k</option>
-                <option value="5000">🍃 Kho Túi 5k</option>
-                <option value="9000">📦 Kho Túi 9k</option>
-                <option value="19000">🍱 Kho Túi 19k</option>
-                <option value="49000">⚔️ Kho Túi 49k</option>
-                <option value="99000">💎 Kho Túi 99k</option>
-                <option value="499000">🔱 Kho Túi 499k</option>
-            </select>
-            <textarea id="adm-list" rows="5" placeholder="user|pass (Mỗi nick một dòng)" style="background:#222; color:#fff; border-color:#444;"></textarea>
-            <button class="btn" style="width:100%; background: #27ae60;" onclick="admAddStock()">LƯU VÀO CƠ SỞ DỮ LIỆU</button>
-            
-            <h4 style="color:var(--s); margin-top:30px;">🔍 KIỂM TRA TỒN KHO</h4>
-            <select id="view-stock-type" style="background:#222; color:#fff; border-color:#444;" onchange="loadStockList()">
-                <option value="">-- Chọn kho cần xem --</option>
-                <option value="WHEEL_ACC">🎡 Kho Vòng Quay</option>
-                <option value="2000">🌱 Kho Túi 2k</option>
-                <option value="5000">🍃 Kho Túi 5k</option>
-                <option value="9000">📦 Kho Túi 9k</option>
-                <option value="19000">🍱 Kho Túi 19k</option>
-                <option value="49000">⚔️ Kho Túi 49k</option>
-                <option value="99000">💎 Kho Túi 99k</option>
-                <option value="499000">🔱 Kho Túi 499k</option>
-            </select>
-            <div id="stock-list-container" style="max-height:300px; overflow-y:auto; background:#000; padding:15px; border-radius:10px; margin-top:10px;"></div>
-        </div>
-
-        <div id="tab-admin-history" style="display:none;">
-            <div style="overflow-x: auto;">
-                <table style="color: #fff; width:100%;">
-                    <thead><tr style="background:#333;"><th>USER</th><th>LOẠI</th><th>GIÁ</th><th>THỜI GIAN</th></tr></thead>
-                    <tbody id="admin-all-history-body"></tbody>
-                </table>
-            </div>
+<!-- ====== CREATE MODAL ====== -->
+<div class="modal" id="createModal">
+    <div class="modal-content">
+        <h2>🔑 Tạo License Key</h2>
+        <input type="text" id="customKey" placeholder="Nhập key (để trống tự tạo)">
+        <select id="duration">
+            <option value="1_day">1 Ngày</option>
+            <option value="7_days">7 Ngày</option>
+            <option value="30_days">30 Ngày</option>
+            <option value="90_days">3 Tháng</option>
+            <option value="lifetime" selected>Vĩnh Viễn</option>
+        </select>
+        <select id="deviceLimit">
+            <option value="1">1 Máy</option>
+            <option value="unlimited" selected>Không Giới Hạn</option>
+        </select>
+        <input type="text" id="note" placeholder="Ghi chú (tùy chọn)">
+        <div class="modal-actions">
+            <button class="btn btn-primary" onclick="createKey()">Tạo</button>
+            <button class="btn btn-danger" onclick="closeCreate()">Đóng</button>
         </div>
     </div>
 </div>
+
+<!-- ====== TOAST ====== -->
+<div class="toast" id="toast"><i class="fas fa-bell"></i> <span id="toastMsg">Thông báo</span></div>
 
 <script>
-    // --- FIREBASE CONFIG (GIỮ NGUYÊN) ---
-    const firebaseConfig = {
-        apiKey: "AIzaSyAOcavYOsOGgRnmfPKeojppLoP6hPYe6pI",
-        authDomain: "shopcuttay.firebaseapp.com",
-        databaseURL: "https://shopcuttay-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "shopcuttay",
-        storageBucket: "shopcuttay.firebasestorage.app",
-        messagingSenderId: "275809822981",
-        appId: "1:275809822981:web:02e33ad2515eed78b32f6c"
-    };
+// ====== FIREBASE ======
+const firebaseConfig = {
+    apiKey: "AIzaSyAOcavYOsOGgRnmfPKeojppLoP6hPYe6pI",
+    authDomain: "shopcuttay.firebaseapp.com",
+    databaseURL: "https://shopcuttay-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "shopcuttay",
+    storageBucket: "shopcuttay.firebasestorage.app",
+    messagingSenderId: "275809822981",
+    appId: "1:275809822981:web:02e33ad2515eed78b32f6c"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth(), db = firebase.database();
+let allKeys = [];
 
-    const PRODUCTS = {
-        "2000": { n: "Túi Mù Mini", d: "Tỉ lệ Acc Level ngẫu nhiên.", i: "🌱" },
-        "5000": { n: "Túi Mù Tân Thủ", d: "Level 300-700+, đủ Sea 1.", i: "🍃" },
-        "9000": { n: "Túi Mù Tập Sự", d: "Lv 700+ (Sea 2), Trái ngẫu nhiên.", i: "📦" },
-        "19000": { n: "Túi Mù Sea 2", d: "Acc Sea 2 cực ngon để cày.", i: "🍱" },
-        "49000": { n: "Túi Mù Sea 3", d: "100% Sea 3, tỉ lệ có Soul/CDK.", i: "⚔️" },
-        "99000": { n: "Túi Mù VIP", d: "Max Level, God Human, nhiều Melee.", i: "💎" },
-        "499000": { n: "TÚI SIÊU PHẨM", d: "Kitsune/Leopard/Trái Vĩnh Viễn.", i: "🔱" }
-    };
-
-    // --- AUTH LOGIC ---
-    let isLoginMode = true;
-    function toggleAuthMode(mode) {
-        isLoginMode = mode;
-        document.getElementById('tab-login').style.color = mode ? 'var(--p)' : '#888';
-        document.getElementById('tab-reg').style.color = !mode ? 'var(--p)' : '#888';
-        document.getElementById('auth-btn').innerText = mode ? "ĐĂNG NHẬP NGAY" : "TẠO TÀI KHOẢN MỚI";
+// ====== LOGIN ======
+function login() {
+    const pass = document.getElementById('adminPass').value.trim();
+    if (pass === 'DuyAhVNX') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        localStorage.setItem('duyah_logged', 'true');
+        loadKeys();
+        toast('✅ Đăng nhập thành công!', 'success');
+    } else {
+        toast('❌ Mật khẩu sai!', 'error');
     }
+}
 
-    function handleAuth() {
-        const e = document.getElementById('email').value, p = document.getElementById('pass').value;
-        if(!e || p.length < 6) return alert("Email không hợp lệ hoặc mật khẩu quá ngắn!");
-        const btn = document.getElementById('auth-btn'); btn.disabled = true;
-        if(isLoginMode) {
-            auth.signInWithEmailAndPassword(e, p).catch(err => { alert("Sai tài khoản hoặc mật khẩu!"); btn.disabled = false; });
-        } else {
-            auth.createUserWithEmailAndPassword(e, p).then(r => {
-                db.ref('users/' + r.user.uid).set({ email: e, balance: 0 });
-            }).catch(err => { alert("Lỗi: " + err.message); btn.disabled = false; });
-        }
-    }
+function logout() {
+    localStorage.removeItem('duyah_logged');
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+    document.getElementById('adminPass').value = '';
+    toast('Đã đăng xuất', '');
+}
 
-    auth.onAuthStateChanged(u => {
-        if(u) {
-            document.getElementById('auth-layer').style.display = 'none';
-            db.ref('users/' + u.uid).on('value', s => {
-                const bal = s.val()?.balance || 0;
-                document.getElementById('u-bal').innerText = bal.toLocaleString() + "đ";
-            });
-            if(u.email === "levananhduy09@gmail.com") {
-                document.getElementById('adm-wrap').style.display = 'block';
-                listenAdminBadge(); loadAdminPending(); loadAllSystemHistory();
-            }
-            renderShop(); loadUserHistory(u.uid);
-        } else { 
-            document.getElementById('auth-layer').style.display = 'flex'; 
-            document.getElementById('adm-wrap').style.display = 'none';
-        }
+// ====== LOAD KEYS ======
+function loadKeys() {
+    db.ref('keys').on('value', snap => {
+        allKeys = [];
+        snap.forEach(child => {
+            const data = child.val();
+            data.id = child.key;
+            allKeys.push(data);
+        });
+        renderTable(allKeys);
+        updateStats(allKeys);
     });
+}
 
-    // --- NẠP THẺ ---
-    function submitCard() {
-        const u = auth.currentUser; if(!u) return;
-        const net = document.getElementById('card-net').value, val = document.getElementById('card-val').value;
-        const pin = document.getElementById('card-pin').value.trim(), seri = document.getElementById('card-seri').value.trim();
-        if(!pin || !seri) return alert("Vui lòng nhập đầy đủ PIN và Seri!");
-        const btn = document.getElementById('recharge-btn'); btn.disabled = true;
-        const ref = db.ref('admin_pending').push();
-        const data = { 
-            id: ref.key, uid: u.uid, email: u.email, 
-            type: "NẠP THẺ", content: `${net} | P:${pin} | S:${seri}`, 
-            price: parseInt(val), status: "Chờ duyệt", time: new Date().toLocaleString() 
-        };
-        ref.set(data).then(() => {
-            db.ref('histories/' + u.uid + '/' + ref.key).set(data);
-            showToast("Đã gửi thẻ! Vui lòng đợi Admin duyệt.","success");
-            document.getElementById('card-pin').value = ''; document.getElementById('card-seri').value = '';
-            btn.disabled = false;
-        });
+function renderTable(keys) {
+    let html = '';
+    keys.forEach((k, i) => {
+        const status = getStatus(k);
+        const remaining = getRemaining(k.expires_at);
+        const durLabel = getDurationLabel(k.duration);
+        html += `<tr>
+            <td>${i+1}</td>
+            <td><span class="key-text">${k.license_key}</span></td>
+            <td>${durLabel}</td>
+            <td>${remaining}</td>
+            <td>${k.devices === 'unlimited' ? '♾️' : k.devices || '1'}</td>
+            <td><span class="status status-${status.cls}">${status.text}</span></td>
+            <td>${k.note || '-'}</td>
+            <td>
+                <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="copyKey('${k.license_key}')">Copy</button>
+                <button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteKey('${k.id}')">Xóa</button>
+                ${k.status !== 'banned' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="banKey('${k.id}')">Ban</button>` : `<button class="action-btn" style="background:#22c55e;color:#000;" onclick="unbanKey('${k.id}')">Unban</button>`}
+                <button class="action-btn" style="background:#f59e0b;color:#000;" onclick="markUsed('${k.id}')">Dùng</button>
+            </td>
+        </tr>`;
+    });
+    document.getElementById('keysTable').innerHTML = html || '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px;">Chưa có key nào</td></tr>';
+}
+
+function updateStats(keys) {
+    const total = keys.length;
+    const used = keys.filter(k => k.status === 'used').length;
+    const unused = keys.filter(k => k.status === 'unused').length;
+    const banned = keys.filter(k => k.status === 'banned').length;
+    const expired = keys.filter(k => k.expires_at && new Date(k.expires_at) < new Date() && k.status !== 'banned').length;
+    document.getElementById('total').textContent = total;
+    document.getElementById('used').textContent = used;
+    document.getElementById('unused').textContent = unused;
+    document.getElementById('banned').textContent = banned;
+    document.getElementById('expired').textContent = expired;
+}
+
+// ====== HELPERS ======
+function getStatus(k) {
+    if (k.status === 'banned') return {text: 'BỊ BAN', cls: 'banned'};
+    if (k.expires_at && new Date(k.expires_at) < new Date()) return {text: 'HẾT HẠN', cls: 'expired'};
+    if (k.status === 'used') return {text: 'ĐÃ DÙNG', cls: 'used'};
+    return {text: 'CHƯA DÙNG', cls: 'unused'};
+}
+function getRemaining(exp) {
+    if (!exp) return '♾️';
+    const diff = new Date(exp) - new Date();
+    if (diff < 0) return '⏰ Hết';
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    return d > 0 ? `${d}d ${h}h` : `${h}h`;
+}
+function getDurationLabel(d) {
+    const map = {'1_day':'1 Ngày','7_days':'7 Ngày','30_days':'30 Ngày','90_days':'3 Tháng','lifetime':'Vĩnh Viễn'};
+    return map[d] || d || 'Vĩnh Viễn';
+}
+function generateKey() {
+    const p2 = Math.random().toString(36).substring(2,5).toUpperCase();
+    const p3 = Math.random().toString(36).substring(2,6).toUpperCase();
+    return `AIMBODY-${p2}-${p3}`;
+}
+
+// ====== SEARCH ======
+function searchKey() {
+    const val = document.getElementById('search').value.toLowerCase();
+    renderTable(allKeys.filter(k => k.license_key.toLowerCase().includes(val)));
+}
+
+// ====== CREATE ======
+function openCreate() { document.getElementById('createModal').style.display = 'flex'; }
+function closeCreate() { document.getElementById('createModal').style.display = 'none'; }
+
+function createKey() {
+    const custom = document.getElementById('customKey').value.trim();
+    const duration = document.getElementById('duration').value;
+    const devices = document.getElementById('deviceLimit').value;
+    const note = document.getElementById('note').value.trim();
+    const key = custom || generateKey();
+    let expires_at = null;
+    const now = new Date();
+    const map = {'1_day':1,'7_days':7,'30_days':30,'90_days':90};
+    if (duration !== 'lifetime') {
+        expires_at = new Date(now.getTime() + map[duration]*24*60*60*1000);
     }
+    db.ref('keys').push({
+        license_key: key,
+        status: 'unused',
+        duration: duration,
+        devices: devices,
+        note: note,
+        created_at: now.toISOString(),
+        expires_at: expires_at ? expires_at.toISOString() : null
+    }).then(() => {
+        toast('✅ Đã tạo key: ' + key, 'success');
+        closeCreate();
+        document.getElementById('customKey').value = '';
+        document.getElementById('note').value = '';
+    }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+}
 
-    // --- SHOP ---
-    function renderShop() {
-        db.ref('inventory').on('value', snap => {
-            const stock = snap.val() || {};
-            const grid = document.getElementById('shop-grid'); grid.innerHTML = '';
-            for(let p in PRODUCTS) {
-                const count = stock[p] ? Object.keys(stock[p]).length : 0;
-                grid.innerHTML += `<div class="card">
-                    <div>
-                        <div class="price-tag">${parseInt(p).toLocaleString()}đ</div>
-                        <div style="font-size:50px; margin-bottom:10px;">${PRODUCTS[p].i}</div>
-                        <h4 style="margin:5px 0; color:var(--p); font-size:16px;">${PRODUCTS[p].n}</h4>
-                        <p style="font-size:12px; color:#666; margin-bottom:15px;">${PRODUCTS[p].d}</p>
-                        <p style="font-size:13px;">Còn lại: <b style="color:#2ecc71">${count}</b></p>
-                    </div>
-                    <button class="btn" onclick="buy('${p}')" ${count === 0 ? 'disabled' : ''}>${count === 0 ? 'HẾT HÀNG' : 'MUA NGAY'}</button>
-                </div>`;
-            }
-        });
+// ====== DELETE, BAN, UNBAN, USED ======
+function deleteKey(id) {
+    if (!confirm('Xóa key này?')) return;
+    db.ref('keys/' + id).remove().then(() => toast('✅ Đã xóa key', 'success'));
+}
+function banKey(id) {
+    const reason = prompt('Lý do ban?');
+    if (reason === null) return;
+    db.ref('keys/' + id).update({status: 'banned', ban_reason: reason}).then(() => toast('⛔ Key đã bị ban', ''));
+}
+function unbanKey(id) {
+    db.ref('keys/' + id).update({status: 'unused', ban_reason: null}).then(() => toast('✅ Key đã unban', 'success'));
+}
+function markUsed(id) {
+    db.ref('keys/' + id).update({status: 'used'}).then(() => toast('✅ Đã đánh dấu đã dùng', 'success'));
+}
+
+// ====== DELETE ALL ======
+function deleteAll() {
+    if (!confirm('XÓA TẤT CẢ KEY?')) return;
+    db.ref('keys').remove().then(() => toast('🗑️ Đã xóa tất cả', ''));
+}
+
+// ====== EXPORT ======
+function exportKeys() {
+    const txt = allKeys.map(k => k.license_key).join('\n');
+    const blob = new Blob([txt], {type: 'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'DuyAh_Keys.txt';
+    a.click();
+    toast('📥 Đã xuất keys', 'success');
+}
+
+// ====== COPY ======
+function copyKey(key) {
+    navigator.clipboard.writeText(key);
+    toast('📋 Đã copy: ' + key, 'success');
+}
+
+// ====== TOAST ======
+function toast(msg, type) {
+    const el = document.getElementById('toast');
+    const msgEl = document.getElementById('toastMsg');
+    el.className = 'toast';
+    if (type === 'error') el.classList.add('error');
+    if (type === 'success') el.classList.add('success');
+    msgEl.textContent = msg;
+    el.style.display = 'flex';
+    clearTimeout(el._timer);
+    el._timer = setTimeout(() => el.style.display = 'none', 3000);
+}
+
+// ====== AUTO LOGIN ======
+window.addEventListener('load', () => {
+    if (localStorage.getItem('duyah_logged') === 'true') {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        loadKeys();
     }
-
-    function buy(p) {
-        const u = auth.currentUser; if(!u) return;
-        db.ref('users/' + u.uid).once('value', s => {
-            const bal = s.val().balance || 0, price = parseInt(p);
-            if(bal < price) return alert("Bạn không đủ số dư!");
-            if(!confirm(`Bạn chắc chắn muốn mua túi mù này?`)) return;
-            db.ref('inventory/' + p).limitToFirst(1).once('value', inv => {
-                if(!inv.exists()) return alert("Sản phẩm vừa hết hàng!");
-                const key = Object.keys(inv.val())[0], acc = inv.val()[key];
-                db.ref('inventory/' + p + '/' + key).remove().then(() => {
-                    db.ref('users/' + u.uid).update({ balance: bal - price });
-                    const log = { 
-                        uid: u.uid, email: u.email, type: "MUA TÚI", content: `${PRODUCTS[p].n} | Nick: ${acc}`, 
-                        price: price, status: "Thành công", time: new Date().toLocaleString() 
-                    };
-                    db.ref('histories/' + u.uid).push().set(log);
-                    db.ref('all_sales').push().set(log);
-                    showResult("🎉 MUA THÀNH CÔNG","Tài khoản: "+acc);
-                });
-            });
-        });
-    }
-
-    // --- VÒNG QUAY LOGIC ---
-    let isSpinning = false;
-    function spinWheel() {
-        if(isSpinning) return;
-        const u = auth.currentUser;
-        db.ref('users/' + u.uid).once('value', s => {
-            const bal = s.val()?.balance || 0;
-            if (bal < 20000) return alert("Số dư không đủ 20,000đ để quay!");
-            
-            isSpinning = true; 
-            document.getElementById('spin-btn').disabled = true;
-            db.ref('users/' + u.uid).update({ balance: bal - 20000 });
-            
-            const randomDeg = Math.floor(Math.random() * 360) + 1440; // Quay ít nhất 4 vòng
-            document.getElementById('wheel').style.transform = `rotate(${randomDeg}deg)`;
-            
-            setTimeout(() => {
-                db.ref('inventory/WHEEL_ACC').limitToFirst(1).once('value', inv => {
-                    let logData = { uid: u.uid, email: u.email, type: "VÒNG QUAY", price: 20000, time: new Date().toLocaleString() };
-                    if (inv.exists()) {
-                        const key = Object.keys(inv.val())[0], acc = inv.val()[key];
-                        db.ref('inventory/WHEEL_ACC/' + key).remove();
-                        logData.content = "Trúng Nick: " + acc; logData.status = "Thành công";
-                        showResult("🎡 QUAY TRÚNG","Acc: "+acc);
-                    } else {
-                        logData.content = "Không trúng (Hết quà)"; logData.status = "Hết hàng";
-                        alert("Rất tiếc! Quà trong kho đã hết, vui lòng báo Admin.");
-                    }
-db.ref('histories/' + u.uid).push().set(logData);
-db.ref('all_sales').push().set(logData);
-
-isSpinning = false; 
-document.getElementById('spin-btn').disabled = false;
-
-// reset mượt không giật
-const wheel = document.getElementById('wheel');
-wheel.style.transition = "none";
-wheel.style.transform = "rotate(0deg)";
-setTimeout(() => {
-    wheel.style.transition = "transform 5s cubic-bezier(0.15,0,0.15,1)";
-}, 50);
-
 });
-}, 5000);
-});
-}
-
-    // --- ADMIN SYSTEM ---
-    function switchAdminTab(tab) {
-        const tabs = ['pending', 'stock', 'history'];
-        tabs.forEach(t => {
-            document.getElementById('tab-admin-' + t).style.display = tab === t ? 'block' : 'none';
-            document.getElementById('btn-tab-' + t).className = 'admin-tab-btn ' + (tab === t ? 'admin-tab-active' : '');
-        });
-    }
-
-    function listenAdminBadge() {
-        db.ref('admin_pending').on('value', s => {
-            const badge = document.getElementById('admin-badge');
-            const count = s.numChildren();
-            badge.innerText = count; badge.style.display = count > 0 ? 'flex' : 'none';
-        });
-    }
-
-    function loadAdminPending() {
-        db.ref('admin_pending').on('value', s => {
-            const div = document.getElementById('admin-pending-list'); div.innerHTML = '';
-            if(!s.exists()) div.innerHTML = '<p style="text-align:center; color:#888;">Không có yêu cầu nạp tiền nào.</p>';
-            s.forEach(c => {
-                const i = c.val();
-                div.innerHTML += `<div style="background:#222; padding:15px; border-radius:12px; margin-bottom:10px; border-left:4px solid var(--s);">
-                    <div style="font-size:13px; margin-bottom:8px;">📧 <b>${i.email}</b></div>
-                    <div style="font-family:monospace; background:#000; padding:10px; border-radius:8px; margin-bottom:10px;">${i.content}</div>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <b style="color:var(--s); font-size:16px;">${i.price.toLocaleString()}đ</b>
-                        <div>
-                            <button onclick="approve('${i.uid}','${i.id}',${i.price})" style="background:#27ae60; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer;">DUYỆT</button>
-                            <button onclick="reject('${i.uid}','${i.id}')" style="background:#e67e22; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; margin-left:5px;">SAI</button>
-                        </div>
-                    </div>
-                </div>`;
-            });
-        });
-    }
-
-    function approve(uid, id, amt) {
-        db.ref('users/' + uid + '/balance').transaction(c => (c || 0) + amt);
-        db.ref('histories/' + uid + '/' + id).update({ status: "Thành công" });
-        db.ref('admin_pending/' + id).remove();
-        showToast("Đã cộng " + amt.toLocaleString() + "đ cho khách.","success");
-    }
-
-    function reject(uid, id) {
-        db.ref('histories/' + uid + '/' + id).update({ status: "Thất bại" });
-        db.ref('admin_pending/' + id).remove();
-        showToast("Đã từ chối thẻ sai.","warning");
-    }
-
-    function admAddStock() {
-        const p = document.getElementById('adm-p').value, list = document.getElementById('adm-list').value.split('\n');
-        let count = 0;
-        list.forEach(a => { if(a.trim()) { db.ref('inventory/' + p).push(a.trim()); count++; } });
-        alert(`Thành công! Đã thêm ${count} tài khoản vào ${p}`);
-        document.getElementById('adm-list').value = '';
-    }
-
-    function loadStockList() {
-        const type = document.getElementById('view-stock-type').value;
-        const container = document.getElementById('stock-list-container');
-        if(!type) return;
-        db.ref('inventory/' + type).on('value', s => {
-            container.innerHTML = '';
-            if(!s.exists()) { container.innerHTML = '<p>Kho rỗng.</p>'; return; }
-            s.forEach(item => {
-                container.innerHTML += `<div class="stock-item"><span>${item.val()}</span><b onclick="deleteStockItem('${type}','${item.key}')" style="color:red; cursor:pointer;">[Xóa]</b></div>`;
-            });
-        });
-    }
-
-    function deleteStockItem(type, key) { if(confirm("Xóa nick này?")) db.ref('inventory/' + type + '/' + key).remove(); }
-
-    function loadAllSystemHistory() {
-        db.ref('all_sales').limitToLast(50).on('value', s => {
-            const b = document.getElementById('admin-all-history-body'); b.innerHTML = '';
-            let logs = []; s.forEach(c => { logs.push(c.val()); }); 
-            logs.reverse().forEach(h => {
-                b.innerHTML += `<tr><td>${h.email.split('@')[0]}</td><td>${h.type}</td><td>${h.price}đ</td><td style="font-size:10px;">${h.time}</td></tr>`;
-            });
-        });
-    }
-
-    // --- USER UTILS ---
-    function loadUserHistory(uid) {
-        db.ref('histories/' + uid).on('value', s => {
-            const b = document.getElementById('hist-body'); b.innerHTML = '';
-            let logs = []; s.forEach(c => { logs.push(c.val()); }); 
-            logs.reverse().forEach(h => {
-                const cls = h.status === 'Thành công' ? 'status-success' : (h.status === 'Chờ duyệt' ? 'status-wait' : 'status-fail');
-                b.innerHTML += `<tr><td>${h.type}</td><td style="font-size:10px;">${h.content}</td><td>${h.price.toLocaleString()}đ</td><td><span class="status-badge ${cls}">${h.status}</span></td></tr>`;
-            });
-        });
-    }
-
-    function showToast(msg,type="info") {
-    const t = document.getElementById('toast');
-
-    t.className="";
-    t.classList.add("toast-"+type);
-
-    let icon="🔔";
-    if(type==="success") icon="✅";
-    if(type==="error") icon="❌";
-    if(type==="warning") icon="⚠️";
-
-    t.innerHTML = icon+" "+msg;
-    t.style.display="block";
-
-    setTimeout(()=>{
-        t.style.display="none";
-    },3500);
-}
-
-// thêm 2 cái này ngay dưới 👇
-function showResult(title,content){
-    let order = "OD" + Date.now().toString().slice(-6);
-
-    let tk = content.split("|")[0] || "";
-    let mk = content.split("|")[1] || "";
-
-    document.getElementById("resultTitle").innerText = title;
-
-    document.getElementById("resultContent").innerHTML = `
-    <div style="text-align:left;font-size:14px">
-        🧾 <b>Mã đơn:</b> ${order}<br><br>
-
-        👤 <b>Tài khoản:</b>
-        <div style="display:flex;gap:5px;margin:5px 0">
-            <input id="tkcopy" value="${tk}" readonly style="flex:1">
-            <button onclick="copyText('tkcopy')" class="btn">Copy</button>
-        </div>
-
-        🔑 <b>Mật khẩu:</b>
-        <div style="display:flex;gap:5px;margin:5px 0">
-            <input id="mkcopy" value="${mk}" readonly style="flex:1">
-            <button onclick="copyText('mkcopy')" class="btn">Copy</button>
-        </div>
-    </div>
-    `;
-
-    document.getElementById("resultBox").style.display = "flex";
-}
-
-function closeResult(){
-    document.getElementById("resultBox").style.display = "none";
-}
-
-function copyText(id){
-    let copy = document.getElementById(id);
-    copy.select();
-    document.execCommand("copy");
-    showToast("Đã copy","success");
-}
-
-function toggleHistory(show) {
-    document.getElementById('history-modal').style.display = show ? 'flex' : 'none';
-}
-
 </script>
-<footer style="background: #1a1a1a; color: #fff; padding: 40px 0 20px; margin-top: 50px; border-top: 4px solid var(--p);">
-    <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
-        
-        <div>
-            <div class="logo" style="margin-bottom: 15px;">💎 CỤT TAY LUXURY</div>
-            <p style="font-size: 13px; line-height: 1.8; color: #aaa;">
-                Hệ thống bán túi mù, tài khoản Blox Fruit tự động hàng đầu Việt Nam. 
-                Giao dịch an toàn, bảo mật thông tin khách hàng tuyệt đối.
-            </p>
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <img src="https://img.icons8.com/color/35/facebook-new.png" alt="fb" style="cursor:pointer" onclick="window.open('https://www.facebook.com/share/1EHvSd95A4/')">
-                <img src="https://img.icons8.com/color/35/youtube-play.png" alt="yt" style="cursor:pointer">
-                <img src="https://img.icons8.com/color/35/tiktok--v1.png" alt="tk" style="cursor:pointer">
-            </div>
-        </div>
-
-        <div>
-            <h4 style="color: var(--s); margin-bottom: 20px; text-transform: uppercase;">Chính sách shop</h4>
-            <ul style="list-style: none; padding: 0; font-size: 13px; color: #aaa; line-height: 2;">
-                <li><a href="#" style="color: #aaa; text-decoration: none;">• Điều khoản dịch vụ</a></li>
-                <li><a href="#" style="color: #aaa; text-decoration: none;">• Chính sách bảo mật</a></li>
-                <li><a href="#" style="color: #aaa; text-decoration: none;">• Cơ chế bảo hành tài khoản</a></li>
-                <li><a href="#" style="color: #aaa; text-decoration: none;">• Hướng dẫn nạp thẻ không lỗi</a></li>
-            </ul>
-        </div>
-
-        <div>
-            <h4 style="color: var(--s); margin-bottom: 20px; text-transform: uppercase;">Uy tín & Thanh toán</h4>
-            <div style="margin-bottom: 15px;">
-                <img src="https://images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=ed1a0c8b-6893-4a1d-8526-9a2c31750e32" alt="DMCA">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Logo_b%E1%BB%99_c%C3%B4ng_th%C6%B0%C6%A1ng.svg/320px-Logo_b%E1%BB%99_c%C3%B4ng_th%C6%B0%C6%A1ng.svg.png" alt="BCT" style="height: 35px; background: #fff; border-radius: 4px; padding: 2px; margin-left: 5px;">
-            </div>
-            <p style="font-size: 12px; color: #888;">Hỗ trợ thanh toán đa nền tảng:</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; filter: grayscale(0.5) contrast(1.2);">
-                <img src="https://img.icons8.com/color/30/visa.png">
-                <img src="https://img.icons8.com/color/30/mastercard.png">
-                <img src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/30/external-momo-is-a-mobile-financial-service-that-allows-users-to-store-money-logo-shadow-tal-revivo.png">
-                <img src="https://img.icons8.com/color/30/bank-cards.png">
-            </div>
-        </div>
-    </div>
-
-    <div style="text-align: center; border-top: 1px solid #333; margin-top: 30px; padding-top: 20px; font-size: 12px; color: #666;">
-        Copyright © 2026 <b>CUT TAY LUXURY</b>. Designed by Le Van Anh Duy .
-    </div>
-</footer>
-<div id="resultBox" style="position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; z-index:99999;">
-    <div style="background:white; padding:25px; border-radius:20px; width:90%; max-width:420px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.3); animation:popIn .3s ease;">
-        <h3 id="resultTitle" style="color:#ff0077;margin-top:0;">🎉 THÀNH CÔNG</h3>
-        <div id="resultContent" style="background:#f5f5f5;padding:15px;border-radius:10px;margin:15px 0;font-family:monospace;"></div>
-        <button onclick="closeResult()" class="btn" style="width:100%;">OK</button>
-    </div>
-</div>
 </body>
 </html>
