@@ -30,7 +30,86 @@
                         var(--bg);
             color: var(--text);
             min-height: 100vh;
+            overflow-x: hidden;
+            cursor: none;
         }
+
+        /* ===== GLOW CURSOR ===== */
+        #glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.15), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s;
+            mix-blend-mode: screen;
+        }
+        #glow-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00d4ff;
+            box-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transition: 0.1s;
+        }
+
+        /* ===== MUSIC PLAYER ===== */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 10px 25px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            min-width: 400px;
+            justify-content: center;
+        }
+        .music-player input {
+            background: rgba(2, 6, 23, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 8px 18px;
+            color: #fff;
+            outline: none;
+            width: 200px;
+            font-size: 0.85rem;
+        }
+        .music-player input:focus { border-color: var(--neon-blue); }
+        .music-player .btn-music {
+            background: none;
+            border: none;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: 0.2s;
+        }
+        .music-player .btn-music:hover { color: var(--neon-pink); transform: scale(1.1); }
+        .music-player .now-playing {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            max-width: 150px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .music-player .now-playing b { color: var(--neon-green); }
+
         .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
 
         /* ===== SIDEBAR ===== */
@@ -98,7 +177,7 @@
         /* ===== MAIN ===== */
         .main {
             margin-left: 270px;
-            padding: 30px 40px;
+            padding: 30px 40px 100px 40px;
         }
         .topbar {
             display: flex;
@@ -308,12 +387,6 @@
             box-shadow: 0 10px 35px rgba(96, 165, 250, 0.3);
         }
         .login-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(96, 165, 250, 0.4); }
-        .login-box .hint {
-            margin-top: 14px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-        .login-box .hint b { color: var(--neon-pink); }
 
         /* ===== MODAL ===== */
         .modal {
@@ -362,7 +435,7 @@
         /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 100px;
             right: 30px;
             padding: 14px 24px;
             border-radius: 14px;
@@ -380,7 +453,6 @@
         .toast.success { background: var(--neon-green); color: #000; }
         @keyframes toastIn { 0% { transform: translateX(120%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .sidebar { width: 200px; padding: 20px 14px; }
             .sidebar-title { font-size: 1.2rem; }
@@ -388,6 +460,8 @@
             .title { font-size: 1.5rem; }
             .stats { grid-template-columns: repeat(2, 1fr); }
             .login-box { width: 95%; padding: 30px 20px; }
+            .music-player { min-width: auto; width: 95%; flex-wrap: wrap; padding: 10px 15px; }
+            .music-player input { width: 120px; }
         }
         @media (max-width: 600px) {
             .sidebar { display: none; }
@@ -397,6 +471,21 @@
 </head>
 <body>
 
+<!-- ====== GLOW CURSOR ====== -->
+<div id="glow"></div>
+<div id="glow-dot"></div>
+
+<!-- ====== MUSIC PLAYER ====== -->
+<div class="music-player" id="musicPlayer">
+    <button class="btn-music" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
+    <input type="text" id="songSearch" placeholder="Tìm bài hát..." onkeydown="if(event.key==='Enter') searchSong()">
+    <button class="btn-music" onclick="searchSong()"><i class="fas fa-search"></i></button>
+    <span class="now-playing" id="nowPlaying">🎵 <b>Chưa chọn nhạc</b></span>
+    <button class="btn-music" onclick="nextSong()"><i class="fas fa-forward"></i></button>
+    <button class="btn-music" onclick="prevSong()"><i class="fas fa-backward"></i></button>
+    <input type="range" id="volumeSlider" min="0" max="100" value="50" style="width:60px; accent-color:var(--neon-blue);" oninput="setVolume(this.value)">
+</div>
+
 <!-- ====== LOGIN ====== -->
 <div class="login-screen" id="loginScreen">
     <div class="login-box">
@@ -405,14 +494,11 @@
         <p>🔐 License Management System</p>
         <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
         <button class="login-btn" onclick="login()">ĐĂNG NHẬP</button>
-        <!-- ĐÃ XÓA DÒNG HIỂN THỊ MẬT KHẨU -->
     </div>
 </div>
 
 <!-- ====== MAIN ====== -->
 <div class="container" id="mainApp" style="display:none;">
-
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="sidebar-header">
             <div class="logo-d">D</div>
@@ -426,7 +512,6 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <div class="main">
         <div class="topbar">
             <div class="title">📊 Bảng Điều Khiển</div>
@@ -455,16 +540,7 @@
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>License Key</th>
-                        <th>Thời Hạn</th>
-                        <th>Còn Lại</th>
-                        <th>Máy</th>
-                        <th>Trạng Thái</th>
-                        <th>Ghi Chú</th>
-                        <th>Hành Động</th>
-                    </tr>
+                    <tr><th>#</th><th>License Key</th><th>Thời Hạn</th><th>Còn Lại</th><th>Máy</th><th>Trạng Thái</th><th>Ghi Chú</th><th>Hành Động</th></tr>
                 </thead>
                 <tbody id="keysTable"></tbody>
             </table>
@@ -514,6 +590,53 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 let allKeys = [];
+
+// ====== GLOW CURSOR ======
+document.addEventListener('mousemove', (e) => {
+    const glow = document.getElementById('glow');
+    const dot = document.getElementById('glow-dot');
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+});
+
+// ====== MUSIC PLAYER ======
+let currentSong = null;
+let audio = new Audio();
+let isPlaying = false;
+let playlist = [];
+let currentIndex = 0;
+
+function searchSong() {
+    const query = document.getElementById('songSearch').value.trim();
+    if (!query) return toast('Vui lòng nhập tên bài hát!', 'error');
+    toast('🔍 Đang tìm: ' + query, '');
+    // Tìm kiếm trên YouTube và phát
+    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+    // Mở tab mới để nghe (cách đơn giản nhất)
+    window.open(searchUrl, '_blank');
+    document.getElementById('nowPlaying').innerHTML = `🎵 <b>${query}</b> (đang mở YouTube)`;
+}
+
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+        document.getElementById('playIcon').className = 'fas fa-pause';
+        isPlaying = true;
+    } else {
+        audio.pause();
+        document.getElementById('playIcon').className = 'fas fa-play';
+        isPlaying = false;
+    }
+}
+
+function setVolume(val) {
+    audio.volume = val / 100;
+}
+
+function nextSong() { /* Mở rộng sau */ }
+function prevSong() { /* Mở rộng sau */ }
 
 // ====== LOGIN ======
 function login() {
