@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -35,7 +34,6 @@
             cursor: none;
         }
 
-        /* ===== GLOW CURSOR ===== */
         #glow {
             position: fixed;
             width: 300px;
@@ -61,7 +59,6 @@
             transition: 0.1s;
         }
 
-        /* ===== MUSIC PLAYER ===== */
         .music-player {
             position: fixed;
             bottom: 30px;
@@ -113,7 +110,6 @@
 
         .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             position: fixed;
             left: 0; top: 0;
@@ -175,7 +171,6 @@
         }
         .menu button i { font-size: 1.1rem; width: 24px; color: var(--neon-blue); }
 
-        /* ===== MAIN ===== */
         .main {
             margin-left: 270px;
             padding: 30px 40px 100px 40px;
@@ -223,7 +218,6 @@
         }
         .btn-logout:hover { background: #dc2626; transform: scale(1.02); }
 
-        /* ===== STATS ===== */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -241,7 +235,6 @@
         .stat-card h4 { color: var(--text-muted); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
         .stat-card p { font-size: 1.8rem; font-weight: 700; background: linear-gradient(90deg, #60a5fa, #c026d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* ===== TOOLBAR ===== */
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -266,6 +259,7 @@
         .btn-success { background: var(--neon-green); color: #000; }
         .btn-danger { background: #ef4444; color: #fff; }
         .btn-warning { background: var(--s); color: #000; }
+        .btn-add-time { background: #f59e0b; color: #000; }
         .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
         .search-input {
             padding: 10px 18px;
@@ -280,7 +274,6 @@
         }
         .search-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.15); }
 
-        /* ===== TABLE ===== */
         .table-wrap {
             background: var(--card);
             border: 1px solid var(--card-border);
@@ -316,7 +309,6 @@
         }
         .action-btn:hover { transform: scale(1.05); }
 
-        /* ===== LOGIN ===== */
         .login-screen {
             position: fixed;
             inset: 0;
@@ -389,7 +381,6 @@
         }
         .login-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(96, 165, 250, 0.4); }
 
-        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -433,7 +424,32 @@
         .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
         .modal-actions .btn { flex: 1; justify-content: center; }
 
-        /* ===== TOAST ===== */
+        /* Modal cộng thời gian */
+        .time-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .time-options button {
+            padding: 10px;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            background: rgba(2, 6, 23, 0.8);
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .time-options button:hover {
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.15);
+        }
+        .time-options button.selected {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.15);
+        }
+
         .toast {
             position: fixed;
             bottom: 100px;
@@ -507,6 +523,7 @@
         </div>
         <div class="menu">
             <button onclick="openCreate()"><i class="fas fa-key"></i> Tạo Key Mới</button>
+            <button onclick="openAddTime()"><i class="fas fa-clock"></i> Cộng Thời Gian</button>
             <button onclick="exportKeys()"><i class="fas fa-file-export"></i> Xuất Keys</button>
             <button onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
             <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</button>
@@ -533,6 +550,7 @@
 
         <div class="toolbar">
             <button class="btn btn-primary" onclick="openCreate()"><i class="fas fa-plus"></i> Tạo Key</button>
+            <button class="btn btn-add-time" onclick="openAddTime()"><i class="fas fa-clock"></i> Cộng TG</button>
             <button class="btn btn-success" onclick="exportKeys()"><i class="fas fa-download"></i> Xuất Keys</button>
             <button class="btn btn-danger" onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
             <input class="search-input" type="text" id="search" placeholder="🔍 Tìm key..." oninput="searchKey()">
@@ -573,6 +591,32 @@
     </div>
 </div>
 
+<!-- ====== ADD TIME MODAL ====== -->
+<div class="modal" id="addTimeModal">
+    <div class="modal-content">
+        <h2>⏳ Cộng Thời Gian Key</h2>
+        <p style="color:var(--text-muted);font-size:0.9rem;text-align:center;margin-bottom:15px;">Chọn key cần cộng thêm thời gian</p>
+        <select id="selectKeyForTime" style="width:100%;padding:14px 16px;background:rgba(2,6,23,0.8);border:1px solid var(--card-border);border-radius:12px;color:#fff;font-size:0.95rem;margin-bottom:12px;">
+            <option value="">-- Chọn key --</option>
+        </select>
+        <div class="time-options">
+            <button onclick="selectTime(1)" id="t1">+1 Ngày</button>
+            <button onclick="selectTime(3)" id="t3">+3 Ngày</button>
+            <button onclick="selectTime(7)" id="t7">+7 Ngày</button>
+            <button onclick="selectTime(15)" id="t15">+15 Ngày</button>
+            <button onclick="selectTime(30)" id="t30">+30 Ngày</button>
+            <button onclick="selectTime(90)" id="t90">+90 Ngày</button>
+        </div>
+        <div style="text-align:center;margin:10px 0;">
+            <span id="selectedTimeDisplay" style="color:var(--neon-green);font-weight:600;">Chưa chọn</span>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-success" onclick="addTimeToKey()"><i class="fas fa-clock"></i> Cộng Thời Gian</button>
+            <button class="btn btn-danger" onclick="closeAddTime()">Đóng</button>
+        </div>
+    </div>
+</div>
+
 <!-- ====== TOAST ====== -->
 <div class="toast" id="toast"><i class="fas fa-bell"></i> <span id="toastMsg">Thông báo</span></div>
 
@@ -591,6 +635,8 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 let allKeys = [];
+let selectedDays = 0;
+let selectedKeyId = null;
 
 // ====== GLOW CURSOR ======
 document.addEventListener('mousemove', (e) => {
@@ -603,20 +649,13 @@ document.addEventListener('mousemove', (e) => {
 });
 
 // ====== MUSIC PLAYER ======
-let currentSong = null;
 let audio = new Audio();
 let isPlaying = false;
-let playlist = [];
-let currentIndex = 0;
 
 function searchSong() {
     const query = document.getElementById('songSearch').value.trim();
     if (!query) return toast('Vui lòng nhập tên bài hát!', 'error');
-    toast('🔍 Đang tìm: ' + query, '');
-    // Tìm kiếm trên YouTube và phát
-    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-    // Mở tab mới để nghe (cách đơn giản nhất)
-    window.open(searchUrl, '_blank');
+    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`, '_blank');
     document.getElementById('nowPlaying').innerHTML = `🎵 <b>${query}</b> (đang mở YouTube)`;
 }
 
@@ -632,10 +671,7 @@ function toggleMusic() {
     }
 }
 
-function setVolume(val) {
-    audio.volume = val / 100;
-}
-
+function setVolume(val) { audio.volume = val / 100; }
 function nextSong() { /* Mở rộng sau */ }
 function prevSong() { /* Mở rộng sau */ }
 
@@ -672,6 +708,7 @@ function loadKeys() {
         });
         renderTable(allKeys);
         updateStats(allKeys);
+        updateKeySelect();
     });
 }
 
@@ -691,6 +728,7 @@ function renderTable(keys) {
             <td>${k.note || '-'}</td>
             <td>
                 <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="copyKey('${k.license_key}')">Copy</button>
+                <button class="action-btn" style="background:#f59e0b;color:#000;" onclick="openAddTimeForKey('${k.id}')"><i class="fas fa-clock"></i> +TG</button>
                 <button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteKey('${k.id}')">Xóa</button>
                 ${k.status !== 'banned' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="banKey('${k.id}')">Ban</button>` : `<button class="action-btn" style="background:#22c55e;color:#000;" onclick="unbanKey('${k.id}')">Unban</button>`}
                 <button class="action-btn" style="background:#f59e0b;color:#000;" onclick="markUsed('${k.id}')">Dùng</button>
@@ -711,6 +749,19 @@ function updateStats(keys) {
     document.getElementById('unused').textContent = unused;
     document.getElementById('banned').textContent = banned;
     document.getElementById('expired').textContent = expired;
+}
+
+function updateKeySelect() {
+    const select = document.getElementById('selectKeyForTime');
+    select.innerHTML = '<option value="">-- Chọn key --</option>';
+    allKeys.forEach(k => {
+        if (k.status !== 'banned') {
+            const opt = document.createElement('option');
+            opt.value = k.id;
+            opt.textContent = `${k.license_key} (${getStatus(k).text})`;
+            select.appendChild(opt);
+        }
+    });
 }
 
 // ====== HELPERS ======
@@ -773,6 +824,56 @@ function createKey() {
         closeCreate();
         document.getElementById('customKey').value = '';
         document.getElementById('note').value = '';
+    }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+}
+
+// ====== ADD TIME ======
+function openAddTime() {
+    document.getElementById('addTimeModal').style.display = 'flex';
+    document.getElementById('selectedTimeDisplay').textContent = 'Chưa chọn';
+    selectedDays = 0;
+    selectedKeyId = null;
+    document.querySelectorAll('.time-options button').forEach(b => b.classList.remove('selected'));
+}
+
+function closeAddTime() { document.getElementById('addTimeModal').style.display = 'none'; }
+
+function openAddTimeForKey(keyId) {
+    selectedKeyId = keyId;
+    openAddTime();
+    // highlight key trong select
+    const select = document.getElementById('selectKeyForTime');
+    select.value = keyId;
+}
+
+function selectTime(days) {
+    selectedDays = days;
+    document.querySelectorAll('.time-options button').forEach(b => b.classList.remove('selected'));
+    document.getElementById(`t${days}`).classList.add('selected');
+    document.getElementById('selectedTimeDisplay').textContent = `+${days} ngày`;
+}
+
+function addTimeToKey() {
+    const keyId = document.getElementById('selectKeyForTime').value || selectedKeyId;
+    if (!keyId) return toast('❌ Vui lòng chọn key!', 'error');
+    if (selectedDays <= 0) return toast('❌ Vui lòng chọn số ngày cần cộng!', 'error');
+    
+    const key = allKeys.find(k => k.id === keyId);
+    if (!key) return toast('❌ Không tìm thấy key!', 'error');
+    if (key.status === 'banned') return toast('❌ Key đã bị ban!', 'error');
+    
+    const currentExp = key.expires_at ? new Date(key.expires_at) : new Date();
+    const newExp = new Date(currentExp.getTime() + selectedDays * 24 * 60 * 60 * 1000);
+    
+    db.ref('keys/' + keyId).update({
+        expires_at: newExp.toISOString(),
+        duration: key.duration || 'custom'
+    }).then(() => {
+        toast(`✅ Đã cộng thêm ${selectedDays} ngày cho key ${key.license_key}`, 'success');
+        closeAddTime();
+        selectedDays = 0;
+        document.querySelectorAll('.time-options button').forEach(b => b.classList.remove('selected'));
+        document.getElementById('selectedTimeDisplay').textContent = 'Chưa chọn';
     }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
 }
 
