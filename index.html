@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DuyAh VNX • License Manager</title>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js">
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -22,19 +25,145 @@
             --neon-blue: #00d4ff;
             --neon-green: #00ff88;
             --neon-purple: #a855f7;
+            --rgb-speed: 3s;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
         body {
             background: radial-gradient(circle at 20% 30%, rgba(96, 165, 250, 0.15), transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.15), transparent 50%),
-                        var(--bg);
+                radial-gradient(circle at 80% 70%, rgba(192, 38, 211, 0.15), transparent 50%),
+                var(--bg);
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
             cursor: none;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* ===== GLOW CURSOR ===== */
+        /* ====== RGB BORDER ANIMATION ====== */
+        @keyframes rgbBorder {
+            0% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.3); }
+            16% { border-color: #ff8800; box-shadow: 0 0 15px rgba(255,136,0,0.3); }
+            33% { border-color: #ffff00; box-shadow: 0 0 15px rgba(255,255,0,0.3); }
+            50% { border-color: #00ff00; box-shadow: 0 0 15px rgba(0,255,0,0.3); }
+            66% { border-color: #0088ff; box-shadow: 0 0 15px rgba(0,136,255,0.3); }
+            83% { border-color: #8800ff; box-shadow: 0 0 15px rgba(136,0,255,0.3); }
+            100% { border-color: #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.3); }
+        }
+
+        .stat-card, .table-wrap, .sidebar, .music-player, .modal-content, .copy-modal-content, .login-box {
+            animation: rgbBorder var(--rgb-speed) ease-in-out infinite;
+            border-width: 1.5px;
+            border-style: solid;
+        }
+
+        /* ====== Ô BẢO MẬT GÓC DƯỚI TRÁI ====== */
+        .security-box {
+            position: fixed;
+            left: 25px;
+            bottom: 100px;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid transparent;
+            border-radius: 14px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+            animation: rgbBorder var(--rgb-speed) ease-in-out infinite, securityPulse 2s ease-in-out infinite;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .security-box .shield-icon {
+            font-size: 26px;
+            color: var(--neon-blue);
+            animation: shieldGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        .security-box .info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .security-box .info .label {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .security-box .info .percent {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00d4ff, #a855f7, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 2s ease-in-out infinite;
+            line-height: 1.2;
+        }
+
+        .security-box .info .sub {
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .security-box .dot-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 5px);
+            gap: 2px;
+            margin-left: 4px;
+        }
+
+        .security-box .dot-grid span {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            opacity: 0.6;
+            animation: dotBlink 1.5s ease-in-out infinite alternate;
+        }
+
+        .security-box .dot-grid span:nth-child(2) { animation-delay: 0.3s; }
+        .security-box .dot-grid span:nth-child(3) { animation-delay: 0.6s; }
+        .security-box .dot-grid span:nth-child(4) { animation-delay: 0.2s; }
+        .security-box .dot-grid span:nth-child(5) { animation-delay: 0.5s; }
+        .security-box .dot-grid span:nth-child(6) { animation-delay: 0.8s; }
+        .security-box .dot-grid span:nth-child(7) { animation-delay: 0.1s; }
+        .security-box .dot-grid span:nth-child(8) { animation-delay: 0.4s; }
+        .security-box .dot-grid span:nth-child(9) { animation-delay: 0.7s; }
+
+        @keyframes securityPulse {
+            0%, 100% { border-color: rgba(0, 212, 255, 0.3); box-shadow: 0 0 40px rgba(0, 212, 255, 0.05); }
+            50% { border-color: rgba(168, 85, 247, 0.5); box-shadow: 0 0 60px rgba(168, 85, 247, 0.15); }
+        }
+
+        @keyframes shieldGlow {
+            0% { text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+            100% { text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 212, 255, 0.3); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes dotBlink {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
         #glow {
             position: fixed;
             width: 300px;
@@ -60,7 +189,6 @@
             transition: 0.1s;
         }
 
-        /* ===== MUSIC PLAYER ===== */
         .music-player {
             position: fixed;
             bottom: 30px;
@@ -68,7 +196,6 @@
             transform: translateX(-50%);
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
             border-radius: 50px;
             padding: 10px 25px;
             z-index: 999;
@@ -89,7 +216,9 @@
             width: 200px;
             font-size: 0.85rem;
         }
-        .music-player input:focus { border-color: var(--neon-blue); }
+        .music-player input:focus {
+            border-color: var(--neon-blue);
+        }
         .music-player .btn-music {
             background: none;
             border: none;
@@ -99,7 +228,10 @@
             padding: 5px 10px;
             transition: 0.2s;
         }
-        .music-player .btn-music:hover { color: var(--neon-pink); transform: scale(1.1); }
+        .music-player .btn-music:hover {
+            color: var(--neon-pink);
+            transform: scale(1.1);
+        }
         .music-player .now-playing {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -108,14 +240,21 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }
-        .music-player .now-playing b { color: var(--neon-green); }
+        .music-player .now-playing b {
+            color: var(--neon-green);
+        }
 
-        .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+        }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             position: fixed;
-            left: 0; top: 0;
+            left: 0;
+            top: 0;
             width: 270px;
             height: 100vh;
             background: rgba(15, 23, 42, 0.98);
@@ -132,7 +271,8 @@
             margin-bottom: 45px;
         }
         .logo-d {
-            width: 60px; height: 60px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, #60a5fa, #c026d3);
             border-radius: 50%;
             display: flex;
@@ -172,9 +312,12 @@
             border-color: var(--neon-blue);
             box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
         }
-        .menu button i { font-size: 1.1rem; width: 24px; color: var(--neon-blue); }
+        .menu button i {
+            font-size: 1.1rem;
+            width: 24px;
+            color: var(--neon-blue);
+        }
 
-        /* ===== MAIN ===== */
         .main {
             margin-left: 270px;
             padding: 30px 40px 100px 40px;
@@ -199,7 +342,10 @@
             align-items: center;
             gap: 15px;
         }
-        .user-info .email { color: var(--text-muted); font-size: 0.9rem; }
+        .user-info .email {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
         .user-info .badge {
             background: var(--neon-pink);
             padding: 3px 12px;
@@ -220,27 +366,42 @@
             font-size: 0.8rem;
             transition: 0.2s;
         }
-        .btn-logout:hover { background: #dc2626; transform: scale(1.02); }
+        .btn-logout:hover {
+            background: #dc2626;
+            transform: scale(1.02);
+        }
 
-        /* ===== STATS ===== */
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 16px;
             margin-bottom: 25px;
         }
         .stat-card {
             background: var(--card);
-            border: 1px solid var(--card-border);
             border-radius: 14px;
             padding: 16px 20px;
             transition: 0.3s;
         }
-        .stat-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); }
-        .stat-card h4 { color: var(--text-muted); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-card p { font-size: 1.8rem; font-weight: 700; background: linear-gradient(90deg, #60a5fa, #c026d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-card:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+        }
+        .stat-card h4 {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        /* ===== TOOLBAR ===== */
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -260,12 +421,29 @@
             align-items: center;
             gap: 8px;
         }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-primary { background: linear-gradient(135deg, #60a5fa, #c026d3); color: #fff; }
-        .btn-success { background: var(--neon-green); color: #000; }
-        .btn-danger { background: #ef4444; color: #fff; }
-        .btn-warning { background: var(--s); color: #000; }
-        .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #60a5fa, #c026d3);
+            color: #fff;
+        }
+        .btn-success {
+            background: var(--neon-green);
+            color: #000;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+        }
+        .btn-warning {
+            background: var(--s);
+            color: #000;
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.75rem;
+        }
         .search-input {
             padding: 10px 18px;
             background: rgba(15, 23, 42, 0.8);
@@ -277,20 +455,37 @@
             outline: none;
             transition: 0.3s;
         }
-        .search-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.15); }
+        .search-input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        }
 
-        /* ===== TABLE ===== */
         .table-wrap {
             background: var(--card);
-            border: 1px solid var(--card-border);
             border-radius: 16px;
             overflow: auto;
             padding: 0 5px;
         }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 800px; }
-        th { padding: 14px 12px; text-align: left; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--card-border); }
-        td { padding: 12px; border-bottom: 1px solid rgba(42, 26, 74, 0.4); }
-        tr:hover td { background: rgba(42, 26, 74, 0.2); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 1100px;
+        }
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--card-border);
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(42, 26, 74, 0.4);
+        }
+        tr:hover td {
+            background: rgba(42, 26, 74, 0.2);
+        }
         .status {
             padding: 4px 14px;
             border-radius: 20px;
@@ -298,11 +493,27 @@
             font-weight: 600;
             display: inline-block;
         }
-        .status-unused { background: #f59e0b; color: #000; }
-        .status-used { background: var(--neon-green); color: #000; }
-        .status-banned { background: #ef4444; color: #fff; }
-        .status-expired { background: #6b7280; color: #fff; }
-        .key-text { color: var(--neon-pink); font-weight: 600; letter-spacing: 0.5px; }
+        .status-unused {
+            background: #f59e0b;
+            color: #000;
+        }
+        .status-used {
+            background: var(--neon-green);
+            color: #000;
+        }
+        .status-banned {
+            background: #ef4444;
+            color: #fff;
+        }
+        .status-expired {
+            background: #6b7280;
+            color: #fff;
+        }
+        .key-text {
+            color: var(--neon-pink);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
         .action-btn {
             padding: 4px 10px;
             border: none;
@@ -313,9 +524,68 @@
             margin: 2px;
             transition: 0.2s;
         }
-        .action-btn:hover { transform: scale(1.05); }
+        .action-btn:hover {
+            transform: scale(1.05);
+        }
 
-        /* ===== LOGIN ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+            padding: 10px 0;
+        }
+        .pagination button {
+            padding: 6px 14px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.8rem;
+        }
+        .pagination button:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        }
+        .pagination button.active {
+            background: linear-gradient(135deg, #60a5fa, #c026d3);
+            color: #fff;
+            border-color: transparent;
+        }
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ====== FOOTER ====== */
+        .footer {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 998;
+            text-align: center;
+            padding: 8px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            font-weight: 300;
+        }
+        .footer p span {
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
         .login-screen {
             position: fixed;
             inset: 0;
@@ -337,11 +607,18 @@
             animation: loginSlide 0.6s ease-out;
         }
         @keyframes loginSlide {
-            0% { opacity: 0; transform: scale(0.9) translateY(-30px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
         .login-box .logo-big {
-            width: 80px; height: 80px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, #60a5fa, #c026d3);
             border-radius: 50%;
             display: flex;
@@ -359,7 +636,11 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .login-box p { color: var(--text-muted); margin-bottom: 25px; font-size: 0.95rem; }
+        .login-box p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
         .login-box input {
             width: 100%;
             padding: 16px 20px;
@@ -372,7 +653,10 @@
             outline: none;
             transition: 0.3s;
         }
-        .login-box input:focus { border-color: var(--neon-blue); box-shadow: 0 0 25px rgba(0, 212, 255, 0.15); }
+        .login-box input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.15);
+        }
         .login-btn {
             width: 100%;
             padding: 16px;
@@ -386,9 +670,11 @@
             transition: 0.3s;
             box-shadow: 0 10px 35px rgba(96, 165, 250, 0.3);
         }
-        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(96, 165, 250, 0.4); }
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(96, 165, 250, 0.4);
+        }
 
-        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -401,14 +687,22 @@
         }
         .modal-content {
             background: var(--card);
-            border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 35px 30px;
             width: 100%;
             max-width: 480px;
             animation: modalIn 0.3s ease-out;
         }
-        @keyframes modalIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes modalIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
         .modal-content h2 {
             font-size: 1.5rem;
             background: linear-gradient(90deg, #60a5fa, #c026d3);
@@ -417,7 +711,8 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .modal-content input, .modal-content select {
+        .modal-content input,
+        .modal-content select {
             width: 100%;
             padding: 14px 16px;
             margin-bottom: 12px;
@@ -428,11 +723,20 @@
             font-size: 0.95rem;
             outline: none;
         }
-        .modal-content input:focus, .modal-content select:focus { border-color: var(--neon-blue); }
-        .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
-        .modal-actions .btn { flex: 1; justify-content: center; }
+        .modal-content input:focus,
+        .modal-content select:focus {
+            border-color: var(--neon-blue);
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .modal-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
 
-        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 100px;
@@ -449,393 +753,887 @@
             box-shadow: 0 10px 40px rgba(96, 165, 250, 0.4);
             animation: toastIn 0.4s ease-out;
         }
-        .toast.error { background: #ef4444; }
-        .toast.success { background: var(--neon-green); color: #000; }
-        @keyframes toastIn { 0% { transform: translateX(120%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        .toast.error {
+            background: #ef4444;
+        }
+        .toast.success {
+            background: var(--neon-green);
+            color: #000;
+        }
+        @keyframes toastIn {
+            0% {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .copy-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+        .copy-modal-content {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 35px 30px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.2);
+            animation: modalIn 0.4s ease-out;
+        }
+        .copy-modal-content h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+        .copy-modal-content .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(42, 26, 74, 0.3);
+        }
+        .copy-modal-content .info-row .label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        .copy-modal-content .info-row .value {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .copy-modal-content .info-row .value.highlight {
+            color: var(--neon-pink);
+        }
+        .copy-modal-content .key-box {
+            background: rgba(2, 6, 23, 0.8);
+            border: 1px solid var(--neon-blue);
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            letter-spacing: 1px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+        .copy-modal-content .btn-copy-key {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #60a5fa, #c026d3);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .copy-modal-content .btn-copy-key:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
+        }
+        .copy-modal-content .btn-close-copy {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
+        }
+        .copy-modal-content .btn-close-copy:hover {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+        }
+
+        .copy-modal-content .creator-tag {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .creator-tag.admin {
+            background: var(--neon-pink);
+            color: #fff;
+        }
+        .creator-tag.staff {
+            background: var(--neon-blue);
+            color: #fff;
+        }
+
+        .duration-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(96, 165, 250, 0.2);
+            color: var(--neon-blue);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+        }
+        .duration-badge.lifetime {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        .duration-badge.hours {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
 
         @media (max-width: 768px) {
-            .sidebar { width: 200px; padding: 20px 14px; }
-            .sidebar-title { font-size: 1.2rem; }
-            .main { margin-left: 200px; padding: 20px; }
-            .title { font-size: 1.5rem; }
-            .stats { grid-template-columns: repeat(2, 1fr); }
-            .login-box { width: 95%; padding: 30px 20px; }
-            .music-player { min-width: auto; width: 95%; flex-wrap: wrap; padding: 10px 15px; }
-            .music-player input { width: 120px; }
+            .sidebar {
+                width: 200px;
+                padding: 20px 14px;
+            }
+            .sidebar-title {
+                font-size: 1.2rem;
+            }
+            .main {
+                margin-left: 200px;
+                padding: 20px;
+            }
+            .title {
+                font-size: 1.5rem;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .login-box {
+                width: 95%;
+                padding: 30px 20px;
+            }
+            .music-player {
+                min-width: auto;
+                width: 95%;
+                flex-wrap: wrap;
+                padding: 10px 15px;
+            }
+            .music-player input {
+                width: 120px;
+            }
+            .copy-modal-content {
+                margin: 20px;
+                padding: 25px 20px;
+            }
+            .security-box {
+                left: 10px;
+                bottom: 90px;
+                padding: 10px 14px;
+                gap: 10px;
+            }
+            .security-box .info .percent {
+                font-size: 1.2rem;
+            }
+            .security-box .shield-icon {
+                font-size: 20px;
+            }
+            .footer {
+                bottom: 80px;
+                padding: 6px 16px;
+            }
+            .footer p {
+                font-size: 0.6rem;
+            }
         }
+
         @media (max-width: 600px) {
-            .sidebar { display: none; }
-            .main { margin-left: 0; }
+            .sidebar {
+                display: none;
+            }
+            .main {
+                margin-left: 0;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .security-box {
+                left: 10px;
+                bottom: 85px;
+                padding: 8px 12px;
+                gap: 8px;
+            }
+            .security-box .info .percent {
+                font-size: 1rem;
+            }
+            .security-box .shield-icon {
+                font-size: 16px;
+            }
+            .security-box .dot-grid {
+                display: none;
+            }
+            .footer {
+                bottom: 75px;
+                padding: 5px 12px;
+            }
+            .footer p {
+                font-size: 0.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-<!-- ====== GLOW CURSOR ====== -->
-<div id="glow"></div>
-<div id="glow-dot"></div>
+    <!-- ====== GLOW CURSOR ====== -->
+    <div id="glow"></div>
+    <div id="glow-dot"></div>
 
-<!-- ====== MUSIC PLAYER ====== -->
-<div class="music-player" id="musicPlayer">
-    <button class="btn-music" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
-    <input type="text" id="songSearch" placeholder="Tìm bài hát..." onkeydown="if(event.key==='Enter') searchSong()">
-    <button class="btn-music" onclick="searchSong()"><i class="fas fa-search"></i></button>
-    <span class="now-playing" id="nowPlaying">🎵 <b>Chưa chọn nhạc</b></span>
-    <button class="btn-music" onclick="nextSong()"><i class="fas fa-forward"></i></button>
-    <button class="btn-music" onclick="prevSong()"><i class="fas fa-backward"></i></button>
-    <input type="range" id="volumeSlider" min="0" max="100" value="50" style="width:60px; accent-color:var(--neon-blue);" oninput="setVolume(this.value)">
-</div>
-
-<!-- ====== LOGIN ====== -->
-<div class="login-screen" id="loginScreen">
-    <div class="login-box">
-        <div class="logo-big">D</div>
-        <h1>DuyAh VNX</h1>
-        <p>🔐 License Management System</p>
-        <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
-        <button class="login-btn" onclick="login()">ĐĂNG NHẬP</button>
-    </div>
-</div>
-
-<!-- ====== MAIN ====== -->
-<div class="container" id="mainApp" style="display:none;">
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-d">D</div>
-            <div class="sidebar-title">DuyAh VNX</div>
+    <!-- ====== Ô BẢO MẬT GÓC DƯỚI TRÁI ====== -->
+    <div class="security-box" title="🔒 Bảo mật cấp cao - 99.98% an toàn">
+        <div class="shield-icon">
+            <i class="fas fa-shield-alt"></i>
         </div>
-        <div class="menu">
-            <button onclick="openCreate()"><i class="fas fa-key"></i> Tạo Key Mới</button>
-            <button onclick="exportKeys()"><i class="fas fa-file-export"></i> Xuất Keys</button>
-            <button onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
-            <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</button>
+        <div class="info">
+            <span class="label">🔒 Bảo Mật</span>
+            <span class="percent">99.98%</span>
+            <span class="sub">● AES-256 ● SSL</span>
+        </div>
+        <div class="dot-grid">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
         </div>
     </div>
 
-    <div class="main">
-        <div class="topbar">
-            <div class="title">📊 Bảng Điều Khiển</div>
-            <div class="user-info">
-                <span class="email" id="userEmail">Admin</span>
-                <span class="badge">ADMIN</span>
-                <button class="btn-logout" onclick="logout()">Thoát</button>
+    <!-- ====== FOOTER ====== -->
+    <div class="footer">
+        <p>© 2026 <span>CUTTAY</span>. All rights reserved.</p>
+    </div>
+
+    <!-- ====== MUSIC PLAYER ====== -->
+    <div class="music-player" id="musicPlayer">
+        <button class="btn-music" onclick="toggleMusic()"><i class="fas fa-play" id="playIcon"></i></button>
+        <input type="text" id="songSearch" placeholder="Tìm bài hát..." onkeydown="if(event.key==='Enter') searchSong()">
+        <button class="btn-music" onclick="searchSong()"><i class="fas fa-search"></i></button>
+        <span class="now-playing" id="nowPlaying">🎵 <b>Chưa chọn nhạc</b></span>
+        <button class="btn-music" onclick="nextSong()"><i class="fas fa-forward"></i></button>
+        <button class="btn-music" onclick="prevSong()"><i class="fas fa-backward"></i></button>
+        <input type="range" id="volumeSlider" min="0" max="100" value="50" style="width:60px; accent-color:var(--neon-blue);" oninput="setVolume(this.value)">
+    </div>
+
+    <!-- ====== LOGIN ====== -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="logo-big">D</div>
+            <h1>DuyAh VNX</h1>
+            <p>🔐 License Management System</p>
+            <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
+            <button class="login-btn" onclick="login()">ĐĂNG NHẬP</button>
+        </div>
+    </div>
+
+    <!-- ====== MAIN ====== -->
+    <div class="container" id="mainApp" style="display:none;">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-d">D</div>
+                <div class="sidebar-title">DuyAh VNX</div>
+            </div>
+            <div class="menu">
+                <button onclick="openCreate()"><i class="fas fa-key"></i> Tạo Key Mới</button>
+                <button onclick="exportKeys()"><i class="fas fa-file-export"></i> Xuất Keys</button>
+                <button onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
+                <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</button>
             </div>
         </div>
 
-        <div class="stats" id="stats">
-            <div class="stat-card"><h4>Tổng Key</h4><p id="total">0</p></div>
-            <div class="stat-card"><h4>Đã Dùng</h4><p id="used">0</p></div>
-            <div class="stat-card"><h4>Chưa Dùng</h4><p id="unused">0</p></div>
-            <div class="stat-card"><h4>Bị Ban</h4><p id="banned">0</p></div>
-            <div class="stat-card"><h4>Hết Hạn</h4><p id="expired">0</p></div>
-        </div>
+        <div class="main">
+            <div class="topbar">
+                <div class="title">📊 Bảng Điều Khiển</div>
+                <div class="user-info">
+                    <span class="email" id="userEmail">Admin</span>
+                    <span class="badge">ADMIN</span>
+                    <button class="btn-logout" onclick="logout()">Thoát</button>
+                </div>
+            </div>
 
-        <div class="toolbar">
-            <button class="btn btn-primary" onclick="openCreate()"><i class="fas fa-plus"></i> Tạo Key</button>
-            <button class="btn btn-success" onclick="exportKeys()"><i class="fas fa-download"></i> Xuất Keys</button>
-            <button class="btn btn-danger" onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
-            <input class="search-input" type="text" id="search" placeholder="🔍 Tìm key..." oninput="searchKey()">
-        </div>
+            <div class="stats" id="stats">
+                <div class="stat-card"><h4>Tổng Key</h4><p id="total">0</p></div>
+                <div class="stat-card"><h4>Đã Dùng</h4><p id="used">0</p></div>
+                <div class="stat-card"><h4>Chưa Dùng</h4><p id="unused">0</p></div>
+                <div class="stat-card"><h4>Bị Ban</h4><p id="banned">0</p></div>
+                <div class="stat-card"><h4>Hết Hạn</h4><p id="expired">0</p></div>
+            </div>
 
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr><th>#</th><th>License Key</th><th>Thời Hạn</th><th>Còn Lại</th><th>Máy</th><th>Trạng Thái</th><th>Ghi Chú</th><th>Hành Động</th></tr>
-                </thead>
-                <tbody id="keysTable"></tbody>
-            </table>
+            <div class="toolbar">
+                <button class="btn btn-primary" onclick="openCreate()"><i class="fas fa-plus"></i> Tạo Key</button>
+                <button class="btn btn-success" onclick="exportKeys()"><i class="fas fa-download"></i> Xuất Keys</button>
+                <button class="btn btn-danger" onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
+                <input class="search-input" type="text" id="search" placeholder="🔍 Tìm key..." oninput="searchKey()">
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>License Key</th>
+                            <th>Thời Gian</th>
+                            <th>Thời Hạn</th>
+                            <th>Còn Lại</th>
+                            <th>Máy</th>
+                            <th>Trạng Thái</th>
+                            <th>Người Tạo</th>
+                            <th>Ghi Chú</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="keysTable"></tbody>
+                </table>
+            </div>
+
+            <div class="pagination" id="pagination"></div>
         </div>
     </div>
-</div>
 
-<!-- ====== CREATE MODAL ====== -->
-<div class="modal" id="createModal">
-    <div class="modal-content">
-        <h2>🔑 Tạo License Key</h2>
-        <input type="text" id="customKey" placeholder="Nhập key (để trống tự tạo)">
-        <select id="duration">
-            <option value="1_day">1 Ngày</option>
-            <option value="7_days">7 Ngày</option>
-            <option value="30_days">30 Ngày</option>
-            <option value="90_days">3 Tháng</option>
-            <option value="lifetime" selected>Vĩnh Viễn</option>
-        </select>
-        <select id="deviceLimit">
-            <option value="1">1 Máy</option>
-            <option value="unlimited" selected>Không Giới Hạn</option>
-        </select>
-        <input type="text" id="note" placeholder="Ghi chú (tùy chọn)">
-        <div class="modal-actions">
-            <button class="btn btn-primary" onclick="createKey()">Tạo</button>
-            <button class="btn btn-danger" onclick="closeCreate()">Đóng</button>
+    <!-- ====== CREATE MODAL ====== -->
+    <div class="modal" id="createModal">
+        <div class="modal-content">
+            <h2>🔑 Tạo License Key</h2>
+            <input type="text" id="customKey" placeholder="Nhập key (để trống tự tạo)">
+            <select id="duration">
+                <option value="2_hours">2 Giờ</option>
+                <option value="1_day">1 Ngày</option>
+                <option value="7_days">7 Ngày</option>
+                <option value="30_days">30 Ngày</option>
+                <option value="90_days">3 Tháng</option>
+                <option value="lifetime" selected>Vĩnh Viễn</option>
+            </select>
+            <select id="deviceLimit">
+                <option value="1">1 Máy</option>
+                <option value="unlimited" selected>Không Giới Hạn</option>
+            </select>
+            <input type="text" id="note" placeholder="Ghi chú (tùy chọn)">
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="createKey()">Tạo</button>
+                <button class="btn btn-danger" onclick="closeCreate()">Đóng</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- ====== TOAST ====== -->
-<div class="toast" id="toast"><i class="fas fa-bell"></i> <span id="toastMsg">Thông báo</span></div>
+    <!-- ====== COPY KEY MODAL ====== -->
+    <div class="copy-modal" id="copyModal">
+        <div class="copy-modal-content">
+            <h2>📋 Thông Tin Key</h2>
+            <div class="key-box" id="copyKeyDisplay">AIMBODY-XXXX-XXXX</div>
+            <div id="copyKeyInfo">
+                <div class="info-row"><span class="label">🔑 License Key</span><span class="value highlight" id="infoKey">---</span></div>
+                <div class="info-row"><span class="label">📅 Ngày Tạo</span><span class="value" id="infoCreated">---</span></div>
+                <div class="info-row"><span class="label">⏳ Hết Hạn</span><span class="value" id="infoExpires">---</span></div>
+                <div class="info-row"><span class="label">📊 Thời Gian Sử Dụng</span><span class="value" id="infoDuration">---</span></div>
+                <div class="info-row"><span class="label">👤 Người Tạo</span><span class="value" id="infoCreator">---</span></div>
+                <div class="info-row"><span class="label">📝 Ghi Chú</span><span class="value" id="infoNote">---</span></div>
+                <div class="info-row"><span class="label">💻 Trạng Thái</span><span class="value" id="infoStatus">---</span></div>
+            </div>
+            <button class="btn-copy-key" onclick="copyFullKeyInfo()"><i class="fas fa-copy"></i> Sao Chép Toàn Bộ</button>
+            <button class="btn-close-copy" onclick="closeCopyModal()">Đóng</button>
+        </div>
+    </div>
 
-<script>
-// ====== FIREBASE ======
-const firebaseConfig = {
-    apiKey: "AIzaSyAOcavYOsOGgRnmfPKeojppLoP6hPYe6pI",
-    authDomain: "shopcuttay.firebaseapp.com",
-    databaseURL: "https://shopcuttay-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "shopcuttay",
-    storageBucket: "shopcuttay.firebasestorage.app",
-    messagingSenderId: "275809822981",
-    appId: "1:275809822981:web:02e33ad2515eed78b32f6c"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+    <!-- ====== TOAST ====== -->
+    <div class="toast" id="toast"><i class="fas fa-bell"></i> <span id="toastMsg">Thông báo</span></div>
 
-let allKeys = [];
+    <script>
+        // ====== FIREBASE ======
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOcavYOsOGgRnmfPKeojppLoP6hPYe6pI",
+            authDomain: "shopcuttay.firebaseapp.com",
+            databaseURL: "https://shopcuttay-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "shopcuttay",
+            storageBucket: "shopcuttay.firebasestorage.app",
+            messagingSenderId: "275809822981",
+            appId: "1:275809822981:web:02e33ad2515eed78b32f6c"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-// ====== GLOW CURSOR ======
-document.addEventListener('mousemove', (e) => {
-    const glow = document.getElementById('glow');
-    const dot = document.getElementById('glow-dot');
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
-    dot.style.left = e.clientX + 'px';
-    dot.style.top = e.clientY + 'px';
-});
+        let allKeys = [];
+        let currentUser = 'admin';
+        let currentUserDisplay = 'Admin';
+        let currentPage = 1;
+        const itemsPerPage = 7;
 
-// ====== MUSIC PLAYER ======
-let currentSong = null;
-let audio = new Audio();
-let isPlaying = false;
-let playlist = [];
-let currentIndex = 0;
-
-function searchSong() {
-    const query = document.getElementById('songSearch').value.trim();
-    if (!query) return toast('Vui lòng nhập tên bài hát!', 'error');
-    toast('🔍 Đang tìm: ' + query, '');
-    // Tìm kiếm trên YouTube và phát
-    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-    // Mở tab mới để nghe (cách đơn giản nhất)
-    window.open(searchUrl, '_blank');
-    document.getElementById('nowPlaying').innerHTML = `🎵 <b>${query}</b> (đang mở YouTube)`;
-}
-
-function toggleMusic() {
-    if (audio.paused) {
-        audio.play();
-        document.getElementById('playIcon').className = 'fas fa-pause';
-        isPlaying = true;
-    } else {
-        audio.pause();
-        document.getElementById('playIcon').className = 'fas fa-play';
-        isPlaying = false;
-    }
-}
-
-function setVolume(val) {
-    audio.volume = val / 100;
-}
-
-function nextSong() { /* Mở rộng sau */ }
-function prevSong() { /* Mở rộng sau */ }
-
-// ====== LOGIN ======
-function login() {
-    const pass = document.getElementById('adminPass').value.trim();
-    if (pass === 'DuyAhVNX') {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('mainApp').style.display = 'block';
-        localStorage.setItem('duyah_logged', 'true');
-        loadKeys();
-        toast('✅ Đăng nhập thành công!', 'success');
-    } else {
-        toast('❌ Mật khẩu sai!', 'error');
-    }
-}
-
-function logout() {
-    localStorage.removeItem('duyah_logged');
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('mainApp').style.display = 'none';
-    document.getElementById('adminPass').value = '';
-    toast('Đã đăng xuất', '');
-}
-
-// ====== LOAD KEYS ======
-function loadKeys() {
-    db.ref('keys').on('value', snap => {
-        allKeys = [];
-        snap.forEach(child => {
-            const data = child.val();
-            data.id = child.key;
-            allKeys.push(data);
+        // ====== GLOW CURSOR ======
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.getElementById('glow');
+            const dot = document.getElementById('glow-dot');
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
         });
-        renderTable(allKeys);
-        updateStats(allKeys);
-    });
-}
 
-function renderTable(keys) {
-    let html = '';
-    keys.forEach((k, i) => {
-        const status = getStatus(k);
-        const remaining = getRemaining(k.expires_at);
-        const durLabel = getDurationLabel(k.duration);
-        html += `<tr>
-            <td>${i+1}</td>
-            <td><span class="key-text">${k.license_key}</span></td>
-            <td>${durLabel}</td>
-            <td>${remaining}</td>
-            <td>${k.devices === 'unlimited' ? '♾️' : k.devices || '1'}</td>
-            <td><span class="status status-${status.cls}">${status.text}</span></td>
-            <td>${k.note || '-'}</td>
-            <td>
-                <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="copyKey('${k.license_key}')">Copy</button>
-                <button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteKey('${k.id}')">Xóa</button>
-                ${k.status !== 'banned' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="banKey('${k.id}')">Ban</button>` : `<button class="action-btn" style="background:#22c55e;color:#000;" onclick="unbanKey('${k.id}')">Unban</button>`}
-                <button class="action-btn" style="background:#f59e0b;color:#000;" onclick="markUsed('${k.id}')">Dùng</button>
-            </td>
-        </tr>`;
-    });
-    document.getElementById('keysTable').innerHTML = html || '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px;">Chưa có key nào</td></tr>';
-}
+        // ====== MUSIC PLAYER ======
+        let audio = new Audio();
+        let isPlaying = false;
 
-function updateStats(keys) {
-    const total = keys.length;
-    const used = keys.filter(k => k.status === 'used').length;
-    const unused = keys.filter(k => k.status === 'unused').length;
-    const banned = keys.filter(k => k.status === 'banned').length;
-    const expired = keys.filter(k => k.expires_at && new Date(k.expires_at) < new Date() && k.status !== 'banned').length;
-    document.getElementById('total').textContent = total;
-    document.getElementById('used').textContent = used;
-    document.getElementById('unused').textContent = unused;
-    document.getElementById('banned').textContent = banned;
-    document.getElementById('expired').textContent = expired;
-}
+        function searchSong() {
+            const query = document.getElementById('songSearch').value.trim();
+            if (!query) return toast('Vui lòng nhập tên bài hát!', 'error');
+            window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`, '_blank');
+            document.getElementById('nowPlaying').innerHTML = `🎵 <b>${query}</b> (đang mở YouTube)`;
+        }
 
-// ====== HELPERS ======
-function getStatus(k) {
-    if (k.status === 'banned') return {text: 'BỊ BAN', cls: 'banned'};
-    if (k.expires_at && new Date(k.expires_at) < new Date()) return {text: 'HẾT HẠN', cls: 'expired'};
-    if (k.status === 'used') return {text: 'ĐÃ DÙNG', cls: 'used'};
-    return {text: 'CHƯA DÙNG', cls: 'unused'};
-}
-function getRemaining(exp) {
-    if (!exp) return '♾️';
-    const diff = new Date(exp) - new Date();
-    if (diff < 0) return '⏰ Hết';
-    const d = Math.floor(diff / (1000*60*60*24));
-    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-    return d > 0 ? `${d}d ${h}h` : `${h}h`;
-}
-function getDurationLabel(d) {
-    const map = {'1_day':'1 Ngày','7_days':'7 Ngày','30_days':'30 Ngày','90_days':'3 Tháng','lifetime':'Vĩnh Viễn'};
-    return map[d] || d || 'Vĩnh Viễn';
-}
-function generateKey() {
-    const p2 = Math.random().toString(36).substring(2,5).toUpperCase();
-    const p3 = Math.random().toString(36).substring(2,6).toUpperCase();
-    return `AIMBODY-${p2}-${p3}`;
-}
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('playIcon').className = 'fas fa-pause';
+                isPlaying = true;
+            } else {
+                audio.pause();
+                document.getElementById('playIcon').className = 'fas fa-play';
+                isPlaying = false;
+            }
+        }
 
-// ====== SEARCH ======
-function searchKey() {
-    const val = document.getElementById('search').value.toLowerCase();
-    renderTable(allKeys.filter(k => k.license_key.toLowerCase().includes(val)));
-}
+        function setVolume(val) { audio.volume = val / 100; }
 
-// ====== CREATE ======
-function openCreate() { document.getElementById('createModal').style.display = 'flex'; }
-function closeCreate() { document.getElementById('createModal').style.display = 'none'; }
+        function nextSong() {}
+        function prevSong() {}
 
-function createKey() {
-    const custom = document.getElementById('customKey').value.trim();
-    const duration = document.getElementById('duration').value;
-    const devices = document.getElementById('deviceLimit').value;
-    const note = document.getElementById('note').value.trim();
-    const key = custom || generateKey();
-    let expires_at = null;
-    const now = new Date();
-    const map = {'1_day':1,'7_days':7,'30_days':30,'90_days':90};
-    if (duration !== 'lifetime') {
-        expires_at = new Date(now.getTime() + map[duration]*24*60*60*1000);
-    }
-    db.ref('keys').push({
-        license_key: key,
-        status: 'unused',
-        duration: duration,
-        devices: devices,
-        note: note,
-        created_at: now.toISOString(),
-        expires_at: expires_at ? expires_at.toISOString() : null
-    }).then(() => {
-        toast('✅ Đã tạo key: ' + key, 'success');
-        closeCreate();
-        document.getElementById('customKey').value = '';
-        document.getElementById('note').value = '';
-    }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
-}
+        // ====== LOGIN ======
+        function login() {
+            const pass = document.getElementById('adminPass').value.trim();
+            if (pass === 'DuyAhVNX') {
+                currentUser = 'admin';
+                currentUserDisplay = 'Admin';
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('userEmail').textContent = 'Admin';
+                localStorage.setItem('duyah_logged', 'true');
+                localStorage.setItem('duyah_user', 'admin');
+                loadKeys();
+                toast('✅ Đăng nhập Admin thành công!', 'success');
+            } else if (pass === 'NhanVienVNX') {
+                currentUser = 'staff';
+                currentUserDisplay = 'Nhân Viên';
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('userEmail').textContent = 'Nhân Viên';
+                localStorage.setItem('duyah_logged', 'true');
+                localStorage.setItem('duyah_user', 'staff');
+                loadKeys();
+                toast('✅ Đăng nhập Nhân Viên thành công!', 'success');
+            } else {
+                toast('❌ Mật khẩu sai!', 'error');
+            }
+        }
 
-// ====== DELETE, BAN, UNBAN, USED ======
-function deleteKey(id) {
-    if (!confirm('Xóa key này?')) return;
-    db.ref('keys/' + id).remove().then(() => toast('✅ Đã xóa key', 'success'));
-}
-function banKey(id) {
-    const reason = prompt('Lý do ban?');
-    if (reason === null) return;
-    db.ref('keys/' + id).update({status: 'banned', ban_reason: reason}).then(() => toast('⛔ Key đã bị ban', ''));
-}
-function unbanKey(id) {
-    db.ref('keys/' + id).update({status: 'unused', ban_reason: null}).then(() => toast('✅ Key đã unban', 'success'));
-}
-function markUsed(id) {
-    db.ref('keys/' + id).update({status: 'used'}).then(() => toast('✅ Đã đánh dấu đã dùng', 'success'));
-}
+        function logout() {
+            localStorage.removeItem('duyah_logged');
+            localStorage.removeItem('duyah_user');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('adminPass').value = '';
+            toast('Đã đăng xuất', '');
+        }
 
-// ====== DELETE ALL ======
-function deleteAll() {
-    if (!confirm('XÓA TẤT CẢ KEY?')) return;
-    db.ref('keys').remove().then(() => toast('🗑️ Đã xóa tất cả', ''));
-}
+        // ====== LOAD KEYS ======
+        function loadKeys() {
+            db.ref('keys').on('value', snap => {
+                allKeys = [];
+                snap.forEach(child => {
+                    const data = child.val();
+                    data.id = child.key;
+                    allKeys.push(data);
+                });
+                allKeys.sort((a, b) => {
+                    if (a.created_at && b.created_at) {
+                        return new Date(b.created_at) - new Date(a.created_at);
+                    }
+                    return 0;
+                });
+                currentPage = 1;
+                renderTableWithPagination(allKeys);
+                updateStats(allKeys);
+            });
+        }
 
-// ====== EXPORT ======
-function exportKeys() {
-    const txt = allKeys.map(k => k.license_key).join('\n');
-    const blob = new Blob([txt], {type: 'text/plain'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'DuyAh_Keys.txt';
-    a.click();
-    toast('📥 Đã xuất keys', 'success');
-}
+        function renderTableWithPagination(keys) {
+            const totalPages = Math.ceil(keys.length / itemsPerPage);
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageKeys = keys.slice(start, end);
+            renderTable(pageKeys);
+            renderPagination(totalPages);
+        }
 
-// ====== COPY ======
-function copyKey(key) {
-    navigator.clipboard.writeText(key);
-    toast('📋 Đã copy: ' + key, 'success');
-}
+        function renderTable(keys) {
+            let html = '';
+            const isStaff = currentUser === 'staff';
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            keys.forEach((k, i) => {
+                const status = getStatus(k);
+                const remaining = getRemaining(k.expires_at);
+                const durLabel = getDurationLabel(k.duration);
+                const durBadge = getDurationBadge(k.duration);
+                const creator = k.created_by || 'Admin';
+                const creatorLabel = creator === 'Admin' ? '<span class="creator-tag admin">ADMIN</span>' :
+                    '<span class="creator-tag staff">STAFF</span>';
+                html += `<tr>
+                    <td>${startIndex + i + 1}</td>
+                    <td><span class="key-text">${k.license_key}</span></td>
+                    <td><span class="duration-badge ${durBadge}">${durLabel}</span></td>
+                    <td>${remaining}</td>
+                    <td>${k.devices === 'unlimited' ? '♾️' : k.devices || '1'}</td>
+                    <td><span class="status status-${status.cls}">${status.text}</span></td>
+                    <td>${creatorLabel}</td>
+                    <td>${k.note || '-'}</td>
+                    <td>
+                        <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="openCopyModal('${k.id}')"><i class="fas fa-copy"></i> Info</button>
+                        ${!isStaff ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteKey('${k.id}')">Xóa</button>` : ''}
+                        ${!isStaff && k.status !== 'banned' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="banKey('${k.id}')">Ban</button>` : ''}
+                        ${!isStaff && k.status === 'banned' ? `<button class="action-btn" style="background:#22c55e;color:#000;" onclick="unbanKey('${k.id}')">Unban</button>` : ''}
+                        <button class="action-btn" style="background:#f59e0b;color:#000;" onclick="markUsed('${k.id}')">Dùng</button>
+                        ${!isStaff ? `<button class="action-btn" style="background:#8b5cf6;color:#fff;" onclick="addTimeToKey('${k.id}')"><i class="fas fa-clock"></i> +TG</button>` : ''}
+                    </td>
+                </tr>`;
+            });
+            document.getElementById('keysTable').innerHTML = html ||
+                '<tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:30px;">Chưa có key nào</td></tr>';
+        }
 
-// ====== TOAST ======
-function toast(msg, type) {
-    const el = document.getElementById('toast');
-    const msgEl = document.getElementById('toastMsg');
-    el.className = 'toast';
-    if (type === 'error') el.classList.add('error');
-    if (type === 'success') el.classList.add('success');
-    msgEl.textContent = msg;
-    el.style.display = 'flex';
-    clearTimeout(el._timer);
-    el._timer = setTimeout(() => el.style.display = 'none', 3000);
-}
+        function renderPagination(totalPages) {
+            const container = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+            let html = `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            html += `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            container.innerHTML = html;
+        }
 
-// ====== AUTO LOGIN ======
-window.addEventListener('load', () => {
-    if (localStorage.getItem('duyah_logged') === 'true') {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('mainApp').style.display = 'block';
-        loadKeys();
-    }
-});
-</script>
+        function changePage(page) {
+            const totalPages = Math.ceil(allKeys.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderTableWithPagination(allKeys);
+        }
+
+        function updateStats(keys) {
+            const total = keys.length;
+            const used = keys.filter(k => k.status === 'used').length;
+            const unused = keys.filter(k => k.status === 'unused').length;
+            const banned = keys.filter(k => k.status === 'banned').length;
+            const expired = keys.filter(k => k.expires_at && new Date(k.expires_at) < new Date() && k.status !== 'banned')
+                .length;
+            document.getElementById('total').textContent = total;
+            document.getElementById('used').textContent = used;
+            document.getElementById('unused').textContent = unused;
+            document.getElementById('banned').textContent = banned;
+            document.getElementById('expired').textContent = expired;
+        }
+
+        // ====== HELPERS ======
+        function getStatus(k) {
+            if (k.status === 'banned') return { text: 'BỊ BAN', cls: 'banned' };
+            if (k.expires_at && new Date(k.expires_at) < new Date()) return { text: 'HẾT HẠN', cls: 'expired' };
+            if (k.status === 'used') return { text: 'ĐÃ DÙNG', cls: 'used' };
+            return { text: 'CHƯA DÙNG', cls: 'unused' };
+        }
+
+        function getRemaining(exp) {
+            if (!exp) return '♾️';
+            const diff = new Date(exp) - new Date();
+            if (diff < 0) return '⏰ Hết';
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            if (d > 0) return `${d}d ${h}h`;
+            if (h > 0) return `${h}h ${m}m`;
+            return `${m}m`;
+        }
+
+        function getDurationLabel(d) {
+            const map = {
+                '2_hours': '2 Giờ',
+                '1_day': '1 Ngày',
+                '7_days': '7 Ngày',
+                '30_days': '30 Ngày',
+                '90_days': '3 Tháng',
+                'lifetime': 'Vĩnh Viễn'
+            };
+            return map[d] || d || 'Vĩnh Viễn';
+        }
+
+        function getDurationBadge(d) {
+            if (d === 'lifetime') return 'lifetime';
+            if (d === '2_hours') return 'hours';
+            return '';
+        }
+
+        function getDurationHours(d) {
+            const map = {
+                '2_hours': 2,
+                '1_day': 24,
+                '7_days': 168,
+                '30_days': 720,
+                '90_days': 2160,
+                'lifetime': Infinity
+            };
+            return map[d] || 0;
+        }
+
+        function generateKey() {
+            const p2 = Math.random().toString(36).substring(2, 5).toUpperCase();
+            const p3 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            return `AIMBODY-${p2}-${p3}`;
+        }
+
+        // ====== SEARCH ======
+        function searchKey() {
+            const val = document.getElementById('search').value.toLowerCase();
+            const filtered = allKeys.filter(k => k.license_key.toLowerCase().includes(val));
+            currentPage = 1;
+            renderTableWithPagination(filtered);
+        }
+
+        // ====== CREATE ======
+        function openCreate() { document.getElementById('createModal').style.display = 'flex'; }
+
+        function closeCreate() { document.getElementById('createModal').style.display = 'none'; }
+
+        function createKey() {
+            const custom = document.getElementById('customKey').value.trim();
+            const duration = document.getElementById('duration').value;
+            const devices = document.getElementById('deviceLimit').value;
+            const note = document.getElementById('note').value.trim();
+            const key = custom || generateKey();
+            let expires_at = null;
+            const now = new Date();
+            const hours = getDurationHours(duration);
+            if (duration !== 'lifetime' && hours !== Infinity) {
+                expires_at = new Date(now.getTime() + hours * 60 * 60 * 1000);
+            }
+            db.ref('keys').push({
+                license_key: key,
+                status: 'unused',
+                duration: duration,
+                devices: devices,
+                note: note,
+                created_at: now.toISOString(),
+                expires_at: expires_at ? expires_at.toISOString() : null,
+                created_by: currentUserDisplay
+            }).then(() => {
+                toast('✅ Đã tạo key: ' + key, 'success');
+                closeCreate();
+                document.getElementById('customKey').value = '';
+                document.getElementById('note').value = '';
+            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+        }
+
+        // ====== ADD TIME TO KEY ======
+        function addTimeToKey(keyId) {
+            if (currentUser === 'staff') {
+                toast('❌ Nhân viên không có quyền này!', 'error');
+                return;
+            }
+
+            let keyIndex = allKeys.findIndex(k => k.id === keyId);
+            if (keyIndex === -1) return toast('❌ Không tìm thấy key!', 'error');
+
+            const key = allKeys[keyIndex];
+
+            if (key.duration === 'lifetime') {
+                toast('❌ Key Vĩnh Viễn không cần cộng thêm giờ!', 'error');
+                return;
+            }
+
+            const hoursToAdd = prompt('Nhập số giờ muốn cộng thêm (VD: 2, 12, 24):', '2');
+            if (hoursToAdd === null) return;
+            const h = parseInt(hoursToAdd);
+            if (isNaN(h) || h <= 0) return toast('❌ Vui lòng nhập số giờ hợp lệ!', 'error');
+
+            const now = new Date();
+            let currentExp = key.expires_at ? new Date(key.expires_at) : null;
+
+            if (!currentExp || currentExp < now) {
+                currentExp = now;
+            }
+
+            const newExp = new Date(currentExp.getTime() + h * 60 * 60 * 1000);
+
+            db.ref('keys/' + keyId).update({
+                expires_at: newExp.toISOString()
+            }).then(() => {
+                toast(`✅ Đã cộng thêm ${h} giờ cho key ${key.license_key}`, 'success');
+                key.expires_at = newExp.toISOString();
+                renderTableWithPagination(allKeys);
+            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+        }
+
+        // ====== COPY MODAL ======
+        let currentCopyKey = null;
+
+        function openCopyModal(keyId) {
+            const key = allKeys.find(k => k.id === keyId);
+            if (!key) return toast('❌ Không tìm thấy key!', 'error');
+
+            currentCopyKey = key;
+
+            document.getElementById('copyKeyDisplay').textContent = key.license_key;
+            document.getElementById('infoKey').textContent = key.license_key;
+            document.getElementById('infoCreated').textContent = key.created_at ? new Date(key.created_at)
+                .toLocaleString('vi-VN') : '---';
+            document.getElementById('infoExpires').textContent = key.expires_at ? new Date(key.expires_at)
+                .toLocaleString('vi-VN') : '♾️ Vĩnh Viễn';
+            document.getElementById('infoDuration').textContent = getDurationLabel(key.duration);
+            document.getElementById('infoCreator').textContent = key.created_by || 'Admin';
+            document.getElementById('infoNote').textContent = key.note || 'Không có';
+            document.getElementById('infoStatus').textContent = getStatus(key).text;
+            document.getElementById('infoStatus').style.color = getStatus(key).cls === 'used' ? '#00ff88' :
+                getStatus(key).cls === 'banned' ? '#ef4444' :
+                getStatus(key).cls === 'expired' ? '#6b7280' : '#f59e0b';
+
+            document.getElementById('copyModal').style.display = 'flex';
+        }
+
+        function closeCopyModal() {
+            document.getElementById('copyModal').style.display = 'none';
+            currentCopyKey = null;
+        }
+
+        function copyFullKeyInfo() {
+            if (!currentCopyKey) return;
+
+            const info = `🔑 LICENSE KEY: ${currentCopyKey.license_key}
+        📅 Ngày Tạo: ${currentCopyKey.created_at ? new Date(currentCopyKey.created_at).toLocaleString('vi-VN') : '---'}
+        ⏳ Hết Hạn: ${currentCopyKey.expires_at ? new Date(currentCopyKey.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh Viễn'}
+        📊 Thời Gian Sử Dụng: ${getDurationLabel(currentCopyKey.duration)}
+        👤 Người Tạo: ${currentCopyKey.created_by || 'Admin'}
+        📝 Ghi Chú: ${currentCopyKey.note || 'Không có'}
+        💻 Trạng Thái: ${getStatus(currentCopyKey).text}`;
+
+            navigator.clipboard.writeText(info).then(() => {
+                toast('✅ Đã sao chép toàn bộ thông tin key!', 'success');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = info;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                toast('✅ Đã sao chép toàn bộ thông tin key!', 'success');
+            });
+        }
+
+        // ====== DELETE, BAN, UNBAN, USED ======
+        function deleteKey(id) {
+            if (currentUser === 'staff') {
+                toast('❌ Nhân viên không có quyền xóa key!', 'error');
+                return;
+            }
+            if (!confirm('Xóa key này?')) return;
+            db.ref('keys/' + id).remove().then(() => toast('✅ Đã xóa key', 'success'));
+        }
+
+        function banKey(id) {
+            if (currentUser === 'staff') {
+                toast('❌ Nhân viên không có quyền ban key!', 'error');
+                return;
+            }
+            const reason = prompt('Lý do ban?');
+            if (reason === null) return;
+            db.ref('keys/' + id).update({ status: 'banned', ban_reason: reason }).then(() => toast('⛔ Key đã bị ban', ''));
+        }
+
+        function unbanKey(id) {
+            if (currentUser === 'staff') {
+                toast('❌ Nhân viên không có quyền unban!', 'error');
+                return;
+            }
+            db.ref('keys/' + id).update({ status: 'unused', ban_reason: null }).then(() => toast('✅ Key đã unban',
+                'success'));
+        }
+
+        function markUsed(id) {
+            db.ref('keys/' + id).update({ status: 'used' }).then(() => toast('✅ Đã đánh dấu đã dùng', 'success'));
+        }
+
+        // ====== DELETE ALL ======
+        function deleteAll() {
+            if (currentUser === 'staff') {
+                toast('❌ Nhân viên không có quyền xóa tất cả!', 'error');
+                return;
+            }
+            if (!confirm('XÓA TẤT CẢ KEY?')) return;
+            db.ref('keys').remove().then(() => toast('🗑️ Đã xóa tất cả', ''));
+        }
+
+        // ====== EXPORT ======
+        function exportKeys() {
+            const txt = allKeys.map(k => {
+                const creator = k.created_by || 'Admin';
+                return `${k.license_key} | Tạo: ${creator} | Hạn: ${k.expires_at || 'Vĩnh viễn'}`;
+            }).join('\n');
+            const blob = new Blob([txt], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'DuyAh_Keys.txt';
+            a.click();
+            toast('📥 Đã xuất keys', 'success');
+        }
+
+        // ====== TOAST ======
+        function toast(msg, type) {
+            const el = document.getElementById('toast');
+            const msgEl = document.getElementById('toastMsg');
+            el.className = 'toast';
+            if (type === 'error') el.classList.add('error');
+            if (type === 'success') el.classList.add('success');
+            msgEl.textContent = msg;
+            el.style.display = 'flex';
+            clearTimeout(el._timer);
+            el._timer = setTimeout(() => el.style.display = 'none', 3000);
+        }
+
+        // ====== AUTO LOGIN ======
+        window.addEventListener('load', () => {
+            if (localStorage.getItem('duyah_logged') === 'true') {
+                const user = localStorage.getItem('duyah_user') || 'admin';
+                currentUser = user;
+                currentUserDisplay = user === 'admin' ? 'Admin' : 'Nhân Viên';
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('userEmail').textContent = user === 'admin' ? 'Admin' : 'Nhân Viên';
+                loadKeys();
+            }
+        });
+
+        // ====== CLICK OUTSIDE MODAL ======
+        document.getElementById('copyModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCopyModal();
+        });
+    </script>
 </body>
 </html>
