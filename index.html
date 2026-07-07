@@ -207,6 +207,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
         .user-info .email {
             color: var(--text-muted);
@@ -774,6 +775,14 @@
             font-weight: 600;
             color: var(--text);
         }
+        .device-item .device-type {
+            font-size: 0.65rem;
+            padding: 2px 10px;
+            border-radius: 10px;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
         .device-item .device-detail {
             color: var(--text-muted);
             font-size: 0.75rem;
@@ -802,6 +811,13 @@
         .device-item .device-time {
             color: var(--text-muted);
             font-size: 0.65rem;
+        }
+        .device-item .device-os {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1px 8px;
+            border-radius: 8px;
         }
 
         .footer {
@@ -873,6 +889,7 @@
         }
         .intro-card .intro-features .feature i { color: var(--neon-pink); }
 
+        /* ====== RESPONSIVE ====== */
         @media (max-width: 992px) {
             .stats { grid-template-columns: repeat(3, 1fr); }
         }
@@ -908,7 +925,7 @@
             <p>🔐 License Management System</p>
             <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
             <button class="login-btn" onclick="login()">ĐĂNG NHẬP</button>
-            <p style="margin-top:15px;font-size:0.7rem;color:var(--text-muted);">🔑 NHẬP MẬT KHẨU LIÊN HỆ DUYAH</p>
+            <p style="margin-top:15px;font-size:0.7rem;color:var(--text-muted);">LUÔN HỖ TRỢ BẠN</p>
         </div>
     </div>
 
@@ -1181,33 +1198,61 @@
         let staffList = [];
         let currentPage = 1;
         const itemsPerPage = 7;
+        let isLoggedIn = false;
+
+        // ====== PHÂN BIỆT THIẾT BỊ ======
+        function getDeviceType(ua) {
+            if (/iPhone|iPad|iPod/i.test(ua)) return { type: 'mobile', name: 'iPhone/iOS', icon: 'fa-mobile-alt' };
+            if (/Android/i.test(ua)) {
+                if (/Tablet/i.test(ua)) return { type: 'tablet', name: 'Android Tablet', icon: 'fa-tablet-alt' };
+                return { type: 'mobile', name: 'Android Phone', icon: 'fa-mobile-alt' };
+            }
+            if (/Windows/i.test(ua)) return { type: 'pc', name: 'Windows PC', icon: 'fa-desktop' };
+            if (/Macintosh/i.test(ua)) return { type: 'pc', name: 'MacBook', icon: 'fa-apple' };
+            if (/Linux/i.test(ua)) return { type: 'pc', name: 'Linux PC', icon: 'fa-laptop' };
+            return { type: 'unknown', name: 'Unknown', icon: 'fa-question-circle' };
+        }
 
         // ====== LOGIN ======
         function login() {
             const pass = document.getElementById('adminPass').value.trim();
             if (pass === 'DuyAh_VNX') {
                 currentUser = 'admin';
+                isLoggedIn = true;
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 document.getElementById('userEmail').textContent = 'Admin';
-                localStorage.setItem('duyah_logged', 'true');
                 loadKeys();
                 loadStaff();
                 loadDevices();
-                // Ghi nhận thiết bị hiện tại khi đăng nhập
                 setTimeout(recordCurrentDevice, 1000);
                 toast('✅ Đăng nhập thành công!', 'success');
+                document.getElementById('adminPass').value = '';
             } else {
                 toast('❌ Mật khẩu sai!', 'error');
             }
         }
 
+        // ====== LOGOUT (ĐĂNG XUẤT THẬT) ======
         function logout() {
-            localStorage.removeItem('duyah_logged');
+            // Xóa hết session
+            isLoggedIn = false;
+            currentUser = '';
+            allKeys = [];
+            allDevices = [];
+            staffList = [];
+            
+            // Reset UI
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('mainApp').style.display = 'none';
             document.getElementById('adminPass').value = '';
-            toast('Đã đăng xuất', '');
+            
+            // Xóa localStorage
+            localStorage.removeItem('duyah_logged');
+            localStorage.removeItem('duyah_user');
+            localStorage.removeItem('duyah_session');
+            
+            toast('🔒 Đã đăng xuất thành công!', '');
         }
 
         // ====== SHOW SECTION ======
@@ -1224,94 +1269,53 @@
             if (section === 'devices') loadDevices();
         }
 
-        // ====== RECORD CURRENT DEVICE (THIẾT BỊ THẬT) ======
+        // ====== RECORD CURRENT DEVICE ======
         function recordCurrentDevice() {
-            // Lấy IP
+            if (!isLoggedIn) return;
+            
             fetch('https://api.ipify.org?format=json')
                 .then(res => res.json())
                 .then(data => {
                     const ip = data.ip;
                     saveDeviceInfo(ip);
                 })
-                .catch(err => {
-                    console.log('Không lấy được IP:', err);
-                    saveDeviceInfo('Unknown IP');
-                });
+                .catch(() => saveDeviceInfo('Unknown IP'));
         }
 
         function saveDeviceInfo(ip) {
             const ua = navigator.userAgent;
             const now = new Date().toISOString();
             const deviceId = 'DEV-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-
-            // Phân loại thiết bị
-            let deviceType = 'unknown';
-            let deviceName = 'Unknown Device';
-            let deviceIcon = 'fa-laptop';
-
-            if (/iPhone/i.test(ua)) {
-                deviceType = 'mobile';
-                deviceName = 'iPhone';
-                deviceIcon = 'fa-mobile-alt';
-            } else if (/iPad/i.test(ua)) {
-                deviceType = 'tablet';
-                deviceName = 'iPad';
-                deviceIcon = 'fa-tablet-alt';
-            } else if (/Android/i.test(ua)) {
-                deviceType = 'mobile';
-                deviceName = 'Android Phone';
-                deviceIcon = 'fa-mobile-alt';
-                if (/Tablet/i.test(ua)) {
-                    deviceType = 'tablet';
-                    deviceName = 'Android Tablet';
-                    deviceIcon = 'fa-tablet-alt';
-                }
-            } else if (/Windows/i.test(ua)) {
-                deviceType = 'laptop';
-                deviceName = 'Windows PC';
-                deviceIcon = 'fa-laptop';
-            } else if (/Macintosh/i.test(ua)) {
-                deviceType = 'laptop';
-                deviceName = 'MacBook';
-                deviceIcon = 'fa-apple';
-            } else if (/Linux/i.test(ua)) {
-                deviceType = 'laptop';
-                deviceName = 'Linux PC';
-                deviceIcon = 'fa-laptop';
-            }
-
-            // Lấy thông tin chi tiết
-            const platform = navigator.platform || 'Unknown';
-            const screen = window.screen.width + 'x' + window.screen.height;
-            const lang = navigator.language || 'vi-VN';
-
-            // Lưu vào Firebase
-            db.ref('devices').push({
+            const deviceInfo = getDeviceType(ua);
+            
+            const deviceData = {
                 device_id: deviceId,
-                name: deviceName + ' (' + platform + ')',
-                icon: deviceIcon,
+                name: deviceInfo.name + ' (' + (navigator.platform || 'Unknown') + ')',
+                type: deviceInfo.type,
+                icon: deviceInfo.icon,
                 ip: ip,
                 status: 'online',
-                type: deviceType,
-                user_agent: ua,
-                platform: platform,
-                screen_resolution: screen,
-                language: lang,
+                user_agent: ua.substring(0, 100),
+                platform: navigator.platform || 'Unknown',
+                screen: window.screen.width + 'x' + window.screen.height,
+                language: navigator.language || 'vi-VN',
                 last_active: now,
                 created_at: now
-            }).then(() => {
-                toast('✅ Đã ghi nhận thiết bị: ' + deviceName, 'success');
-                loadDevices();
-            }).catch(e => {
-                console.log('Lỗi lưu device:', e);
-                toast('⚠️ Lỗi lưu thiết bị: ' + e.message, 'error');
-            });
+            };
+
+            db.ref('devices').push(deviceData)
+                .then(() => {
+                    toast('✅ Đã ghi nhận thiết bị: ' + deviceInfo.name, 'success');
+                    loadDevices();
+                })
+                .catch(() => toast('⚠️ Lỗi lưu thiết bị', 'error'));
         }
 
         // ====== LOAD DEVICES ======
         function loadDevices() {
-            const deviceRef = db.ref('devices');
-            deviceRef.on('value', snap => {
+            if (!isLoggedIn) return;
+            
+            db.ref('devices').on('value', snap => {
                 allDevices = [];
                 snap.forEach(child => {
                     const data = child.val();
@@ -1335,30 +1339,32 @@
                     <div style="text-align:center;color:var(--text-muted);padding:40px;">
                         <i class="fas fa-laptop" style="font-size:3rem;display:block;margin-bottom:15px;opacity:0.3;"></i>
                         Chưa có thiết bị nào đăng nhập.
-                        <br><span style="font-size:0.8rem;">Bấm "Ghi thiết bị này" để lưu thiết bị hiện tại.</span>
                     </div>
                 `;
                 return;
             }
 
             let html = '';
-            allDevices.forEach((device, index) => {
+            allDevices.forEach((device) => {
                 const status = device.status || 'online';
                 const statusText = status === 'online' ? '🟢 Online' : '🔴 Offline';
                 const statusClass = status === 'online' ? 'online' : 'offline';
                 const lastActive = device.last_active ? new Date(device.last_active).toLocaleString('vi-VN') : 'Chưa có';
                 const icon = device.icon || 'fa-laptop';
+                const typeLabel = device.type === 'pc' ? '💻 PC' : device.type === 'mobile' ? '📱 Mobile' : device.type === 'tablet' ? '📟 Tablet' : '❓ Unknown';
 
                 html += `
                     <div class="device-item">
                         <div class="device-info">
                             <div class="device-icon"><i class="fas ${icon}"></i></div>
                             <div>
-                                <div class="device-name">${device.name || 'Thiết bị không tên'}</div>
+                                <div class="device-name">
+                                    ${device.name || 'Thiết bị không tên'}
+                                    <span class="device-type">${typeLabel}</span>
+                                </div>
                                 <div class="device-detail">
                                     <i class="fas fa-map-pin"></i> ${device.ip || 'N/A'}
-                                    ${device.platform ? '• ' + device.platform : ''}
-                                    ${device.screen_resolution ? '• ' + device.screen_resolution : ''}
+                                    ${device.screen ? '• 📺 ' + device.screen : ''}
                                 </div>
                                 <div class="device-detail">
                                     <i class="fas fa-clock"></i> ${lastActive}
@@ -1399,6 +1405,8 @@
 
         // ====== LOAD KEYS ======
         function loadKeys() {
+            if (!isLoggedIn) return;
+            
             db.ref('keys').on('value', snap => {
                 allKeys = [];
                 snap.forEach(child => {
@@ -1451,6 +1459,8 @@
 
         // ====== LOAD STAFF ======
         function loadStaff() {
+            if (!isLoggedIn) return;
+            
             db.ref('staff').on('value', snap => {
                 staffList = [];
                 snap.forEach(child => {
@@ -1885,16 +1895,19 @@
             el._timer = setTimeout(() => el.style.display = 'none', 3000);
         }
 
-        // ====== AUTO LOGIN ======
+        // ====== LOAD ======
         window.addEventListener('load', () => {
-            if (localStorage.getItem('duyah_logged') === 'true') {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('mainApp').style.display = 'block';
-                loadKeys();
-                loadStaff();
-                loadDevices();
-                setTimeout(recordCurrentDevice, 1500);
-            }
+            // KHÔNG tự động đăng nhập - luôn hiện màn hình login
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            
+            // Xóa session cũ nếu có (đảm bảo an toàn)
+            localStorage.removeItem('duyah_logged');
+            localStorage.removeItem('duyah_user');
+            localStorage.removeItem('duyah_session');
+            
+            // Focus vào ô nhập pass
+            document.getElementById('adminPass').focus();
         });
 
         // ====== CLICK OUTSIDE MODAL ======
