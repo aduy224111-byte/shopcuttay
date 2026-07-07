@@ -40,12 +40,10 @@
             min-height: 100vh;
         }
 
-        /* ====== SCROLLBAR ====== */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 10px; }
 
-        /* ====== STATS CARD ====== */
         .stat-card {
             background: var(--card);
             border-radius: 14px;
@@ -94,7 +92,6 @@
 
         .container { max-width: 1300px; margin: 0 auto; padding: 20px; flex: 1; }
 
-        /* ====== SIDEBAR ====== */
         .sidebar {
             position: fixed;
             left: 0;
@@ -182,14 +179,12 @@
         }
         .menu button.active i { color: var(--neon-pink); }
 
-        /* ====== MAIN CONTENT ====== */
         .main {
             margin-left: 270px;
             padding: 30px 40px 100px 40px;
             min-height: 100vh;
         }
 
-        /* ====== TOPBAR ====== */
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -255,7 +250,6 @@
         }
         .btn-logout:hover { background: #dc2626; transform: scale(1.02); }
 
-        /* ====== STATS ====== */
         .stats {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -263,7 +257,6 @@
             margin-bottom: 25px;
         }
 
-        /* ====== TOOLBAR ====== */
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -289,6 +282,7 @@
         .btn-danger { background: #ef4444; color: #fff; }
         .btn-warning { background: var(--s); color: #000; }
         .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
+        .btn-info { background: var(--neon-blue); color: #000; }
 
         .search-input {
             padding: 10px 18px;
@@ -306,7 +300,6 @@
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
         }
 
-        /* ====== TABLE ====== */
         .table-wrap {
             background: var(--card);
             border-radius: 16px;
@@ -349,6 +342,8 @@
         .status-used { background: var(--neon-green); color: #000; }
         .status-banned { background: #ef4444; color: #fff; }
         .status-expired { background: #6b7280; color: #fff; }
+        .status-online { background: var(--neon-blue); color: #000; }
+        .status-offline { background: #6b7280; color: #fff; }
 
         .key-text {
             color: var(--neon-pink);
@@ -399,7 +394,6 @@
         }
         .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* ====== LOGIN ====== */
         .login-screen {
             position: fixed;
             inset: 0;
@@ -503,7 +497,6 @@
             box-shadow: 0 15px 50px rgba(255, 45, 117, 0.4);
         }
 
-        /* ====== MODAL ====== */
         .modal {
             display: none;
             position: fixed;
@@ -564,7 +557,6 @@
         }
         .modal-actions .btn { flex: 1; justify-content: center; }
 
-        /* ====== COPY MODAL ====== */
         .copy-modal {
             display: none;
             position: fixed;
@@ -664,7 +656,6 @@
             color: var(--neon-pink);
         }
 
-        /* ====== STAFF LIST ====== */
         .staff-list { margin-top: 10px; }
         .staff-item {
             display: flex;
@@ -679,7 +670,6 @@
         .staff-item .staff-name { font-weight: 600; color: var(--neon-blue); }
         .staff-item .staff-pass { color: var(--text-muted); font-size: 0.8rem; font-family: monospace; }
 
-        /* ====== TOAST ====== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -745,6 +735,75 @@
             border-color: rgba(255, 215, 0, 0.2);
         }
 
+        .device-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(2, 6, 23, 0.6);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            border: 1px solid var(--card-border);
+            transition: 0.3s;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .device-item:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
+        }
+        .device-item .device-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .device-item .device-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(2, 6, 23, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--neon-blue);
+            border: 1px solid var(--card-border);
+        }
+        .device-item .device-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+        .device-item .device-detail {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        .device-item .device-detail i { margin-right: 4px; }
+        .device-item .device-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 14px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .device-item .device-status.online {
+            background: var(--neon-green);
+            color: #000;
+        }
+        .device-item .device-status.offline {
+            background: #6b7280;
+            color: #fff;
+        }
+        .device-item .device-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .device-item .device-time {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+        }
+
         .footer {
             text-align: center;
             padding: 20px;
@@ -760,7 +819,6 @@
             font-weight: 700;
         }
 
-        /* ====== INTRODUCTION CARD ====== */
         .intro-card {
             background: var(--card);
             border-radius: 16px;
@@ -815,7 +873,6 @@
         }
         .intro-card .intro-features .feature i { color: var(--neon-pink); }
 
-        /* ====== RESPONSIVE ====== */
         @media (max-width: 992px) {
             .stats { grid-template-columns: repeat(3, 1fr); }
         }
@@ -829,6 +886,8 @@
             .copy-modal-content { margin: 20px; padding: 25px 20px; }
             .intro-card { padding: 20px; }
             .intro-card .intro-features .feature { font-size: 0.7rem; padding: 4px 12px; }
+            .device-item { flex-direction: column; align-items: stretch; }
+            .device-item .device-actions { justify-content: flex-end; }
         }
         @media (max-width: 600px) {
             .sidebar { display: none; }
@@ -849,13 +908,12 @@
             <p>🔐 License Management System</p>
             <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
             <button class="login-btn" onclick="login()">ĐĂNG NHẬP</button>
-            <p style="margin-top:15px;font-size:0.7rem;color:var(--text-muted);"></p>
+            <p style="margin-top:15px;font-size:0.7rem;color:var(--text-muted);">🔑 Mật khẩu: DuyAh_VNX</p>
         </div>
     </div>
 
     <!-- ====== MAIN ====== -->
     <div class="container" id="mainApp" style="display:none;">
-        <!-- ====== SIDEBAR ====== -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <div class="logo-d">D</div>
@@ -870,6 +928,9 @@
                 </button>
                 <button onclick="showSection('keys')" id="menuKeys">
                     <i class="fas fa-key"></i> Quản Lý Key
+                </button>
+                <button onclick="showSection('devices')" id="menuDevices">
+                    <i class="fas fa-laptop"></i> Thiết Bị
                 </button>
                 <button onclick="openCreate()">
                     <i class="fas fa-plus-circle"></i> Tạo Key Mới
@@ -889,7 +950,6 @@
             </div>
         </div>
 
-        <!-- ====== MAIN CONTENT ====== -->
         <div class="main">
             <!-- ====== TOPBAR ====== -->
             <div class="topbar">
@@ -902,9 +962,8 @@
                 </div>
             </div>
 
-            <!-- ====== SECTION: HOME ====== -->
+            <!-- ====== HOME ====== -->
             <div id="sectionHome">
-                <!-- INTRO CARD -->
                 <div class="intro-card">
                     <div class="intro-title">🚀 Chào mừng đến với DuyAh VNX</div>
                     <div class="intro-desc">
@@ -921,7 +980,6 @@
                     </div>
                 </div>
 
-                <!-- STATS -->
                 <div class="stats" id="stats">
                     <div class="stat-card"><h4>📦 Tổng Key</h4><p id="total">0</p></div>
                     <div class="stat-card"><h4>✅ Đã Dùng</h4><p id="used">0</p></div>
@@ -930,7 +988,6 @@
                     <div class="stat-card"><h4>⏰ Hết Hạn</h4><p id="expired">0</p></div>
                 </div>
 
-                <!-- QUICK STATS -->
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
                     <div style="background:var(--card);border-radius:12px;padding:14px 18px;border:1px solid var(--card-border);text-align:center;">
                         <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Hoạt Động</div>
@@ -950,7 +1007,6 @@
                     </div>
                 </div>
 
-                <!-- RECENT KEYS -->
                 <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:12px;">
                     📋 Key Mới Nhất
                 </div>
@@ -972,7 +1028,7 @@
                 </div>
             </div>
 
-            <!-- ====== SECTION: KEYS ====== -->
+            <!-- ====== KEYS ====== -->
             <div id="sectionKeys" style="display:none;">
                 <div class="toolbar">
                     <button class="btn btn-primary" onclick="openCreate()"><i class="fas fa-plus"></i> Tạo Key</button>
@@ -1001,6 +1057,30 @@
                 </div>
 
                 <div class="pagination" id="pagination"></div>
+            </div>
+
+            <!-- ====== DEVICES ====== -->
+            <div id="sectionDevices" style="display:none;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px;">
+                    <div style="font-size:1.1rem;font-weight:700;color:var(--text);">
+                        💻 Danh Sách Thiết Bị Đã Đăng Nhập
+                        <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;">(thực tế)</span>
+                    </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button class="btn btn-info btn-sm" onclick="recordCurrentDevice()">
+                            <i class="fas fa-sync"></i> Ghi thiết bị này
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="logoutAllDevices()">
+                            <i class="fas fa-sign-out-alt"></i> Đăng Xuất Tất Cả
+                        </button>
+                    </div>
+                </div>
+                <div id="deviceList" style="margin-bottom:20px;">
+                    <div style="text-align:center;color:var(--text-muted);padding:30px;">
+                        <i class="fas fa-laptop" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                        Chưa có thiết bị nào. Bấm "Ghi thiết bị này" để lưu thiết bị hiện tại.
+                    </div>
+                </div>
             </div>
 
             <div class="footer">
@@ -1096,6 +1176,7 @@
         const db = firebase.database();
 
         let allKeys = [];
+        let allDevices = [];
         let currentUser = 'admin';
         let staffList = [];
         let currentPage = 1;
@@ -1104,7 +1185,7 @@
         // ====== LOGIN ======
         function login() {
             const pass = document.getElementById('adminPass').value.trim();
-            if (pass === 'DuyAhVNX') {
+            if (pass === 'DuyAh_VNX') {
                 currentUser = 'admin';
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
@@ -1112,26 +1193,12 @@
                 localStorage.setItem('duyah_logged', 'true');
                 loadKeys();
                 loadStaff();
+                loadDevices();
+                // Ghi nhận thiết bị hiện tại khi đăng nhập
+                setTimeout(recordCurrentDevice, 1000);
                 toast('✅ Đăng nhập thành công!', 'success');
             } else {
-                const staffRef = db.ref('staff');
-                staffRef.once('value', snap => {
-                    let found = false;
-                    snap.forEach(child => {
-                        const data = child.val();
-                        if (data.password === pass) {
-                            found = true;
-                            currentUser = 'staff';
-                            document.getElementById('loginScreen').style.display = 'none';
-                            document.getElementById('mainApp').style.display = 'block';
-                            document.getElementById('userEmail').textContent = data.name || 'Nhân Viên';
-                            localStorage.setItem('duyah_logged', 'true');
-                            loadKeys();
-                            toast('✅ Đăng nhập thành công!', 'success');
-                        }
-                    });
-                    if (!found) toast('❌ Mật khẩu sai!', 'error');
-                });
+                toast('❌ Mật khẩu sai!', 'error');
             }
         }
 
@@ -1147,11 +1214,187 @@
         function showSection(section) {
             document.getElementById('sectionHome').style.display = section === 'home' ? 'block' : 'none';
             document.getElementById('sectionKeys').style.display = section === 'keys' ? 'block' : 'none';
+            document.getElementById('sectionDevices').style.display = section === 'devices' ? 'block' : 'none';
 
             document.getElementById('menuHome').classList.toggle('active', section === 'home');
             document.getElementById('menuKeys').classList.toggle('active', section === 'keys');
+            document.getElementById('menuDevices').classList.toggle('active', section === 'devices');
 
             if (section === 'home') renderRecentKeys();
+            if (section === 'devices') loadDevices();
+        }
+
+        // ====== RECORD CURRENT DEVICE (THIẾT BỊ THẬT) ======
+        function recordCurrentDevice() {
+            // Lấy IP
+            fetch('https://api.ipify.org?format=json')
+                .then(res => res.json())
+                .then(data => {
+                    const ip = data.ip;
+                    saveDeviceInfo(ip);
+                })
+                .catch(err => {
+                    console.log('Không lấy được IP:', err);
+                    saveDeviceInfo('Unknown IP');
+                });
+        }
+
+        function saveDeviceInfo(ip) {
+            const ua = navigator.userAgent;
+            const now = new Date().toISOString();
+            const deviceId = 'DEV-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+            // Phân loại thiết bị
+            let deviceType = 'unknown';
+            let deviceName = 'Unknown Device';
+            let deviceIcon = 'fa-laptop';
+
+            if (/iPhone/i.test(ua)) {
+                deviceType = 'mobile';
+                deviceName = 'iPhone';
+                deviceIcon = 'fa-mobile-alt';
+            } else if (/iPad/i.test(ua)) {
+                deviceType = 'tablet';
+                deviceName = 'iPad';
+                deviceIcon = 'fa-tablet-alt';
+            } else if (/Android/i.test(ua)) {
+                deviceType = 'mobile';
+                deviceName = 'Android Phone';
+                deviceIcon = 'fa-mobile-alt';
+                if (/Tablet/i.test(ua)) {
+                    deviceType = 'tablet';
+                    deviceName = 'Android Tablet';
+                    deviceIcon = 'fa-tablet-alt';
+                }
+            } else if (/Windows/i.test(ua)) {
+                deviceType = 'laptop';
+                deviceName = 'Windows PC';
+                deviceIcon = 'fa-laptop';
+            } else if (/Macintosh/i.test(ua)) {
+                deviceType = 'laptop';
+                deviceName = 'MacBook';
+                deviceIcon = 'fa-apple';
+            } else if (/Linux/i.test(ua)) {
+                deviceType = 'laptop';
+                deviceName = 'Linux PC';
+                deviceIcon = 'fa-laptop';
+            }
+
+            // Lấy thông tin chi tiết
+            const platform = navigator.platform || 'Unknown';
+            const screen = window.screen.width + 'x' + window.screen.height;
+            const lang = navigator.language || 'vi-VN';
+
+            // Lưu vào Firebase
+            db.ref('devices').push({
+                device_id: deviceId,
+                name: deviceName + ' (' + platform + ')',
+                icon: deviceIcon,
+                ip: ip,
+                status: 'online',
+                type: deviceType,
+                user_agent: ua,
+                platform: platform,
+                screen_resolution: screen,
+                language: lang,
+                last_active: now,
+                created_at: now
+            }).then(() => {
+                toast('✅ Đã ghi nhận thiết bị: ' + deviceName, 'success');
+                loadDevices();
+            }).catch(e => {
+                console.log('Lỗi lưu device:', e);
+                toast('⚠️ Lỗi lưu thiết bị: ' + e.message, 'error');
+            });
+        }
+
+        // ====== LOAD DEVICES ======
+        function loadDevices() {
+            const deviceRef = db.ref('devices');
+            deviceRef.on('value', snap => {
+                allDevices = [];
+                snap.forEach(child => {
+                    const data = child.val();
+                    data.id = child.key;
+                    allDevices.push(data);
+                });
+                allDevices.sort((a, b) => {
+                    if (a.last_active && b.last_active) {
+                        return new Date(b.last_active) - new Date(a.last_active);
+                    }
+                    return 0;
+                });
+                renderDevices();
+            });
+        }
+
+        function renderDevices() {
+            const container = document.getElementById('deviceList');
+            if (allDevices.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;color:var(--text-muted);padding:40px;">
+                        <i class="fas fa-laptop" style="font-size:3rem;display:block;margin-bottom:15px;opacity:0.3;"></i>
+                        Chưa có thiết bị nào đăng nhập.
+                        <br><span style="font-size:0.8rem;">Bấm "Ghi thiết bị này" để lưu thiết bị hiện tại.</span>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            allDevices.forEach((device, index) => {
+                const status = device.status || 'online';
+                const statusText = status === 'online' ? '🟢 Online' : '🔴 Offline';
+                const statusClass = status === 'online' ? 'online' : 'offline';
+                const lastActive = device.last_active ? new Date(device.last_active).toLocaleString('vi-VN') : 'Chưa có';
+                const icon = device.icon || 'fa-laptop';
+
+                html += `
+                    <div class="device-item">
+                        <div class="device-info">
+                            <div class="device-icon"><i class="fas ${icon}"></i></div>
+                            <div>
+                                <div class="device-name">${device.name || 'Thiết bị không tên'}</div>
+                                <div class="device-detail">
+                                    <i class="fas fa-map-pin"></i> ${device.ip || 'N/A'}
+                                    ${device.platform ? '• ' + device.platform : ''}
+                                    ${device.screen_resolution ? '• ' + device.screen_resolution : ''}
+                                </div>
+                                <div class="device-detail">
+                                    <i class="fas fa-clock"></i> ${lastActive}
+                                    ${device.language ? '• 🌐 ' + device.language : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                            <span class="device-status ${statusClass}">${statusText}</span>
+                            <div class="device-actions">
+                                <button class="action-btn" style="background:#ef4444;color:#fff;" onclick="logoutDevice('${device.id}')">
+                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ====== DEVICE FUNCTIONS ======
+        function logoutDevice(deviceId) {
+            if (!confirm('Bạn có chắc muốn đăng xuất thiết bị này?')) return;
+            db.ref('devices/' + deviceId).remove().then(() => {
+                toast('✅ Đã đăng xuất thiết bị', 'success');
+                loadDevices();
+            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+        }
+
+        function logoutAllDevices() {
+            if (!confirm('Bạn có chắc muốn đăng xuất TẤT CẢ thiết bị?')) return;
+            db.ref('devices').remove().then(() => {
+                toast('✅ Đã đăng xuất tất cả thiết bị', 'success');
+                loadDevices();
+            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
         }
 
         // ====== LOAD KEYS ======
@@ -1182,7 +1425,7 @@
             let html = '';
             if (recent.length === 0) {
                 html =
-                '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">Chưa có key nào</td></tr>';
+                    '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:30px;">Chưa có key nào</td></tr>';
             } else {
                 recent.forEach((k, i) => {
                     const status = getStatus(k);
@@ -1407,7 +1650,7 @@
 
         function getDurationDays(d) {
             const map = {
-                '2_hours': 2/24,
+                '2_hours': 2 / 24,
                 '1_day': 1,
                 '2_days': 2,
                 '3_days': 3,
@@ -1550,14 +1793,14 @@
             if (!currentCopyKey) return;
 
             const info = `🔑 LICENSE KEY: ${currentCopyKey.license_key}
-📅 Ngày Tạo: ${currentCopyKey.created_at ? new Date(currentCopyKey.created_at).toLocaleString('vi-VN') : '---'}
-⏳ Hết Hạn: ${currentCopyKey.expires_at ? new Date(currentCopyKey.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh Viễn'}
-📊 Thời Gian Sử Dụng: ${getDurationLabel(currentCopyKey.duration)}
-💻 Số Máy: ${currentCopyKey.devices === 'unlimited' ? '♾️ Không giới hạn' : (currentCopyKey.devices || '1') + ' máy'}
-👤 Người Tạo: ${currentCopyKey.created_by || 'Admin'}
-📝 Ghi Chú: ${currentCopyKey.note || 'Không có'}
-💻 Trạng Thái: ${getStatus(currentCopyKey).text}
-🏷️ Chứng Chỉ: DuyAhVNX`;
+        📅 Ngày Tạo: ${currentCopyKey.created_at ? new Date(currentCopyKey.created_at).toLocaleString('vi-VN') : '---'}
+        ⏳ Hết Hạn: ${currentCopyKey.expires_at ? new Date(currentCopyKey.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh Viễn'}
+        📊 Thời Gian Sử Dụng: ${getDurationLabel(currentCopyKey.duration)}
+        💻 Số Máy: ${currentCopyKey.devices === 'unlimited' ? '♾️ Không giới hạn' : (currentCopyKey.devices || '1') + ' máy'}
+        👤 Người Tạo: ${currentCopyKey.created_by || 'Admin'}
+        📝 Ghi Chú: ${currentCopyKey.note || 'Không có'}
+        💻 Trạng Thái: ${getStatus(currentCopyKey).text}
+        🏷️ Chứng Chỉ: DuyAhVNX`;
 
             navigator.clipboard.writeText(info).then(() => {
                 toast('✅ Đã sao chép toàn bộ thông tin key!', 'success');
@@ -1649,6 +1892,8 @@
                 document.getElementById('mainApp').style.display = 'block';
                 loadKeys();
                 loadStaff();
+                loadDevices();
+                setTimeout(recordCurrentDevice, 1500);
             }
         });
 
