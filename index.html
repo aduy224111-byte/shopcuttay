@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --p: #ff0077;
-            --s: #ffcc00;
             --bg: #0a0a0f;
             --card: #111122;
             --card-border: #2a1a4a;
@@ -25,20 +23,10 @@
             --neon-blue: #00d4ff;
             --neon-green: #00ff88;
             --neon-purple: #a855f7;
-            --neon-orange: #ff6b00;
             --gradient: linear-gradient(135deg, #ff2d75, #a855f7, #00d4ff);
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
@@ -69,13 +57,7 @@
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
             transform: translateY(-3px);
         }
-        .stat-card h4 {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .stat-card h4 { color: var(--text-muted); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
         .stat-card p {
             font-size: 1.8rem;
             font-weight: 700;
@@ -85,10 +67,7 @@
             background-size: 200% 200%;
             animation: gradientMove 3s ease-in-out infinite;
         }
-        @keyframes gradientMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+        @keyframes gradientMove { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
         .container { max-width: 1300px; margin: 0 auto; padding: 20px; flex: 1; }
 
@@ -126,10 +105,7 @@
             box-shadow: 0 0 40px rgba(255, 45, 117, 0.4);
             animation: logoGlow 2s ease-in-out infinite alternate;
         }
-        @keyframes logoGlow {
-            0% { box-shadow: 0 0 40px rgba(255, 45, 117, 0.4); }
-            100% { box-shadow: 0 0 60px rgba(168, 85, 247, 0.6); }
-        }
+        @keyframes logoGlow { 0% { box-shadow: 0 0 40px rgba(255, 45, 117, 0.4); } 100% { box-shadow: 0 0 60px rgba(168, 85, 247, 0.6); } }
         .sidebar-title {
             font-size: 1.6rem;
             font-weight: 700;
@@ -139,13 +115,7 @@
             background-size: 200% 200%;
             animation: gradientMove 3s ease-in-out infinite;
         }
-        .sidebar-sub {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: -5px;
-        }
+        .sidebar-sub { font-size: 0.6rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-top: -5px; }
         .menu button {
             width: 100%;
             padding: 14px 16px;
@@ -163,27 +133,12 @@
             gap: 12px;
             transition: all 0.3s;
         }
-        .menu button:hover {
-            transform: translateX(6px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.15);
-        }
-        .menu button.active {
-            border-color: var(--neon-pink);
-            background: rgba(255, 45, 117, 0.1);
-        }
-        .menu button i {
-            font-size: 1.1rem;
-            width: 24px;
-            color: var(--neon-blue);
-        }
+        .menu button:hover { transform: translateX(6px); border-color: var(--neon-blue); box-shadow: 0 0 25px rgba(0, 212, 255, 0.15); }
+        .menu button.active { border-color: var(--neon-pink); background: rgba(255, 45, 117, 0.1); }
+        .menu button i { font-size: 1.1rem; width: 24px; color: var(--neon-blue); }
         .menu button.active i { color: var(--neon-pink); }
 
-        .main {
-            margin-left: 270px;
-            padding: 30px 40px 100px 40px;
-            min-height: 100vh;
-        }
+        .main { margin-left: 270px; padding: 30px 40px 100px 40px; min-height: 100vh; }
 
         .topbar {
             display: flex;
@@ -209,10 +164,7 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-        .user-info .email {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
+        .user-info .email { color: var(--text-muted); font-size: 0.85rem; }
         .user-info .badge {
             background: var(--neon-pink);
             padding: 3px 14px;
@@ -223,6 +175,7 @@
             color: #fff;
             letter-spacing: 0.5px;
         }
+        .user-info .badge.staff { background: var(--neon-blue); }
         .cert-badge {
             display: inline-flex;
             align-items: center;
@@ -251,12 +204,7 @@
         }
         .btn-logout:hover { background: #dc2626; transform: scale(1.02); }
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 16px;
-            margin-bottom: 25px;
-        }
+        .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 25px; }
 
         .toolbar {
             display: flex;
@@ -281,9 +229,10 @@
         .btn-primary { background: var(--gradient); color: #fff; }
         .btn-success { background: var(--neon-green); color: #000; }
         .btn-danger { background: #ef4444; color: #fff; }
-        .btn-warning { background: var(--s); color: #000; }
+        .btn-warning { background: #ffcc00; color: #000; }
         .btn-sm { padding: 6px 14px; font-size: 0.75rem; }
         .btn-info { background: var(--neon-blue); color: #000; }
+        .btn-purple { background: var(--neon-purple); color: #fff; }
 
         .search-input {
             padding: 10px 18px;
@@ -296,10 +245,7 @@
             outline: none;
             transition: 0.3s;
         }
-        .search-input:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
-        }
+        .search-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.15); }
 
         .table-wrap {
             background: var(--card);
@@ -324,10 +270,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        td {
-            padding: 12px;
-            border-bottom: 1px solid rgba(42, 26, 74, 0.3);
-        }
+        td { padding: 12px; border-bottom: 1px solid rgba(42, 26, 74, 0.3); }
         tr:hover td { background: rgba(42, 26, 74, 0.15); }
 
         .status {
@@ -343,15 +286,8 @@
         .status-used { background: var(--neon-green); color: #000; }
         .status-banned { background: #ef4444; color: #fff; }
         .status-expired { background: #6b7280; color: #fff; }
-        .status-online { background: var(--neon-blue); color: #000; }
-        .status-offline { background: #6b7280; color: #fff; }
 
-        .key-text {
-            color: var(--neon-pink);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            font-family: 'Courier New', monospace;
-        }
+        .key-text { color: var(--neon-pink); font-weight: 700; letter-spacing: 0.5px; font-family: 'Courier New', monospace; }
 
         .action-btn {
             padding: 4px 10px;
@@ -384,15 +320,8 @@
             transition: 0.3s;
             font-size: 0.8rem;
         }
-        .pagination button:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
-        }
-        .pagination button.active {
-            background: var(--gradient);
-            color: #fff;
-            border-color: transparent;
-        }
+        .pagination button:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.15); }
+        .pagination button.active { background: var(--gradient); color: #fff; border-color: transparent; }
         .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
 
         .login-screen {
@@ -430,10 +359,7 @@
         @keyframes rotateBg { 100% { transform: rotate(360deg); } }
         .login-box * { position: relative; z-index: 1; }
 
-        @keyframes loginSlide {
-            0% { opacity: 0; transform: scale(0.9) translateY(-30px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
+        @keyframes loginSlide { 0% { opacity: 0; transform: scale(0.9) translateY(-30px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
         .login-box .logo-big {
             width: 80px;
             height: 80px;
@@ -457,11 +383,7 @@
             background-size: 200% 200%;
             animation: gradientMove 3s ease-in-out infinite;
         }
-        .login-box p {
-            color: var(--text-muted);
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-        }
+        .login-box p { color: var(--text-muted); margin-bottom: 25px; font-size: 0.95rem; }
         .login-box input {
             width: 100%;
             padding: 16px 20px;
@@ -474,10 +396,7 @@
             outline: none;
             transition: 0.3s;
         }
-        .login-box input:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.15);
-        }
+        .login-box input:focus { border-color: var(--neon-blue); box-shadow: 0 0 25px rgba(0, 212, 255, 0.15); }
         .login-btn {
             width: 100%;
             padding: 16px;
@@ -493,10 +412,7 @@
             background-size: 200% 200%;
             animation: gradientMove 3s ease-in-out infinite;
         }
-        .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(255, 45, 117, 0.4);
-        }
+        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(255, 45, 117, 0.4); }
 
         .modal {
             display: none;
@@ -519,10 +435,7 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        @keyframes modalIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
+        @keyframes modalIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
         .modal-content h2 {
             font-size: 1.5rem;
             background: var(--gradient);
@@ -533,8 +446,7 @@
             background-size: 200% 200%;
             animation: gradientMove 3s ease-in-out infinite;
         }
-        .modal-content input,
-        .modal-content select {
+        .modal-content input, .modal-content select {
             width: 100%;
             padding: 14px 16px;
             margin-bottom: 12px;
@@ -546,16 +458,8 @@
             outline: none;
             transition: 0.3s;
         }
-        .modal-content input:focus,
-        .modal-content select:focus {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
-        }
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
+        .modal-content input:focus, .modal-content select:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.1); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
         .modal-actions .btn { flex: 1; justify-content: center; }
 
         .copy-modal {
@@ -596,15 +500,8 @@
             padding: 8px 0;
             border-bottom: 1px solid rgba(42, 26, 74, 0.3);
         }
-        .copy-modal-content .info-row .label {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-        .copy-modal-content .info-row .value {
-            color: var(--text);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
+        .copy-modal-content .info-row .label { color: var(--text-muted); font-size: 0.8rem; }
+        .copy-modal-content .info-row .value { color: var(--text); font-weight: 600; font-size: 0.85rem; }
         .copy-modal-content .info-row .value.highlight { color: var(--neon-pink); }
         .copy-modal-content .key-box {
             background: rgba(2, 6, 23, 0.8);
@@ -636,10 +533,7 @@
             background-size: 200% 200%;
             animation: gradientMove 3s ease-in-out infinite;
         }
-        .copy-modal-content .btn-copy-key:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(255, 45, 117, 0.3);
-        }
+        .copy-modal-content .btn-copy-key:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 45, 117, 0.3); }
         .copy-modal-content .btn-close-copy {
             width: 100%;
             padding: 10px;
@@ -652,10 +546,7 @@
             transition: 0.3s;
             margin-top: 8px;
         }
-        .copy-modal-content .btn-close-copy:hover {
-            border-color: var(--neon-pink);
-            color: var(--neon-pink);
-        }
+        .copy-modal-content .btn-close-copy:hover { border-color: var(--neon-pink); color: var(--neon-pink); }
 
         .staff-list { margin-top: 10px; }
         .staff-item {
@@ -667,9 +558,14 @@
             border-radius: 8px;
             margin-bottom: 5px;
             border: 1px solid var(--card-border);
+            flex-wrap: wrap;
+            gap: 8px;
         }
         .staff-item .staff-name { font-weight: 600; color: var(--neon-blue); }
         .staff-item .staff-pass { color: var(--text-muted); font-size: 0.8rem; font-family: monospace; }
+        .staff-item .staff-status { font-size: 0.65rem; font-weight: 700; padding: 2px 12px; border-radius: 12px; }
+        .staff-item .staff-status.active { background: var(--neon-green); color: #000; }
+        .staff-item .staff-status.expired { background: #ef4444; color: #fff; }
 
         .toast {
             position: fixed;
@@ -691,10 +587,7 @@
         }
         .toast.error { background: #ef4444; animation: none; }
         .toast.success { background: var(--neon-green); color: #000; animation: none; }
-        @keyframes toastIn {
-            0% { transform: translateX(120%); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes toastIn { 0% { transform: translateX(120%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
 
         .creator-tag {
             display: inline-block;
@@ -720,21 +613,9 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-        .duration-badge.lifetime {
-            background: rgba(255, 215, 0, 0.2);
-            color: #ffd700;
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-        .duration-badge.hours {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
-            border-color: rgba(255, 107, 107, 0.3);
-        }
-        .duration-badge.long {
-            background: rgba(255, 215, 0, 0.15);
-            color: #ffd700;
-            border-color: rgba(255, 215, 0, 0.2);
-        }
+        .duration-badge.lifetime { background: rgba(255, 215, 0, 0.2); color: #ffd700; border-color: rgba(255, 215, 0, 0.3); }
+        .duration-badge.hours { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; border-color: rgba(255, 107, 107, 0.3); }
+        .duration-badge.long { background: rgba(255, 215, 0, 0.15); color: #ffd700; border-color: rgba(255, 215, 0, 0.2); }
 
         .device-item {
             display: flex;
@@ -749,16 +630,8 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .device-item:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.05);
-        }
-        .device-item .device-info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
+        .device-item:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 212, 255, 0.05); }
+        .device-item .device-info { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
         .device-item .device-icon {
             width: 40px;
             height: 40px;
@@ -771,54 +644,15 @@
             color: var(--neon-blue);
             border: 1px solid var(--card-border);
         }
-        .device-item .device-name {
-            font-weight: 600;
-            color: var(--text);
-        }
-        .device-item .device-type {
-            font-size: 0.65rem;
-            padding: 2px 10px;
-            border-radius: 10px;
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--neon-blue);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-        }
-        .device-item .device-detail {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-        }
+        .device-item .device-name { font-weight: 600; color: var(--text); }
+        .device-item .device-type { font-size: 0.65rem; padding: 2px 10px; border-radius: 10px; background: rgba(0, 212, 255, 0.1); color: var(--neon-blue); border: 1px solid rgba(0, 212, 255, 0.2); }
+        .device-item .device-detail { color: var(--text-muted); font-size: 0.75rem; }
         .device-item .device-detail i { margin-right: 4px; }
-        .device-item .device-status {
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 3px 14px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .device-item .device-status.online {
-            background: var(--neon-green);
-            color: #000;
-        }
-        .device-item .device-status.offline {
-            background: #6b7280;
-            color: #fff;
-        }
-        .device-item .device-actions {
-            display: flex;
-            gap: 5px;
-        }
-        .device-item .device-time {
-            color: var(--text-muted);
-            font-size: 0.65rem;
-        }
-        .device-item .device-os {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1px 8px;
-            border-radius: 8px;
-        }
+        .device-item .device-status { font-size: 0.7rem; font-weight: 700; padding: 3px 14px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .device-item .device-status.online { background: var(--neon-green); color: #000; }
+        .device-item .device-status.offline { background: #6b7280; color: #fff; }
+        .device-item .device-actions { display: flex; gap: 5px; }
+        .device-item .device-time { color: var(--text-muted); font-size: 0.65rem; }
 
         .footer {
             text-align: center;
@@ -828,12 +662,7 @@
             border-top: 1px solid var(--card-border);
             margin-top: 20px;
         }
-        .footer span {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
+        .footer span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
 
         .intro-card {
             background: var(--card);
@@ -864,18 +693,8 @@
             background-size: 200% 200%;
             animation: gradientMove 3s ease-in-out infinite;
         }
-        .intro-card .intro-desc {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 8px;
-            line-height: 1.6;
-        }
-        .intro-card .intro-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 12px;
-        }
+        .intro-card .intro-desc { color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; line-height: 1.8; }
+        .intro-card .intro-features { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 12px; }
         .intro-card .intro-features .feature {
             display: flex;
             align-items: center;
@@ -889,10 +708,129 @@
         }
         .intro-card .intro-features .feature i { color: var(--neon-pink); }
 
-        /* ====== RESPONSIVE ====== */
-        @media (max-width: 992px) {
-            .stats { grid-template-columns: repeat(3, 1fr); }
+        .profile-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 25px 30px;
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
         }
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease-in-out infinite;
+        }
+        .profile-card .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .profile-card .profile-name { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+        .profile-card .profile-role { font-size: 0.8rem; color: var(--neon-blue); font-weight: 600; }
+        .profile-card .profile-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .profile-card .profile-info .info-item {
+            background: rgba(2, 6, 23, 0.6);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+        }
+        .profile-card .profile-info .info-item .label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .profile-card .profile-info .info-item .value { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-top: 2px; }
+        .profile-card .profile-info .info-item .value.highlight { color: var(--neon-pink); }
+        .profile-card .profile-info .info-item .value.success { color: var(--neon-green); }
+
+        .certificate-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 25px 30px;
+            border: 2px solid var(--neon-blue);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+        }
+        .certificate-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 212, 255, 0.05), transparent, rgba(255, 45, 117, 0.05), transparent);
+            animation: rotateBg 20s linear infinite;
+        }
+        .certificate-card * { position: relative; z-index: 1; }
+        .certificate-card .cert-icon { font-size: 3rem; color: var(--neon-blue); margin-bottom: 10px; }
+        .certificate-card .cert-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease-in-out infinite;
+        }
+        .certificate-card .cert-sub { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
+        .certificate-card .cert-id {
+            font-size: 0.8rem;
+            font-family: monospace;
+            color: var(--neon-pink);
+            background: rgba(2, 6, 23, 0.6);
+            padding: 4px 16px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 10px;
+            border: 1px solid var(--card-border);
+        }
+        .certificate-card .cert-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .certificate-card .cert-badges .badge-item {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid var(--card-border);
+            background: rgba(2, 6, 23, 0.6);
+            color: var(--text-muted);
+        }
+        .certificate-card .cert-badges .badge-item i { margin-right: 4px; }
+        .certificate-card .cert-badges .badge-item.security { border-color: var(--neon-green); color: var(--neon-green); }
+        .certificate-card .cert-badges .badge-item.encryption { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .certificate-card .cert-badges .badge-item.ssl { border-color: var(--neon-pink); color: var(--neon-pink); }
+        .certificate-card .cert-badges .badge-item.aes { border-color: var(--neon-purple); color: var(--neon-purple); }
+
+        @media (max-width: 992px) { .stats { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) {
             .sidebar { width: 200px; padding: 20px 14px; }
             .sidebar-title { font-size: 1.2rem; }
@@ -905,6 +843,7 @@
             .intro-card .intro-features .feature { font-size: 0.7rem; padding: 4px 12px; }
             .device-item { flex-direction: column; align-items: stretch; }
             .device-item .device-actions { justify-content: flex-end; }
+            .profile-card .profile-info { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
             .sidebar { display: none; }
@@ -923,9 +862,9 @@
             <div class="logo-big">D</div>
             <h1>DuyAh VNX</h1>
             <p>🔐 License Management System</p>
-            <input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
+            <input type="password" id="loginPass" placeholder="Nhập mật khẩu">
             <button class="login-btn" onclick="login()">ĐĂNG NHẬP</button>
-            <p style="margin-top:15px;font-size:0.7rem;color:var(--text-muted);">LUÔN HỖ TRỢ BẠN</p>
+            <p style="margin-top:15px;font-size:0.7rem;color:var(--text-muted);">NHẬP TÀI KHOẢN ADMIN CUNG CẤP NHÉ</p>
         </div>
     </div>
 
@@ -940,40 +879,26 @@
                 </div>
             </div>
             <div class="menu">
-                <button class="active" onclick="showSection('home')" id="menuHome">
-                    <i class="fas fa-home"></i> Trang Chủ
-                </button>
-                <button onclick="showSection('keys')" id="menuKeys">
-                    <i class="fas fa-key"></i> Quản Lý Key
-                </button>
-                <button onclick="showSection('devices')" id="menuDevices">
-                    <i class="fas fa-laptop"></i> Thiết Bị
-                </button>
-                <button onclick="openCreate()">
-                    <i class="fas fa-plus-circle"></i> Tạo Key Mới
-                </button>
-                <button onclick="openCreateStaff()">
-                    <i class="fas fa-user-plus"></i> Tạo Nhân Viên
-                </button>
-                <button onclick="exportKeys()">
-                    <i class="fas fa-file-export"></i> Xuất Keys
-                </button>
-                <button onclick="deleteAll()">
-                    <i class="fas fa-trash"></i> Xóa Tất Cả
-                </button>
-                <button onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> Đăng Xuất
-                </button>
+                <button class="active" onclick="showSection('home')" id="menuHome"><i class="fas fa-home"></i> Trang Chủ</button>
+                <button onclick="showSection('intro')" id="menuIntro"><i class="fas fa-info-circle"></i> Giới Thiệu</button>
+                <button onclick="showSection('keys')" id="menuKeys"><i class="fas fa-key"></i> Quản Lý Key</button>
+                <button onclick="showSection('devices')" id="menuDevices"><i class="fas fa-laptop"></i> Thiết Bị</button>
+                <button onclick="showSection('staff')" id="menuStaff"><i class="fas fa-users"></i> Nhân Viên</button>
+                <button onclick="showSection('profile')" id="menuProfile"><i class="fas fa-user-circle"></i> Hồ Sơ</button>
+                <button onclick="openCreate()"><i class="fas fa-plus-circle"></i> Tạo Key Mới</button>
+                <button onclick="openCreateStaff()"><i class="fas fa-user-plus"></i> Tạo Nhân Viên</button>
+                <button onclick="exportKeys()"><i class="fas fa-file-export"></i> Xuất Keys</button>
+                <button onclick="deleteAll()"><i class="fas fa-trash"></i> Xóa Tất Cả</button>
+                <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</button>
             </div>
         </div>
 
         <div class="main">
-            <!-- ====== TOPBAR ====== -->
             <div class="topbar">
                 <div class="title">✨ <span>DuyAh VNX</span> License Manager</div>
                 <div class="user-info">
                     <span class="email" id="userEmail">Admin</span>
-                    <span class="badge">ADMIN</span>
+                    <span class="badge" id="userBadge">ADMIN</span>
                     <span class="cert-badge"><i class="fas fa-certificate"></i> DuyAhVNX</span>
                     <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Thoát</button>
                 </div>
@@ -983,10 +908,7 @@
             <div id="sectionHome">
                 <div class="intro-card">
                     <div class="intro-title">🚀 Chào mừng đến với DuyAh VNX</div>
-                    <div class="intro-desc">
-                        Hệ thống quản lý License Key dành cho <strong>AIMBODY</strong> - Công cụ hỗ trợ game thủ hàng đầu.
-                        <br>Dễ dàng tạo, quản lý và theo dõi các License Key một cách chuyên nghiệp.
-                    </div>
+                    <div class="intro-desc">Hệ thống quản lý License Key dành cho <strong>AIMBODY</strong>.<br>Dễ dàng tạo, quản lý và theo dõi các License Key một cách chuyên nghiệp.</div>
                     <div class="intro-features">
                         <span class="feature"><i class="fas fa-shield-alt"></i> Bảo mật AES-256</span>
                         <span class="feature"><i class="fas fa-clock"></i> Quản lý thời hạn</span>
@@ -1012,7 +934,7 @@
                     </div>
                     <div style="background:var(--card);border-radius:12px;padding:14px 18px;border:1px solid var(--card-border);text-align:center;">
                         <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Phiên Bản</div>
-                        <div style="font-size:1.2rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">v2.0</div>
+                        <div style="font-size:1.2rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">v3.0</div>
                     </div>
                     <div style="background:var(--card);border-radius:12px;padding:14px 18px;border:1px solid var(--card-border);text-align:center;">
                         <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">Chứng Chỉ</div>
@@ -1024,24 +946,78 @@
                     </div>
                 </div>
 
-                <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:12px;">
-                    📋 Key Mới Nhất
-                </div>
+                <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:12px;">📋 Key Mới Nhất</div>
                 <div class="table-wrap" style="max-height:400px;overflow-y:auto;">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>License Key</th>
-                                <th>Thời Hạn</th>
-                                <th>Còn Lại</th>
-                                <th>Máy</th>
-                                <th>Trạng Thái</th>
-                                <th>Người Tạo</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>#</th><th>License Key</th><th>Thời Hạn</th><th>Còn Lại</th><th>Máy</th><th>Trạng Thái</th><th>Người Tạo</th></tr></thead>
                         <tbody id="recentKeysTable"></tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- ====== INTRO ====== -->
+            <div id="sectionIntro" style="display:none;">
+                <div class="intro-card">
+                    <div class="intro-title">🌟 Giới Thiệu DuyAh VNX</div>
+                    <div class="intro-desc">
+                        <strong>DuyAh VNX</strong> là hệ thống quản lý License Key chuyên nghiệp dành cho <strong>AIMBODY</strong>.
+                        <br><br>
+                        🚀 <strong>Tầm nhìn & Sứ mệnh</strong><br>
+                        DuyAh VNX được phát triển với mục tiêu mang đến giải pháp quản lý bản quyền phần mềm đơn giản, an toàn và hiệu quả nhất cho cộng đồng game thủ Việt Nam.
+                        <br><br>
+                        💡 <strong>Tính năng nổi bật</strong><br>
+                        • <strong>Tạo License Key</strong> - Tạo key nhanh chóng với nhiều tùy chọn thời hạn<br>
+                        • <strong>Quản lý thiết bị</strong> - Theo dõi tất cả thiết bị đã đăng nhập<br>
+                        • <strong>Phân quyền chi tiết</strong> - Admin quản lý toàn bộ, Nhân viên chỉ được tạo key<br>
+                        • <strong>Bảo mật hàng đầu</strong> - Mã hóa AES-256, kết nối SSL<br>
+                        • <strong>Quản lý thời hạn</strong> - Theo dõi thời gian còn lại của từng key<br>
+                        • <strong>Thống kê chi tiết</strong> - Xem tổng key, key đã dùng, chưa dùng, bị ban, hết hạn
+                        <br><br>
+                        🔒 <strong>Cam kết bảo mật</strong><br>
+                        Chúng tôi cam kết bảo vệ thông tin người dùng với tiêu chuẩn bảo mật cao nhất. Dữ liệu được lưu trữ trên Firebase Realtime Database với kết nối SSL và mã hóa AES-256.
+                        <br><br>
+                        🌐 <strong>Cộng đồng & Hỗ trợ</strong><br>
+                        • Zalo: <strong>0971139244</strong><br>
+                        • Email: <strong>duyahvnx@gmail.com</strong>
+                    </div>
+                    <div class="intro-features">
+                        <span class="feature"><i class="fas fa-shield-alt"></i> Bảo mật AES-256</span>
+                        <span class="feature"><i class="fas fa-clock"></i> Quản lý thời hạn</span>
+                        <span class="feature"><i class="fas fa-users"></i> Phân quyền chi tiết</span>
+                        <span class="feature"><i class="fas fa-certificate"></i> Chứng chỉ DuyAhVNX</span>
+                    </div>
+                </div>
+
+                <div class="certificate-card">
+                    <div class="cert-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="cert-title">DuyAh VNX</div>
+                    <div class="cert-sub">Chứng chỉ quản lý License Key</div>
+                    <div class="cert-badges">
+                        <span class="badge-item security"><i class="fas fa-shield-alt"></i> Bảo mật cấp cao</span>
+                        <span class="badge-item encryption"><i class="fas fa-lock"></i> AES-256</span>
+                        <span class="badge-item ssl"><i class="fas fa-ssl"></i> SSL Secure</span>
+                        <span class="badge-item aes"><i class="fas fa-key"></i> 128-bit</span>
+                    </div>
+                    <div style="margin-top:10px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;font-size:0.7rem;color:var(--text-muted);">
+                        <span><i class="fas fa-check-circle" style="color:var(--neon-green);"></i> Đã xác thực</span>
+                        <span><i class="fas fa-database" style="color:var(--neon-blue);"></i> Firebase Realtime</span>
+                        <span><i class="fas fa-user-shield" style="color:var(--neon-pink);"></i> 2FA Ready</span>
+                    </div>
+                    <div class="cert-id">CERT-DUYAH-VNX-2026</div>
+                    <div style="margin-top:10px;font-size:0.7rem;color:var(--text-muted);">Cấp ngày: 01/01/2026 • Hết hạn: Vĩnh viễn</div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:20px;">
+                    <div style="background:var(--card);border-radius:12px;padding:16px 20px;border:1px solid var(--card-border);text-align:center;">
+                        <i class="fas fa-phone" style="font-size:1.5rem;color:var(--neon-blue);"></i>
+                        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:5px;">SỐ ĐIỆN THOẠI</div>
+                        <div style="font-weight:600;color:var(--text);">0971139244</div>
+                    </div>
+                    <div style="background:var(--card);border-radius:12px;padding:16px 20px;border:1px solid var(--card-border);text-align:center;">
+                        <i class="fas fa-envelope" style="font-size:1.5rem;color:var(--neon-pink);"></i>
+                        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:5px;">EMAIL</div>
+                        <div style="font-weight:600;color:var(--text);">duyahvnx@gmail.com</div>
+                    </div>
                 </div>
             </div>
 
@@ -1056,52 +1032,48 @@
 
                 <div class="table-wrap">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>License Key</th>
-                                <th>Thời Hạn</th>
-                                <th>Còn Lại</th>
-                                <th>Máy</th>
-                                <th>Trạng Thái</th>
-                                <th>Người Tạo</th>
-                                <th>Ghi Chú</th>
-                                <th>Hành Động</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>#</th><th>License Key</th><th>Thời Hạn</th><th>Còn Lại</th><th>Máy</th><th>Trạng Thái</th><th>Người Tạo</th><th>Ghi Chú</th><th>Hành Động</th></tr></thead>
                         <tbody id="keysTable"></tbody>
                     </table>
                 </div>
-
                 <div class="pagination" id="pagination"></div>
             </div>
 
             <!-- ====== DEVICES ====== -->
             <div id="sectionDevices" style="display:none;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px;">
-                    <div style="font-size:1.1rem;font-weight:700;color:var(--text);">
-                        💻 Danh Sách Thiết Bị Đã Đăng Nhập
-                        <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;">(thực tế)</span>
-                    </div>
+                    <div style="font-size:1.1rem;font-weight:700;color:var(--text);">💻 Danh Sách Thiết Bị Đã Đăng Nhập</div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        <button class="btn btn-info btn-sm" onclick="recordCurrentDevice()">
-                            <i class="fas fa-sync"></i> Ghi thiết bị này
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="logoutAllDevices()">
-                            <i class="fas fa-sign-out-alt"></i> Đăng Xuất Tất Cả
-                        </button>
+                        <button class="btn btn-info btn-sm" onclick="recordCurrentDevice()"><i class="fas fa-sync"></i> Ghi thiết bị này</button>
+                        <button class="btn btn-danger btn-sm" onclick="logoutAllDevices()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất Tất Cả</button>
                     </div>
                 </div>
-                <div id="deviceList" style="margin-bottom:20px;">
-                    <div style="text-align:center;color:var(--text-muted);padding:30px;">
-                        <i class="fas fa-laptop" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
-                        Chưa có thiết bị nào. Bấm "Ghi thiết bị này" để lưu thiết bị hiện tại.
-                    </div>
-                </div>
+                <div id="deviceList" style="margin-bottom:20px;"></div>
             </div>
 
+            <!-- ====== STAFF ====== -->
+            <div id="sectionStaff" style="display:none;">
+                <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:15px;">👥 Quản Lý Nhân Viên</div>
+                <div id="staffManagement" style="margin-bottom:20px;"></div>
+            </div>
+
+            <!-- ====== PROFILE ====== -->
+            <div id="sectionProfile" style="display:none;">
+                <div id="profileContent"></div>
+            </div>
+
+            <!-- ====== FOOTER ====== -->
             <div class="footer">
-                <p>© 2026 <span>CUTTAY</span> • <span>DuyAhVNX</span> License Manager v2.0 • <span>AIMBODY</span></p>
+                <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:15px;margin-bottom:10px;">
+                    <a href="#" style="color:var(--text-muted);text-decoration:none;font-size:0.7rem;">Chính sách</a>
+                    <a href="#" style="color:var(--text-muted);text-decoration:none;font-size:0.7rem;">Quyền riêng tư</a>
+                    <a href="#" style="color:var(--text-muted);text-decoration:none;font-size:0.7rem;">Câu hỏi thường gặp</a>
+                    <a href="#" style="color:var(--text-muted);text-decoration:none;font-size:0.7rem;">Liên hệ chúng tôi</a>
+                </div>
+                <p>© 2026 <span>DuyAh VNX</span>. All Rights Reserved.</p>
+                <p style="font-size:0.6rem;margin-top:5px;color:var(--text-muted);">
+                    <i class="fas fa-certificate" style="color:var(--neon-pink);"></i> License Manager v3.0
+                </p>
             </div>
         </div>
     </div>
@@ -1146,6 +1118,16 @@
             <h2>👤 Tạo Nhân Viên</h2>
             <input type="text" id="staffName" placeholder="Tên nhân viên">
             <input type="text" id="staffPass" placeholder="Mật khẩu">
+            <select id="staffDuration">
+                <option value="7">7 Ngày</option>
+                <option value="14">14 Ngày</option>
+                <option value="30" selected>30 Ngày</option>
+                <option value="60">60 Ngày</option>
+                <option value="90">90 Ngày</option>
+                <option value="180">180 Ngày</option>
+                <option value="365">1 Năm</option>
+                <option value="0">Vĩnh Viễn</option>
+            </select>
             <div class="modal-actions">
                 <button class="btn btn-primary" onclick="createStaff()">Tạo</button>
                 <button class="btn btn-danger" onclick="closeCreateStaff()">Đóng</button>
@@ -1163,7 +1145,7 @@
                 <div class="info-row"><span class="label">🔑 License Key</span><span class="value highlight" id="infoKey">---</span></div>
                 <div class="info-row"><span class="label">📅 Ngày Tạo</span><span class="value" id="infoCreated">---</span></div>
                 <div class="info-row"><span class="label">⏳ Hết Hạn</span><span class="value" id="infoExpires">---</span></div>
-                <div class="info-row"><span class="label">📊 Thời Gian Sử Dụng</span><span class="value" id="infoDuration">---</span></div>
+                <div class="info-row"><span class="label">📊 Thời Gian</span><span class="value" id="infoDuration">---</span></div>
                 <div class="info-row"><span class="label">💻 Số Máy</span><span class="value" id="infoDevices">---</span></div>
                 <div class="info-row"><span class="label">👤 Người Tạo</span><span class="value" id="infoCreator">---</span></div>
                 <div class="info-row"><span class="label">📝 Ghi Chú</span><span class="value" id="infoNote">---</span></div>
@@ -1172,6 +1154,23 @@
             </div>
             <button class="btn-copy-key" onclick="copyFullKeyInfo()"><i class="fas fa-copy"></i> Sao Chép Toàn Bộ</button>
             <button class="btn-close-copy" onclick="closeCopyModal()">Đóng</button>
+        </div>
+    </div>
+
+    <!-- ====== COPY STAFF INFO MODAL ====== -->
+    <div class="copy-modal" id="copyStaffModal">
+        <div class="copy-modal-content">
+            <h2>📋 Thông Tin Nhân Viên</h2>
+            <div id="copyStaffInfo">
+                <div class="info-row"><span class="label">👤 Tên</span><span class="value highlight" id="staffInfoName">---</span></div>
+                <div class="info-row"><span class="label">🔑 Mật khẩu</span><span class="value" id="staffInfoPass">---</span></div>
+                <div class="info-row"><span class="label">📅 Ngày Tạo</span><span class="value" id="staffInfoCreated">---</span></div>
+                <div class="info-row"><span class="label">⏳ Hết Hạn</span><span class="value" id="staffInfoExpires">---</span></div>
+                <div class="info-row"><span class="label">📊 Trạng Thái</span><span class="value" id="staffInfoStatus">---</span></div>
+                <div class="info-row"><span class="label">📦 Số Key Tạo</span><span class="value" id="staffInfoKeys">---</span></div>
+            </div>
+            <button class="btn-copy-key" onclick="copyStaffInfo()"><i class="fas fa-copy"></i> Sao Chép Thông Tin</button>
+            <button class="btn-close-copy" onclick="closeCopyStaffModal()">Đóng</button>
         </div>
     </div>
 
@@ -1192,15 +1191,31 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // ====== BIẾN TOÀN CỤC ======
         let allKeys = [];
         let allDevices = [];
-        let currentUser = 'admin';
         let staffList = [];
+        let currentUser = 'admin';
+        let currentUserName = 'Admin';
+        let currentUserRole = 'admin';
+        let currentUserExpires = null;
         let currentPage = 1;
         const itemsPerPage = 7;
         let isLoggedIn = false;
+        let deviceId = '';
+        let currentCopyStaff = null;
 
-        // ====== PHÂN BIỆT THIẾT BỊ ======
+        // ====== DEVICE ID ======
+        function getUniqueDeviceId() {
+            if (deviceId) return deviceId;
+            let stored = localStorage.getItem('duyah_device_id');
+            if (stored) { deviceId = stored; return deviceId; }
+            deviceId = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+            localStorage.setItem('duyah_device_id', deviceId);
+            return deviceId;
+        }
+
+        // ====== DEVICE TYPE ======
         function getDeviceType(ua) {
             if (/iPhone|iPad|iPod/i.test(ua)) return { type: 'mobile', name: 'iPhone/iOS', icon: 'fa-mobile-alt' };
             if (/Android/i.test(ua)) {
@@ -1215,80 +1230,122 @@
 
         // ====== LOGIN ======
         function login() {
-            const pass = document.getElementById('adminPass').value.trim();
-            if (pass === 'DuyAh_VNX') {
+            const pass = document.getElementById('loginPass').value.trim();
+            if (pass === 'DUYAHVNX') {
                 currentUser = 'admin';
+                currentUserName = 'Admin';
+                currentUserRole = 'admin';
                 isLoggedIn = true;
+                localStorage.setItem('duyah_logged', 'true');
+                localStorage.setItem('duyah_user', 'admin');
+                localStorage.setItem('duyah_name', 'Admin');
+                localStorage.setItem('duyah_role', 'admin');
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 document.getElementById('userEmail').textContent = 'Admin';
+                document.getElementById('userBadge').textContent = 'ADMIN';
+                document.getElementById('userBadge').className = 'badge';
                 loadKeys();
                 loadStaff();
                 loadDevices();
                 setTimeout(recordCurrentDevice, 1000);
-                toast('✅ Đăng nhập thành công!', 'success');
-                document.getElementById('adminPass').value = '';
-            } else {
-                toast('❌ Mật khẩu sai!', 'error');
+                toast('✅ Đăng nhập Admin thành công!', 'success');
+                document.getElementById('loginPass').value = '';
+                return;
             }
+
+            db.ref('staff').once('value', snap => {
+                let found = false;
+                snap.forEach(child => {
+                    const data = child.val();
+                    if (data.password === pass) {
+                        found = true;
+                        if (data.expires_at && new Date(data.expires_at) < new Date()) {
+                            toast('❌ Tài khoản nhân viên đã hết hạn!', 'error');
+                            return;
+                        }
+                        currentUser = 'staff';
+                        currentUserName = data.name || 'Nhân Viên';
+                        currentUserRole = 'staff';
+                        currentUserExpires = data.expires_at || null;
+                        isLoggedIn = true;
+                        localStorage.setItem('duyah_logged', 'true');
+                        localStorage.setItem('duyah_user', 'staff');
+                        localStorage.setItem('duyah_name', currentUserName);
+                        localStorage.setItem('duyah_role', 'staff');
+                        document.getElementById('loginScreen').style.display = 'none';
+                        document.getElementById('mainApp').style.display = 'block';
+                        document.getElementById('userEmail').textContent = currentUserName;
+                        document.getElementById('userBadge').textContent = 'STAFF';
+                        document.getElementById('userBadge').className = 'badge staff';
+                        loadKeys();
+                        loadStaff();
+                        loadDevices();
+                        setTimeout(recordCurrentDevice, 1000);
+                        const remaining = getRemaining(data.expires_at);
+                        toast(`✅ Đăng nhập Nhân viên thành công! (Còn ${remaining})`, 'success');
+                        document.getElementById('loginPass').value = '';
+                    }
+                });
+                if (!found) toast('❌ Mật khẩu sai!', 'error');
+            });
         }
 
-        // ====== LOGOUT (ĐĂNG XUẤT THẬT) ======
+        // ====== LOGOUT ======
         function logout() {
-            // Xóa hết session
             isLoggedIn = false;
             currentUser = '';
+            currentUserName = '';
+            currentUserRole = '';
+            currentUserExpires = null;
             allKeys = [];
             allDevices = [];
             staffList = [];
-            
-            // Reset UI
-            document.getElementById('loginScreen').style.display = 'flex';
-            document.getElementById('mainApp').style.display = 'none';
-            document.getElementById('adminPass').value = '';
-            
-            // Xóa localStorage
             localStorage.removeItem('duyah_logged');
             localStorage.removeItem('duyah_user');
-            localStorage.removeItem('duyah_session');
-            
-            toast('🔒 Đã đăng xuất thành công!', '');
+            localStorage.removeItem('duyah_name');
+            localStorage.removeItem('duyah_role');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginPass').value = '';
+            toast('🔒 Đã đăng xuất!', '');
         }
 
         // ====== SHOW SECTION ======
         function showSection(section) {
             document.getElementById('sectionHome').style.display = section === 'home' ? 'block' : 'none';
+            document.getElementById('sectionIntro').style.display = section === 'intro' ? 'block' : 'none';
             document.getElementById('sectionKeys').style.display = section === 'keys' ? 'block' : 'none';
             document.getElementById('sectionDevices').style.display = section === 'devices' ? 'block' : 'none';
-
+            document.getElementById('sectionStaff').style.display = section === 'staff' ? 'block' : 'none';
+            document.getElementById('sectionProfile').style.display = section === 'profile' ? 'block' : 'none';
             document.getElementById('menuHome').classList.toggle('active', section === 'home');
+            document.getElementById('menuIntro').classList.toggle('active', section === 'intro');
             document.getElementById('menuKeys').classList.toggle('active', section === 'keys');
             document.getElementById('menuDevices').classList.toggle('active', section === 'devices');
-
+            document.getElementById('menuStaff').classList.toggle('active', section === 'staff');
+            document.getElementById('menuProfile').classList.toggle('active', section === 'profile');
             if (section === 'home') renderRecentKeys();
             if (section === 'devices') loadDevices();
+            if (section === 'staff') renderStaffManagement();
+            if (section === 'profile') renderProfile();
         }
 
-        // ====== RECORD CURRENT DEVICE ======
+        // ====== RECORD DEVICE ======
         function recordCurrentDevice() {
             if (!isLoggedIn) return;
-            
+            const deviceId = getUniqueDeviceId();
             fetch('https://api.ipify.org?format=json')
                 .then(res => res.json())
-                .then(data => {
-                    const ip = data.ip;
-                    saveDeviceInfo(ip);
-                })
-                .catch(() => saveDeviceInfo('Unknown IP'));
+                .then(data => saveDeviceInfo(deviceId, data.ip))
+                .catch(() => saveDeviceInfo(deviceId, 'Unknown IP'));
         }
 
-        function saveDeviceInfo(ip) {
+        function saveDeviceInfo(deviceId, ip) {
             const ua = navigator.userAgent;
             const now = new Date().toISOString();
-            const deviceId = 'DEV-' + Math.random().toString(36).substring(2, 8).toUpperCase();
             const deviceInfo = getDeviceType(ua);
-            
-            const deviceData = {
+            db.ref('devices/' + deviceId).set({
                 device_id: deviceId,
                 name: deviceInfo.name + ' (' + (navigator.platform || 'Unknown') + ')',
                 type: deviceInfo.type,
@@ -1300,21 +1357,18 @@
                 screen: window.screen.width + 'x' + window.screen.height,
                 language: navigator.language || 'vi-VN',
                 last_active: now,
-                created_at: now
-            };
-
-            db.ref('devices').push(deviceData)
-                .then(() => {
-                    toast('✅ Đã ghi nhận thiết bị: ' + deviceInfo.name, 'success');
-                    loadDevices();
-                })
-                .catch(() => toast('⚠️ Lỗi lưu thiết bị', 'error'));
+                created_at: now,
+                user: currentUserName,
+                role: currentUserRole
+            }).then(() => {
+                toast('✅ Đã cập nhật thiết bị: ' + deviceInfo.name, 'success');
+                loadDevices();
+            }).catch(() => toast('⚠️ Lỗi lưu thiết bị', 'error'));
         }
 
         // ====== LOAD DEVICES ======
         function loadDevices() {
             if (!isLoggedIn) return;
-            
             db.ref('devices').on('value', snap => {
                 allDevices = [];
                 snap.forEach(child => {
@@ -1335,78 +1389,61 @@
         function renderDevices() {
             const container = document.getElementById('deviceList');
             if (allDevices.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align:center;color:var(--text-muted);padding:40px;">
-                        <i class="fas fa-laptop" style="font-size:3rem;display:block;margin-bottom:15px;opacity:0.3;"></i>
-                        Chưa có thiết bị nào đăng nhập.
-                    </div>
-                `;
+                container.innerHTML =
+                    '<div style="text-align:center;color:var(--text-muted);padding:40px;"><i class="fas fa-laptop" style="font-size:3rem;display:block;margin-bottom:15px;opacity:0.3;"></i>Chưa có thiết bị nào.</div>';
                 return;
             }
-
             let html = '';
             allDevices.forEach((device) => {
                 const status = device.status || 'online';
                 const statusText = status === 'online' ? '🟢 Online' : '🔴 Offline';
                 const statusClass = status === 'online' ? 'online' : 'offline';
-                const lastActive = device.last_active ? new Date(device.last_active).toLocaleString('vi-VN') : 'Chưa có';
+                const lastActive = device.last_active ? new Date(device.last_active).toLocaleString('vi-VN') :
+                    'Chưa có';
                 const icon = device.icon || 'fa-laptop';
-                const typeLabel = device.type === 'pc' ? '💻 PC' : device.type === 'mobile' ? '📱 Mobile' : device.type === 'tablet' ? '📟 Tablet' : '❓ Unknown';
-
+                const typeLabel = device.type === 'pc' ? '💻 PC' : device.type === 'mobile' ? '📱 Mobile' : device
+                    .type === 'tablet' ? '📟 Tablet' : '❓ Unknown';
+                const isCurrent = device.id === getUniqueDeviceId();
                 html += `
-                    <div class="device-item">
-                        <div class="device-info">
-                            <div class="device-icon"><i class="fas ${icon}"></i></div>
-                            <div>
-                                <div class="device-name">
-                                    ${device.name || 'Thiết bị không tên'}
-                                    <span class="device-type">${typeLabel}</span>
+                            <div class="device-item" style="${isCurrent ? 'border-color:var(--neon-green);' : ''}">
+                                <div class="device-info">
+                                    <div class="device-icon"><i class="fas ${icon}"></i></div>
+                                    <div>
+                                        <div class="device-name">${device.name || 'Thiết bị không tên'} <span class="device-type">${typeLabel}</span> ${isCurrent ? '<span style="color:var(--neon-green);font-size:0.6rem;"> ● Thiết bị này</span>' : ''}</div>
+                                        <div class="device-detail"><i class="fas fa-map-pin"></i> ${device.ip || 'N/A'} ${device.screen ? '• 📺 ' + device.screen : ''} ${device.user ? '• 👤 ' + device.user : ''}</div>
+                                        <div class="device-detail"><i class="fas fa-clock"></i> ${lastActive} ${device.language ? '• 🌐 ' + device.language : ''}</div>
+                                    </div>
                                 </div>
-                                <div class="device-detail">
-                                    <i class="fas fa-map-pin"></i> ${device.ip || 'N/A'}
-                                    ${device.screen ? '• 📺 ' + device.screen : ''}
-                                </div>
-                                <div class="device-detail">
-                                    <i class="fas fa-clock"></i> ${lastActive}
-                                    ${device.language ? '• 🌐 ' + device.language : ''}
+                                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                                    <span class="device-status ${statusClass}">${statusText}</span>
+                                    <div class="device-actions">
+                                        ${currentUser === 'admin' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="logoutDevice('${device.id}')"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>` : ''}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                            <span class="device-status ${statusClass}">${statusText}</span>
-                            <div class="device-actions">
-                                <button class="action-btn" style="background:#ef4444;color:#fff;" onclick="logoutDevice('${device.id}')">
-                                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                        `;
             });
             container.innerHTML = html;
         }
 
         // ====== DEVICE FUNCTIONS ======
         function logoutDevice(deviceId) {
-            if (!confirm('Bạn có chắc muốn đăng xuất thiết bị này?')) return;
-            db.ref('devices/' + deviceId).remove().then(() => {
-                toast('✅ Đã đăng xuất thiết bị', 'success');
-                loadDevices();
-            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+            if (currentUser !== 'admin') { toast('❌ Chỉ Admin mới có quyền đăng xuất thiết bị!', 'error'); return; }
+            if (!confirm('Đăng xuất thiết bị này?')) return;
+            db.ref('devices/' + deviceId).remove().then(() => { toast('✅ Đã đăng xuất thiết bị', 'success');
+                loadDevices(); }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
         }
 
         function logoutAllDevices() {
-            if (!confirm('Bạn có chắc muốn đăng xuất TẤT CẢ thiết bị?')) return;
-            db.ref('devices').remove().then(() => {
-                toast('✅ Đã đăng xuất tất cả thiết bị', 'success');
-                loadDevices();
-            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+            if (currentUser !== 'admin') { toast('❌ Chỉ Admin mới có quyền đăng xuất tất cả!', 'error'); return; }
+            if (!confirm('Đăng xuất TẤT CẢ thiết bị?')) return;
+            db.ref('devices').remove().then(() => { toast('✅ Đã đăng xuất tất cả thiết bị', 'success');
+                loadDevices(); }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
         }
 
         // ====== LOAD KEYS ======
         function loadKeys() {
             if (!isLoggedIn) return;
-            
             db.ref('keys').on('value', snap => {
                 allKeys = [];
                 snap.forEach(child => {
@@ -1424,8 +1461,270 @@
                 renderTableWithPagination(allKeys);
                 updateStats(allKeys);
                 renderRecentKeys();
+                renderStaffManagement();
+                renderProfile();
             });
         }
+
+        // ====== LOAD STAFF ======
+        function loadStaff() {
+            if (!isLoggedIn) return;
+            db.ref('staff').on('value', snap => {
+                staffList = [];
+                snap.forEach(child => {
+                    const data = child.val();
+                    data.id = child.key;
+                    staffList.push(data);
+                });
+                renderStaffList();
+                renderStaffManagement();
+                renderProfile();
+            });
+        }
+
+        function renderStaffList() {
+            const container = document.getElementById('staffList');
+            if (!container) return;
+            if (staffList.length === 0) {
+                container.innerHTML =
+                    '<p style="color:var(--text-muted);font-size:0.8rem;text-align:center;">Chưa có nhân viên</p>';
+                return;
+            }
+            let html = '';
+            staffList.forEach(s => {
+                const isExpired = s.expires_at && new Date(s.expires_at) < new Date();
+                const statusText = isExpired ? '🔴 Hết hạn' : '🟢 Hoạt động';
+                const statusClass = isExpired ? 'expired' : 'active';
+                const staffKeys = allKeys.filter(k => k.created_by === s.name);
+                html += `<div class="staff-item">
+                            <span class="staff-name">👤 ${s.name}</span>
+                            <span class="staff-pass">🔑 ${s.password}</span>
+                            <span class="staff-status ${statusClass}">${statusText}</span>
+                            <span style="font-size:0.7rem;color:var(--text-muted);">📦 ${staffKeys.length} keys</span>
+                            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                                <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="openCopyStaffModal('${s.id}')"><i class="fas fa-copy"></i> Copy</button>
+                                ${currentUser === 'admin' ? `<button class="action-btn" style="background:#8b5cf6;color:#fff;" onclick="extendStaffTime('${s.id}')"><i class="fas fa-clock"></i></button>` : ''}
+                                ${currentUser === 'admin' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteStaff('${s.id}')">Xóa</button>` : ''}
+                            </div>
+                        </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // ====== STAFF MANAGEMENT ======
+        function renderStaffManagement() {
+            const container = document.getElementById('staffManagement');
+            if (!container) return;
+            if (currentUser === 'staff') {
+                container.innerHTML =
+                    '<div style="background:var(--card);border-radius:12px;padding:20px;text-align:center;border:1px solid var(--card-border);"><i class="fas fa-lock" style="font-size:2rem;color:var(--text-muted);display:block;margin-bottom:10px;"></i><p style="color:var(--text-muted);">Bạn là nhân viên, chỉ Admin mới quản lý nhân viên được.</p></div>';
+                return;
+            }
+            if (staffList.length === 0) {
+                container.innerHTML =
+                    '<div style="background:var(--card);border-radius:12px;padding:20px;text-align:center;border:1px solid var(--card-border);"><p style="color:var(--text-muted);">Chưa có nhân viên nào.</p><button class="btn btn-primary btn-sm" onclick="openCreateStaff()" style="margin-top:10px;"><i class="fas fa-user-plus"></i> Tạo Nhân Viên</button></div>';
+                return;
+            }
+            let html =
+                '<div style="background:var(--card);border-radius:12px;padding:15px;border:1px solid var(--card-border);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;"><span style="font-weight:600;">📋 Danh sách nhân viên (' +
+                staffList.length + ')</span><button class="btn btn-primary btn-sm" onclick="openCreateStaff()"><i class="fas fa-user-plus"></i> Thêm</button></div><div style="display:grid;gap:6px;">';
+            staffList.forEach(s => {
+                const isExpired = s.expires_at && new Date(s.expires_at) < new Date();
+                const statusText = isExpired ? '🔴 Hết hạn' : '🟢 Hoạt động';
+                const statusColor = isExpired ? '#ef4444' : 'var(--neon-green)';
+                const staffKeys = allKeys.filter(k => k.created_by === s.name);
+                const activeKeys = staffKeys.filter(k => k.status !== 'banned' && (!k.expires_at || new Date(k
+                    .expires_at) > new Date()));
+                const remaining = s.expires_at ? getRemaining(s.expires_at) : '♾️ Vĩnh viễn';
+                html += `
+                            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(2,6,23,0.6);border-radius:8px;border:1px solid var(--card-border);flex-wrap:wrap;gap:8px;">
+                                <div><span style="font-weight:600;color:var(--neon-blue);">👤 ${s.name}</span><span style="color:var(--text-muted);font-size:0.7rem;margin-left:8px;">🔑 ${s.password}</span><span style="color:${statusColor};font-size:0.65rem;margin-left:8px;font-weight:600;">${statusText}</span></div>
+                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                    <span style="font-size:0.65rem;color:var(--text-muted);">⏳ ${remaining}</span>
+                                    <span style="font-size:0.65rem;color:var(--text-muted);">📦 <span style="color:var(--text);">${staffKeys.length}</span> keys (🟢 ${activeKeys.length} active)</span>
+                                    <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="openCopyStaffModal('${s.id}')"><i class="fas fa-copy"></i></button>
+                                    <button class="action-btn" style="background:#8b5cf6;color:#fff;" onclick="extendStaffTime('${s.id}')"><i class="fas fa-clock"></i></button>
+                                    <button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteStaff('${s.id}')">Xóa</button>
+                                </div>
+                            </div>
+                        `;
+            });
+            html += '</div></div>';
+            container.innerHTML = html;
+        }
+
+        // ====== OPEN COPY STAFF MODAL ======
+        function openCopyStaffModal(staffId) {
+            if (!staffList || staffList.length === 0) {
+                toast('❌ Chưa có dữ liệu nhân viên!', 'error');
+                return;
+            }
+            const staff = staffList.find(s => s.id === staffId);
+            if (!staff) {
+                toast('❌ Không tìm thấy nhân viên!', 'error');
+                return;
+            }
+            currentCopyStaff = staff;
+            const isExpired = staff.expires_at && new Date(staff.expires_at) < new Date();
+            const staffKeys = allKeys.filter(k => k.created_by === staff.name);
+
+            document.getElementById('staffInfoName').textContent = staff.name || '---';
+            document.getElementById('staffInfoPass').textContent = staff.password || '---';
+            document.getElementById('staffInfoCreated').textContent = staff.created_at ? new Date(staff.created_at)
+                .toLocaleString('vi-VN') : '---';
+            document.getElementById('staffInfoExpires').textContent = staff.expires_at ? new Date(staff.expires_at)
+                .toLocaleString('vi-VN') : '♾️ Vĩnh viễn';
+            document.getElementById('staffInfoStatus').textContent = isExpired ? '🔴 Hết hạn' : '🟢 Hoạt động';
+            document.getElementById('staffInfoStatus').style.color = isExpired ? '#ef4444' : '#00ff88';
+            document.getElementById('staffInfoKeys').textContent = staffKeys.length + ' keys';
+
+            document.getElementById('copyStaffModal').style.display = 'flex';
+        }
+
+        // ====== COPY STAFF INFO ======
+        function copyStaffInfo() {
+            if (!currentCopyStaff) {
+                toast('❌ Không có thông tin nhân viên để sao chép!', 'error');
+                return;
+            }
+            const isExpired = currentCopyStaff.expires_at && new Date(currentCopyStaff.expires_at) < new Date();
+            const staffKeys = allKeys.filter(k => k.created_by === currentCopyStaff.name);
+            const activeKeys = staffKeys.filter(k => k.status !== 'banned' && (!k.expires_at || new Date(k.expires_at) >
+                new Date()));
+
+            const info = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        📋 THÔNG TIN NHÂN VIÊN
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        👤 TÊN: ${currentCopyStaff.name || '---'}
+        🔑 MẬT KHẨU: ${currentCopyStaff.password || '---'}
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        📅 THÔNG TIN TÀI KHOẢN
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        📅 Ngày Tạo: ${currentCopyStaff.created_at ? new Date(currentCopyStaff.created_at).toLocaleString('vi-VN') : '---'}
+        ⏳ Hết Hạn: ${currentCopyStaff.expires_at ? new Date(currentCopyStaff.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh viễn'}
+        📊 Trạng Thái: ${isExpired ? '🔴 Hết hạn' : '🟢 Hoạt động'}
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        📦 THỐNG KÊ KEY
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        📦 Tổng Key Tạo: ${staffKeys.length} keys
+        🟢 Key Đang Hoạt Động: ${activeKeys.length} keys
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        🏷️ CHỨNG CHỈ
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        🏷️ Chứng Chỉ: DuyAhVNX
+        🔒 Bảo Mật: AES-256
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        📞 LIÊN HỆ HỖ TRỢ
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        📱 Zalo: 0971139244
+        📧 Email: duyahvnx@gmail.com
+
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        © DuyAh VNX - License Manager v3.0
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(info).then(() => {
+                    toast('✅ Đã sao chép thông tin nhân viên!', 'success');
+                }).catch(() => {
+                    fallbackCopyStaff(info);
+                });
+            } else {
+                fallbackCopyStaff(info);
+            }
+        }
+
+        function fallbackCopyStaff(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            textarea.style.top = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                toast('✅ Đã sao chép thông tin nhân viên!', 'success');
+            } catch (err) {
+                toast('❌ Sao chép thất bại! Vui lòng copy thủ công.', 'error');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function closeCopyStaffModal() {
+            document.getElementById('copyStaffModal').style.display = 'none';
+        }
+
+        // ====== EXTEND STAFF TIME ======
+        function extendStaffTime(staffId) {
+            if (currentUser !== 'admin') { toast('❌ Chỉ Admin mới có quyền này!', 'error'); return; }
+            const staff = staffList.find(s => s.id === staffId);
+            if (!staff) return toast('❌ Không tìm thấy nhân viên!', 'error');
+            const daysToAdd = prompt('Nhập số ngày muốn gia hạn (VD: 7, 30, 90):', '30');
+            if (daysToAdd === null) return;
+            const d = parseInt(daysToAdd);
+            if (isNaN(d) || d <= 0) return toast('❌ Vui lòng nhập số ngày hợp lệ!', 'error');
+            const now = new Date();
+            let currentExp = staff.expires_at ? new Date(staff.expires_at) : null;
+            if (!currentExp || currentExp < now) { currentExp = now; }
+            const newExp = new Date(currentExp.getTime() + d * 24 * 60 * 60 * 1000);
+            db.ref('staff/' + staffId).update({ expires_at: newExp.toISOString() }).then(() => {
+                toast(`✅ Đã gia hạn ${d} ngày cho nhân viên ${staff.name}`, 'success');
+                loadStaff();
+            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+        }
+
+        // ====== STAFF FUNCTIONS ======
+        function createStaff() {
+            if (currentUser !== 'admin') { toast('❌ Chỉ Admin mới tạo nhân viên!', 'error'); return; }
+            const name = document.getElementById('staffName').value.trim();
+            const pass = document.getElementById('staffPass').value.trim();
+            const durationDays = parseInt(document.getElementById('staffDuration').value);
+            if (!name || !pass) return toast('❌ Vui lòng nhập đầy đủ!', 'error');
+            const now = new Date();
+            let expires_at = null;
+            if (durationDays > 0) {
+                expires_at = new Date(now.getTime() + durationDays * 24 * 60 * 60 * 1000);
+            }
+            db.ref('staff').push({
+                name: name,
+                password: pass,
+                duration_days: durationDays,
+                expires_at: expires_at ? expires_at.toISOString() : null,
+                created_at: now.toISOString(),
+                created_by: currentUserName
+            }).then(() => {
+                const remainText = durationDays > 0 ? `${durationDays} ngày` : 'Vĩnh viễn';
+                toast(`✅ Đã tạo nhân viên: ${name} (pass: ${pass}) - Hạn: ${remainText}`, 'success');
+                document.getElementById('staffName').value = '';
+                document.getElementById('staffPass').value = '';
+                loadStaff();
+            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
+        }
+
+        function deleteStaff(id) {
+            if (currentUser !== 'admin') { toast('❌ Chỉ Admin mới xóa nhân viên!', 'error'); return; }
+            if (!confirm('Xóa nhân viên này?')) return;
+            db.ref('staff/' + id).remove().then(() => { toast('✅ Đã xóa nhân viên', 'success');
+                loadStaff(); });
+        }
+
+        function openCreateStaff() {
+            if (currentUser !== 'admin') { toast('❌ Chỉ Admin mới tạo nhân viên!', 'error'); return; }
+            document.getElementById('createStaffModal').style.display = 'flex';
+            loadStaff();
+        }
+
+        function closeCreateStaff() { document.getElementById('createStaffModal').style.display = 'none'; }
 
         // ====== RENDER RECENT KEYS ======
         function renderRecentKeys() {
@@ -1443,87 +1742,59 @@
                     const creatorLabel = creator === 'Admin' ? '<span class="creator-tag admin">ADMIN</span>' :
                         '<span class="creator-tag staff">STAFF</span>';
                     const devices = k.devices === 'unlimited' ? '♾️' : (k.devices || '1');
-                    html += `<tr>
-                        <td>${i+1}</td>
-                        <td><span class="key-text">${k.license_key}</span></td>
-                        <td>${durLabel}</td>
-                        <td>${remaining}</td>
-                        <td>${devices}</td>
-                        <td><span class="status status-${status.cls}">${status.text}</span></td>
-                        <td>${creatorLabel}</td>
-                    </tr>`;
+                    html += `<tr><td>${i+1}</td><td><span class="key-text">${k.license_key}</span></td><td>${durLabel}</td><td>${remaining}</td><td>${devices}</td><td><span class="status status-${status.cls}">${status.text}</span></td><td>${creatorLabel}</td></tr>`;
                 });
             }
             document.getElementById('recentKeysTable').innerHTML = html;
         }
 
-        // ====== LOAD STAFF ======
-        function loadStaff() {
-            if (!isLoggedIn) return;
-            
-            db.ref('staff').on('value', snap => {
-                staffList = [];
-                snap.forEach(child => {
-                    const data = child.val();
-                    data.id = child.key;
-                    staffList.push(data);
-                });
-                renderStaffList();
-            });
-        }
-
-        function renderStaffList() {
-            const container = document.getElementById('staffList');
+        // ====== RENDER PROFILE ======
+        function renderProfile() {
+            const container = document.getElementById('profileContent');
             if (!container) return;
-            if (staffList.length === 0) {
-                container.innerHTML =
-                    '<p style="color:var(--text-muted);font-size:0.8rem;text-align:center;">Chưa có nhân viên</p>';
+            if (!isLoggedIn) {
+                container.innerHTML = '<p style="color:var(--text-muted);">Vui lòng đăng nhập để xem hồ sơ.</p>';
                 return;
             }
-            let html = '';
-            staffList.forEach(s => {
-                html += `<div class="staff-item">
-                    <span class="staff-name">👤 ${s.name}</span>
-                    <span class="staff-pass">🔑 ${s.password}</span>
-                    <button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteStaff('${s.id}')">Xóa</button>
-                </div>`;
-            });
+            const isStaff = currentUserRole === 'staff';
+            const staffData = staffList.find(s => s.name === currentUserName);
+            let html = `
+                        <div class="profile-card">
+                            <div class="profile-avatar"><i class="fas ${isStaff ? 'fa-user-tie' : 'fa-crown'}"></i></div>
+                            <div class="profile-name">${currentUserName}</div>
+                            <div class="profile-role">${isStaff ? '🌟 Nhân Viên' : '👑 Quản Trị Viên'}</div>
+                            <div style="margin-top:5px;"><span class="cert-badge" style="font-size:0.7rem;"><i class="fas fa-certificate"></i> DuyAhVNX</span></div>
+                            <div class="profile-info">
+                                <div class="info-item"><div class="label">🔑 Vai Trò</div><div class="value ${isStaff ? '' : 'highlight'}">${isStaff ? 'Nhân Viên' : 'Admin'}</div></div>
+                                <div class="info-item"><div class="label">📅 Ngày Tạo</div><div class="value">${isStaff && staffData ? (staffData.created_at ? new Date(staffData.created_at).toLocaleString('vi-VN') : '---') : '01/01/2026'}</div></div>
+                                <div class="info-item"><div class="label">⏳ Hết Hạn</div><div class="value ${isStaff && staffData && staffData.expires_at && new Date(staffData.expires_at) < new Date() ? 'highlight' : 'success'}">${isStaff && staffData ? (staffData.expires_at ? new Date(staffData.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh viễn') : '♾️ Vĩnh viễn'}</div></div>
+                                <div class="info-item"><div class="label">📊 Trạng Thái</div><div class="value success">${isStaff && staffData && staffData.expires_at && new Date(staffData.expires_at) < new Date() ? '🔴 Hết hạn' : '🟢 Hoạt động'}</div></div>
+                                <div class="info-item"><div class="label">📦 Số Key Tạo</div><div class="value">${allKeys.filter(k => k.created_by === currentUserName).length}</div></div>
+                                <div class="info-item"><div class="label">🏷️ Chứng Chỉ</div><div class="value">DuyAhVNX</div></div>
+                            </div>
+                        </div>
+                    `;
+            html += `
+                        <div style="margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;">
+                            <button class="btn btn-info" onclick="copyProfileInfo()"><i class="fas fa-copy"></i> Sao Chép Thông Tin</button>
+                            ${isStaff && staffData ? `<button class="btn btn-purple" onclick="copyStaffInfo()"><i class="fas fa-copy"></i> Sao Chép Thông Tin Nhân Viên</button>` : ''}
+                        </div>
+                    `;
             container.innerHTML = html;
         }
 
-        // ====== STAFF FUNCTIONS ======
-        function createStaff() {
-            const name = document.getElementById('staffName').value.trim();
-            const pass = document.getElementById('staffPass').value.trim();
-            if (!name || !pass) return toast('❌ Vui lòng nhập đầy đủ!', 'error');
-
-            db.ref('staff').push({
-                name: name,
-                password: pass,
-                created_at: new Date().toISOString()
-            }).then(() => {
-                toast(`✅ Đã tạo nhân viên: ${name}`, 'success');
-                document.getElementById('staffName').value = '';
-                document.getElementById('staffPass').value = '';
-                loadStaff();
-            }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
-        }
-
-        function deleteStaff(id) {
-            if (!confirm('Xóa nhân viên này?')) return;
-            db.ref('staff/' + id).remove().then(() => {
-                toast('✅ Đã xóa nhân viên', 'success');
-                loadStaff();
-            });
-        }
-
-        function openCreateStaff() {
-            document.getElementById('createStaffModal').style.display = 'flex';
-            loadStaff();
-        }
-
-        function closeCreateStaff() {
-            document.getElementById('createStaffModal').style.display = 'none';
+        function copyProfileInfo() {
+            const isStaff = currentUserRole === 'staff';
+            const staffData = staffList.find(s => s.name === currentUserName);
+            const info =
+                `👤 TÊN: ${currentUserName}\n🔑 VAI TRÒ: ${isStaff ? 'Nhân Viên' : 'Admin'}\n📅 NGÀY TẠO: ${isStaff && staffData ? (staffData.created_at ? new Date(staffData.created_at).toLocaleString('vi-VN') : '---') : '01/01/2026'}\n⏳ HẾT HẠN: ${isStaff && staffData ? (staffData.expires_at ? new Date(staffData.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh viễn') : '♾️ Vĩnh viễn'}\n📦 SỐ KEY TẠO: ${allKeys.filter(k => k.created_by === currentUserName).length}\n🏷️ CHỨNG CHỈ: DuyAhVNX`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(info).then(() => { toast('✅ Đã sao chép!', 'success'); }).catch(() => {
+                    fallbackCopyStaff(info);
+                });
+            } else {
+                fallbackCopyStaff(info);
+            }
         }
 
         // ====== RENDER TABLE ======
@@ -1552,24 +1823,25 @@
                     const creatorLabel = creator === 'Admin' ? '<span class="creator-tag admin">ADMIN</span>' :
                         '<span class="creator-tag staff">STAFF</span>';
                     const devices = k.devices === 'unlimited' ? '♾️' : (k.devices || '1');
+                    const isStaff = currentUser === 'staff';
                     html += `<tr>
-                        <td>${startIndex + i + 1}</td>
-                        <td><span class="key-text">${k.license_key}</span></td>
-                        <td><span class="duration-badge ${durBadge}">${durLabel}</span></td>
-                        <td>${remaining}</td>
-                        <td>${devices}</td>
-                        <td><span class="status status-${status.cls}">${status.text}</span></td>
-                        <td>${creatorLabel}</td>
-                        <td>${k.note || '-'}</td>
-                        <td>
-                            <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="openCopyModal('${k.id}')"><i class="fas fa-copy"></i> Info</button>
-                            ${currentUser === 'admin' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteKey('${k.id}')">Xóa</button>` : ''}
-                            ${currentUser === 'admin' && k.status !== 'banned' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="banKey('${k.id}')">Ban</button>` : ''}
-                            ${currentUser === 'admin' && k.status === 'banned' ? `<button class="action-btn" style="background:#22c55e;color:#000;" onclick="unbanKey('${k.id}')">Unban</button>` : ''}
-                            <button class="action-btn" style="background:#f59e0b;color:#000;" onclick="markUsed('${k.id}')">Dùng</button>
-                            ${currentUser === 'admin' ? `<button class="action-btn" style="background:#8b5cf6;color:#fff;" onclick="addTimeToKey('${k.id}')"><i class="fas fa-clock"></i> +TG</button>` : ''}
-                        </td>
-                    </tr>`;
+                                <td>${startIndex + i + 1}</td>
+                                <td><span class="key-text">${k.license_key}</span></td>
+                                <td><span class="duration-badge ${durBadge}">${durLabel}</span></td>
+                                <td>${remaining}</td>
+                                <td>${devices}</td>
+                                <td><span class="status status-${status.cls}">${status.text}</span></td>
+                                <td>${creatorLabel}</td>
+                                <td>${k.note || '-'}</td>
+                                <td>
+                                    <button class="action-btn" style="background:#3b82f6;color:#fff;" onclick="openCopyModal('${k.id}')"><i class="fas fa-copy"></i> Info</button>
+                                    ${!isStaff ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="deleteKey('${k.id}')">Xóa</button>` : ''}
+                                    ${!isStaff && k.status !== 'banned' ? `<button class="action-btn" style="background:#ef4444;color:#fff;" onclick="banKey('${k.id}')">Ban</button>` : ''}
+                                    ${!isStaff && k.status === 'banned' ? `<button class="action-btn" style="background:#22c55e;color:#000;" onclick="unbanKey('${k.id}')">Unban</button>` : ''}
+                                    <button class="action-btn" style="background:#f59e0b;color:#000;" onclick="markUsed('${k.id}')">Dùng</button>
+                                    ${!isStaff ? `<button class="action-btn" style="background:#8b5cf6;color:#fff;" onclick="addTimeToKey('${k.id}')"><i class="fas fa-clock"></i> +TG</button>` : ''}
+                                </td>
+                            </tr>`;
                 });
             }
             document.getElementById('keysTable').innerHTML = html;
@@ -1577,10 +1849,7 @@
 
         function renderPagination(totalPages) {
             const container = document.getElementById('pagination');
-            if (totalPages <= 1) {
-                container.innerHTML = '';
-                return;
-            }
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
             let html =
                 `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
             for (let i = 1; i <= totalPages; i++) {
@@ -1689,12 +1958,13 @@
             renderTableWithPagination(filtered);
         }
 
-        // ====== CREATE ======
-        function openCreate() { document.getElementById('createModal').style.display = 'flex'; }
+        // ====== CREATE KEY ======
+        function openCreate() { if (!isLoggedIn) return; document.getElementById('createModal').style.display = 'flex'; }
 
         function closeCreate() { document.getElementById('createModal').style.display = 'none'; }
 
         function createKey() {
+            if (!isLoggedIn) return;
             const custom = document.getElementById('customKey').value.trim();
             const duration = document.getElementById('duration').value;
             const devices = document.getElementById('deviceLimit').value;
@@ -1714,7 +1984,7 @@
                 note: note,
                 created_at: now.toISOString(),
                 expires_at: expires_at ? expires_at.toISOString() : null,
-                created_by: 'Admin'
+                created_by: currentUserName
             }).then(() => {
                 toast('✅ Đã tạo key: ' + key, 'success');
                 closeCreate();
@@ -1725,38 +1995,20 @@
 
         // ====== ADD TIME ======
         function addTimeToKey(keyId) {
-            if (currentUser !== 'admin') {
-                toast('❌ Chỉ Admin mới có quyền này!', 'error');
-                return;
-            }
-
+            if (currentUser === 'staff') { toast('❌ Nhân viên không có quyền này!', 'error'); return; }
             let keyIndex = allKeys.findIndex(k => k.id === keyId);
             if (keyIndex === -1) return toast('❌ Không tìm thấy key!', 'error');
-
             const key = allKeys[keyIndex];
-
-            if (key.duration === 'lifetime') {
-                toast('❌ Key Vĩnh Viễn không cần cộng thêm!', 'error');
-                return;
-            }
-
+            if (key.duration === 'lifetime') { toast('❌ Key Vĩnh Viễn không cần cộng thêm!', 'error'); return; }
             const daysToAdd = prompt('Nhập số ngày muốn cộng thêm (VD: 1, 3, 7):', '1');
             if (daysToAdd === null) return;
             const d = parseInt(daysToAdd);
             if (isNaN(d) || d <= 0) return toast('❌ Vui lòng nhập số ngày hợp lệ!', 'error');
-
             const now = new Date();
             let currentExp = key.expires_at ? new Date(key.expires_at) : null;
-
-            if (!currentExp || currentExp < now) {
-                currentExp = now;
-            }
-
+            if (!currentExp || currentExp < now) { currentExp = now; }
             const newExp = new Date(currentExp.getTime() + d * 24 * 60 * 60 * 1000);
-
-            db.ref('keys/' + keyId).update({
-                expires_at: newExp.toISOString()
-            }).then(() => {
+            db.ref('keys/' + keyId).update({ expires_at: newExp.toISOString() }).then(() => {
                 toast(`✅ Đã cộng thêm ${d} ngày cho key ${key.license_key}`, 'success');
                 key.expires_at = newExp.toISOString();
                 renderTableWithPagination(allKeys);
@@ -1764,15 +2016,13 @@
             }).catch(e => toast('❌ Lỗi: ' + e.message, 'error'));
         }
 
-        // ====== COPY MODAL ======
+        // ====== COPY KEY MODAL ======
         let currentCopyKey = null;
 
         function openCopyModal(keyId) {
             const key = allKeys.find(k => k.id === keyId);
             if (!key) return toast('❌ Không tìm thấy key!', 'error');
-
             currentCopyKey = key;
-
             document.getElementById('copyKeyDisplay').textContent = key.license_key;
             document.getElementById('infoKey').textContent = key.license_key;
             document.getElementById('infoCreated').textContent = key.created_at ? new Date(key.created_at)
@@ -1790,7 +2040,6 @@
             document.getElementById('infoStatus').style.color = status.cls === 'used' ? '#00ff88' :
                 status.cls === 'banned' ? '#ef4444' :
                 status.cls === 'expired' ? '#6b7280' : '#f59e0b';
-
             document.getElementById('copyModal').style.display = 'flex';
         }
 
@@ -1801,55 +2050,33 @@
 
         function copyFullKeyInfo() {
             if (!currentCopyKey) return;
-
-            const info = `🔑 LICENSE KEY: ${currentCopyKey.license_key}
-        📅 Ngày Tạo: ${currentCopyKey.created_at ? new Date(currentCopyKey.created_at).toLocaleString('vi-VN') : '---'}
-        ⏳ Hết Hạn: ${currentCopyKey.expires_at ? new Date(currentCopyKey.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh Viễn'}
-        📊 Thời Gian Sử Dụng: ${getDurationLabel(currentCopyKey.duration)}
-        💻 Số Máy: ${currentCopyKey.devices === 'unlimited' ? '♾️ Không giới hạn' : (currentCopyKey.devices || '1') + ' máy'}
-        👤 Người Tạo: ${currentCopyKey.created_by || 'Admin'}
-        📝 Ghi Chú: ${currentCopyKey.note || 'Không có'}
-        💻 Trạng Thái: ${getStatus(currentCopyKey).text}
-        🏷️ Chứng Chỉ: DuyAhVNX`;
-
-            navigator.clipboard.writeText(info).then(() => {
-                toast('✅ Đã sao chép toàn bộ thông tin key!', 'success');
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = info;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                toast('✅ Đã sao chép toàn bộ thông tin key!', 'success');
-            });
+            const info =
+                `🔑 LICENSE KEY: ${currentCopyKey.license_key}\n📅 Ngày Tạo: ${currentCopyKey.created_at ? new Date(currentCopyKey.created_at).toLocaleString('vi-VN') : '---'}\n⏳ Hết Hạn: ${currentCopyKey.expires_at ? new Date(currentCopyKey.expires_at).toLocaleString('vi-VN') : '♾️ Vĩnh Viễn'}\n📊 Thời Gian: ${getDurationLabel(currentCopyKey.duration)}\n💻 Số Máy: ${currentCopyKey.devices === 'unlimited' ? '♾️ Không giới hạn' : (currentCopyKey.devices || '1') + ' máy'}\n👤 Người Tạo: ${currentCopyKey.created_by || 'Admin'}\n📝 Ghi Chú: ${currentCopyKey.note || 'Không có'}\n💻 Trạng Thái: ${getStatus(currentCopyKey).text}\n🏷️ Chứng Chỉ: DuyAhVNX`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(info).then(() => { toast('✅ Đã sao chép!', 'success'); }).catch(() => {
+                    fallbackCopyStaff(info);
+                });
+            } else {
+                fallbackCopyStaff(info);
+            }
         }
 
         // ====== DELETE, BAN, UNBAN, USED ======
         function deleteKey(id) {
-            if (currentUser !== 'admin') {
-                toast('❌ Chỉ Admin mới có quyền xóa!', 'error');
-                return;
-            }
+            if (currentUser === 'staff') { toast('❌ Nhân viên không có quyền xóa!', 'error'); return; }
             if (!confirm('Xóa key này?')) return;
             db.ref('keys/' + id).remove().then(() => toast('✅ Đã xóa key', 'success'));
         }
 
         function banKey(id) {
-            if (currentUser !== 'admin') {
-                toast('❌ Chỉ Admin mới có quyền ban!', 'error');
-                return;
-            }
+            if (currentUser === 'staff') { toast('❌ Nhân viên không có quyền ban!', 'error'); return; }
             const reason = prompt('Lý do ban?');
             if (reason === null) return;
             db.ref('keys/' + id).update({ status: 'banned', ban_reason: reason }).then(() => toast('⛔ Key đã bị ban', ''));
         }
 
         function unbanKey(id) {
-            if (currentUser !== 'admin') {
-                toast('❌ Chỉ Admin mới có quyền unban!', 'error');
-                return;
-            }
+            if (currentUser === 'staff') { toast('❌ Nhân viên không có quyền unban!', 'error'); return; }
             db.ref('keys/' + id).update({ status: 'unused', ban_reason: null }).then(() => toast('✅ Key đã unban',
                 'success'));
         }
@@ -1860,10 +2087,7 @@
 
         // ====== DELETE ALL ======
         function deleteAll() {
-            if (currentUser !== 'admin') {
-                toast('❌ Chỉ Admin mới có quyền xóa tất cả!', 'error');
-                return;
-            }
+            if (currentUser === 'staff') { toast('❌ Nhân viên không có quyền xóa tất cả!', 'error'); return; }
             if (!confirm('XÓA TẤT CẢ KEY?')) return;
             db.ref('keys').remove().then(() => toast('🗑️ Đã xóa tất cả', ''));
         }
@@ -1895,24 +2119,80 @@
             el._timer = setTimeout(() => el.style.display = 'none', 3000);
         }
 
-        // ====== LOAD ======
+        // ====== AUTO LOGIN ======
         window.addEventListener('load', () => {
-            // KHÔNG tự động đăng nhập - luôn hiện màn hình login
-            document.getElementById('loginScreen').style.display = 'flex';
-            document.getElementById('mainApp').style.display = 'none';
-            
-            // Xóa session cũ nếu có (đảm bảo an toàn)
-            localStorage.removeItem('duyah_logged');
-            localStorage.removeItem('duyah_user');
-            localStorage.removeItem('duyah_session');
-            
-            // Focus vào ô nhập pass
-            document.getElementById('adminPass').focus();
+            const logged = localStorage.getItem('duyah_logged');
+            if (logged === 'true') {
+                const role = localStorage.getItem('duyah_role');
+                const name = localStorage.getItem('duyah_name');
+                if (role === 'admin') {
+                    currentUser = 'admin';
+                    currentUserName = 'Admin';
+                    currentUserRole = 'admin';
+                    isLoggedIn = true;
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('mainApp').style.display = 'block';
+                    document.getElementById('userEmail').textContent = 'Admin';
+                    document.getElementById('userBadge').textContent = 'ADMIN';
+                    document.getElementById('userBadge').className = 'badge';
+                    loadKeys();
+                    loadStaff();
+                    loadDevices();
+                    setTimeout(recordCurrentDevice, 1000);
+                    toast('🔄 Tự động đăng nhập!', 'success');
+                } else if (role === 'staff') {
+                    db.ref('staff').once('value', snap => {
+                        let found = false;
+                        snap.forEach(child => {
+                            const data = child.val();
+                            if (data.name === name) {
+                                found = true;
+                                if (data.expires_at && new Date(data.expires_at) < new Date()) {
+                                    localStorage.removeItem('duyah_logged');
+                                    toast('❌ Tài khoản đã hết hạn!', 'error');
+                                    document.getElementById('loginScreen').style.display =
+                                    'flex';
+                                    document.getElementById('mainApp').style.display =
+                                    'none';
+                                    return;
+                                }
+                                currentUser = 'staff';
+                                currentUserName = data.name;
+                                currentUserRole = 'staff';
+                                currentUserExpires = data.expires_at || null;
+                                isLoggedIn = true;
+                                document.getElementById('loginScreen').style.display = 'none';
+                                document.getElementById('mainApp').style.display = 'block';
+                                document.getElementById('userEmail').textContent = currentUserName;
+                                document.getElementById('userBadge').textContent = 'STAFF';
+                                document.getElementById('userBadge').className = 'badge staff';
+                                loadKeys();
+                                loadStaff();
+                                loadDevices();
+                                setTimeout(recordCurrentDevice, 1000);
+                                toast('🔄 Tự động đăng nhập!', 'success');
+                            }
+                        });
+                        if (!found) {
+                            localStorage.removeItem('duyah_logged');
+                            document.getElementById('loginScreen').style.display = 'flex';
+                            document.getElementById('mainApp').style.display = 'none';
+                        }
+                    });
+                }
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('mainApp').style.display = 'none';
+                document.getElementById('loginPass').focus();
+            }
         });
 
         // ====== CLICK OUTSIDE MODAL ======
         document.getElementById('copyModal').addEventListener('click', function(e) {
             if (e.target === this) closeCopyModal();
+        });
+        document.getElementById('copyStaffModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCopyStaffModal();
         });
         document.getElementById('createModal').addEventListener('click', function(e) {
             if (e.target === this) closeCreate();
